@@ -59,9 +59,9 @@
 
 \begin{abstract}
 
-    Este trabajo consistió en primera instancia en la investigación y exploración del estado del arte de las técnicas de inteligencia artificial utilizadas en el desarrollo de videojuegos en Unity, para luego desarrollar y ampliar sobre las capacidades existentes. En específico trabajaremos con algoritmos de toma de decisiones, pathfinding y reinforced learning aplicadas a un videojuego sencillo donde un jugador compita contra personajes controlados por inteligencia artificial.\\
+    Este trabajo consistirá en primera instancia en la investigación y exploración del estado del arte de las técnicas de inteligencia artificial utilizadas en el desarrollo de videojuegos en Unity, para luego desarrollar y ampliar sobre las capacidades existentes. En específico, trabajaremos con algoritmos de toma de decisiones, pathfinding y reinforcement learning aplicadas a un videojuego sencillo donde un jugador compite contra personajes controlados por inteligencia artificial.\\
 
-    Initially, this project consisted of researching and exploring the state of the art in artificial intelligence techniques used in the development of videogames in Unity, followed by the development and enhancement of existing capabilities. Specifically, we focused on decision-making algorithms, pathfinding, and reinforced learning applied to a simple videogame where a player competes against characters controlled by artificial intelligence.
+    Initially, this project consists of researching and exploring the state of the art in artificial intelligence techniques used in the development of videogames in Unity, followed by the development and enhancement of existing capabilities. Specifically, we focused on decision-making algorithms, pathfinding, and reinforcement learning applied to a simple videogame where a player competes against characters controlled by artificial intelligence.
 
 \end{abstract}
 
@@ -116,7 +116,7 @@ En \textit{Unity} se pueden encontrar múltiples librerías para facilitar el di
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\textwidth]{./images/finite-state-machine.png}
+    \includegraphics[width=0.8\textwidth]{./images/finite-state-machine.png}
     \caption{Diagrama de una maquina de estados finitos para el movimiento de un agente}
     \label{fig:fsm}
 \end{figure}
@@ -132,7 +132,7 @@ En \textit{Unity} existen múltiples herramientas para el diseño de IAs basadas
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{./images/behaviour-tree.png}
-    \caption{Arbol de decision simple para el comportamiento de agente contrincante}
+    \caption{Arbol de decision simple para el comportamiento de un NPC}
     \label{fig:bt}
 \end{figure}
 
@@ -155,7 +155,7 @@ Para \textit{Unity} existe el set de herramientas \textit{ML-Agents}, el cual se
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{./images/deep-learning.png}
-    \caption{Entrenamiento generico por red neuronal}
+    \caption{Método genérico de entrenamiento por red neuronal}
     \label{fig:ml}
 \end{figure}
 
@@ -211,6 +211,8 @@ El objetivo final es poder comparar la implementación de IA para juegos basada 
 
 A su vez, resulta de interés clasificar los algoritmos según su conveniencia para cada caso de uso, y en qué casos es posible combinarlos para obtener buenos resultados. De esta forma se podrá demostrar que la combinación particular de algoritmos elegidos logra modelar una IA aceptable para el usuario.
 
+El presente trabajo sera públicado en un congreso con referato, mediante la presentación de un \texit{paper}, para la revisión entre pares.
+
 \section{Plan de actividades}
 
 En esta sección establecemos la metodología de trabajo y gestión de proyecto:
@@ -228,6 +230,7 @@ En esta sección establecemos la metodología de trabajo y gestión de proyecto:
     \item \textbf{Testing}: Se incluirán tests unitarios para todos los archivos que sean de lógica del juego (archivos de C\#). Se apuntará a tener una cobertura de código superior al 80\%. Para los tests unitarios se utilizará el Unity Testing Framework.
     \item \textbf{Métricas}: Las métricas a utilizar serán el Velocity report, la cantidad de bugs fuera de sprint, y la predictibilidad (cantidad de stories completadas versus planificadas).
     \item \textbf{Quality Assurance}: Los desarrolladores serán los encargados de realizar tests de calidad en cada Sprint. Los issues encontrados deben ser estimados, y podrán realizarse tanto en el Sprint en curso como en los siguientes, basados en el impacto del issue en cuestión.
+    \item \textbf{Riesgos}: Los potenciales riesgos que surjan durante el proyecto serán notados en planilla \textit{Control de Riesgos}, la cual será evaluada en forma periódica para la detección de posibles desvíos.
 \end{itemize}
 
 \bibliographystyle{plain}
