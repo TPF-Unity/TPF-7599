@@ -38,9 +38,9 @@
         \textbf{Análisis de Técnicas de IA para \\ videojuegos en Unity} \\[2.5ex]
     }
 
-    \author{    
+    \author{
         \textbf{Tutor:} Hernán Merlino \\[2.5ex]
-        \textbf{Alumnos} \\[2.5ex]  
+        \textbf{Alumnos} \\[2.5ex]
         Nahuel Castro, \textit{(Padrón \# 106.551)} \\ \texttt{ ncastro@fi.uba.ar } \\[2.5ex]
         Melina Lazzaro, \textit{(Padrón \# 105.931)} \\ \texttt{ mlazzaro@fi.uba.ar } \\[2.5ex]
         Agustín Pérez Leiras, \textit{(Padrón \# 100.972)} \\ \texttt{ aperez@fi.uba.ar } \\[2.5ex]
@@ -48,9 +48,9 @@
         \\[2.5ex]
         \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires} \\
     }
-    
+
     \date{21 Nov 2023}
-    
+
 \end{titlepage}
 
 \maketitle
@@ -211,7 +211,7 @@ El objetivo final es poder comparar la implementación de IA para juegos basada 
 
 A su vez, resulta de interés clasificar los algoritmos según su conveniencia para cada caso de uso, y en qué casos es posible combinarlos para obtener buenos resultados. De esta forma se podrá demostrar que la combinación particular de algoritmos elegidos logra modelar una IA aceptable para el usuario.
 
-El presente trabajo sera públicado en un congreso con referato, mediante la presentación de un \texit{paper}, para la revisión entre pares.
+El presente trabajo sera públicado en un congreso con referato, mediante la presentación de un \textit{paper}, para la revisión entre pares.
 
 \section{Plan de actividades}
 
@@ -230,10 +230,32 @@ En esta sección establecemos la metodología de trabajo y gestión de proyecto:
     \item \textbf{Testing}: Se incluirán tests unitarios para todos los archivos que sean de lógica del juego (archivos de C\#). Se apuntará a tener una cobertura de código superior al 80\%. Para los tests unitarios se utilizará el Unity Testing Framework.
     \item \textbf{Métricas}: Las métricas a utilizar serán el Velocity report, la cantidad de bugs fuera de sprint, y la predictibilidad (cantidad de stories completadas versus planificadas).
     \item \textbf{Quality Assurance}: Los desarrolladores serán los encargados de realizar tests de calidad en cada Sprint. Los issues encontrados deben ser estimados, y podrán realizarse tanto en el Sprint en curso como en los siguientes, basados en el impacto del issue en cuestión.
-    \item \textbf{Riesgos}: Los potenciales riesgos que surjan durante el proyecto serán notados en planilla \textit{Control de Riesgos}, la cual será evaluada en forma periódica para la detección de posibles desvíos.
+    \item \textbf{Riesgos}: Los potenciales riesgos que surjan durante el proyecto serán controlados mediante la \textit{Planilla de Definicion de Riesgos} y la \textit{Planilla de Control de Riesgos} (Anexo \ref{anexo:control-de-riesgos}). Esta última será evaluada en forma periódica para la detección de posibles desvíos.
 \end{itemize}
 
 \bibliographystyle{plain}
 \bibliography{referencias}
 
+\appendix
+\section{Control de Riesgos}
+\label{anexo:control-de-riesgos}
+
+El impacto de los riesgos sera calculado basado en la \textit{Planilla de Definicion de Riesgos}. Los riesgos identificados y su mitigacion seran administrados en la \textit{Planilla de Control de Riesgos}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/risk-definition.jpg}
+    \caption{Planilla de Definicion de Riesgos}
+    \label{fig:rd}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/risk-management.jpg}
+    \caption{Planilla de Control de Riesgos}
+    \label{fig:rc}
+\end{figure}
+
+
 \end{document}
+
