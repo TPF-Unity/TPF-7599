@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EskeletonController : MonoBehaviour
+public class SkeletonController : MonoBehaviour
 {
     public Animator animator;
 
@@ -119,13 +119,6 @@ public class EskeletonController : MonoBehaviour
             direction.y = 0;
             direction.Normalize();
 
-
-            Debug.Log("targetPoint");
-            Debug.Log(targetPoint);
-            Debug.Log("bulletSpawnPoint");
-            Debug.Log(bulletSpawnPoint);
-            Debug.Log("direction");
-            Debug.Log(direction);
 
             rb.velocity = direction * 30.0f;
             alreadyAttacked = true;

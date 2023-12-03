@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class BulletCollision : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (gameObject.layer != collision.gameObject.layer)
+        if (gameObject.layer != collider.gameObject.layer)
         {
-            if (collision.gameObject.TryGetComponent(out ShootingTarget target))
+            if (collider.gameObject.TryGetComponent(out ShootingTarget target))
             {
                 target.TakeDamage(10);
                 Destroy(gameObject);

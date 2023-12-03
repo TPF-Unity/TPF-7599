@@ -1,9 +1,7 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
-#endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -11,9 +9,7 @@ using UnityEngine.InputSystem;
 namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM 
     [RequireComponent(typeof(PlayerInput))]
-#endif
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
@@ -29,10 +25,10 @@ namespace StarterAssets
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
-        public float RotationSmoothTime = 0.01f;
+        public float RotationSmoothTime = 0.10f;
 
         [Tooltip("Acceleration and deceleration")]
-        public float SpeedChangeRate = 10.0f;
+        public float SpeedChangeRate = 20.0f;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
@@ -60,7 +56,7 @@ namespace StarterAssets
         public float GroundedOffset = -0.14f;
 
         [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-        public float GroundedRadius = 0.28f;
+        public float GroundedRadius = 0.2f;
 
         [Tooltip("What layers the character uses as ground")]
         public LayerMask GroundLayers;
@@ -115,10 +111,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
-
-#if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
-#endif
         private Animator _animator;
         private CharacterController _controller;
         private StarterAssetsInputs _input;
@@ -132,11 +125,7 @@ namespace StarterAssets
         {
             get
             {
-#if ENABLE_INPUT_SYSTEM
                 return _playerInput.currentControlScheme == "KeyboardMouse";
-#else
-				return false;
-#endif
             }
         }
 
@@ -159,11 +148,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
-#if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
-#else
-			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
-#endif
 
             AssignAnimationIDs();
 
@@ -209,7 +194,7 @@ namespace StarterAssets
 
                 // Set the bulletSpawnPoint in a circle around the player
                 bulletSpawnPoint.position = transform.position + heightOffset + direction * spawnPointRadius;
-                
+
                 bulletSpawnPoint.rotation = Quaternion.LookRotation(direction);
             }
         }
@@ -235,10 +220,10 @@ namespace StarterAssets
                     Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
                     bulletRb.velocity = direction * _bulletSpeed;
                     _lastShootTime = Time.time;
-                    
+
                 }
             }
-            
+
         }
 
         private void GroundedCheck()
@@ -265,30 +250,17 @@ namespace StarterAssets
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            if (_input.move == Vector2.zero)
+            {
+                targetSpeed = 0.0f;
+            }
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
-            float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-            // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-                currentHorizontalSpeed > targetSpeed + speedOffset)
-            {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                    Time.deltaTime * SpeedChangeRate);
-
-                // round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
-            }
-            else
-            {
-                _speed = targetSpeed;
-            }
+            _speed = targetSpeed;
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
@@ -316,7 +288,7 @@ namespace StarterAssets
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            // update animator if using character
+
             if (_hasAnimator)
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);

@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 403496}
   - component: {fileID: 9542308}
   m_Layer: 0
-  m_Name: EskeletonExample
+  m_Name: SkeletonExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
