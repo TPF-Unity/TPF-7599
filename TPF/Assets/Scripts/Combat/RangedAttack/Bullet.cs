@@ -19,4 +19,16 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (gameObject.layer != collider.gameObject.layer)
+        {
+            if (collider.gameObject.TryGetComponent(out VulnerableUnit target))
+            {
+                target.TakeDamage(10);
+                Destroy(gameObject);
+            }
+        }
+    }
 }

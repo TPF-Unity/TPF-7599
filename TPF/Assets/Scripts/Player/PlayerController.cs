@@ -10,7 +10,7 @@ namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(PlayerInput))]
-    public class ThirdPersonController : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -81,7 +81,7 @@ namespace StarterAssets
         public Transform bulletSpawnPoint;
         public float spawnPointRadius = 0f;
 
-        public ShootingTarget playerHealth;
+        public VulnerableUnit playerHealth;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -114,7 +114,7 @@ namespace StarterAssets
         private PlayerInput _playerInput;
         private Animator _animator;
         private CharacterController _controller;
-        private StarterAssetsInputs _input;
+        private PlayerInputs _input;
         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
@@ -147,7 +147,7 @@ namespace StarterAssets
 
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
+            _input = GetComponent<PlayerInputs>();
             _playerInput = GetComponent<PlayerInput>();
 
             AssignAnimationIDs();

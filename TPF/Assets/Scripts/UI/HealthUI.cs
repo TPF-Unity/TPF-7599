@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthUI : MonoBehaviour
 {
 
-    public ShootingTarget targetHealth;
+    public VulnerableUnit targetHealth;
     public Slider slider;
 
     void OnEnable()

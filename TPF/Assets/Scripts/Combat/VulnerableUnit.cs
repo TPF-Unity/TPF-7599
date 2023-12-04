@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ShootingTarget : MonoBehaviour
+public class VulnerableUnit : MonoBehaviour
 {
     public int maxHealth = 100;
     private int currentHealth;

@@ -43,6 +43,11 @@ public class SkeletonController : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
+
+        Debug.Log("playerInSightRange");
+        Debug.Log(playerInSightRange);
+        Debug.Log("playerInAttackRange");
+        Debug.Log(playerInAttackRange);
         if (!playerInSightRange && !playerInAttackRange)
         {
             animator.SetBool("isMoving", true);
