@@ -25,7 +25,7 @@ public class SkeletonController : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
 
-    private Vector3 bulletSpawnPoint;
+    private Vector3 attackSpawnPoint;
 
     // States
     public float sightRange, attackRange;
@@ -81,7 +81,6 @@ public class SkeletonController : MonoBehaviour
     }
     private void SearchWalkPoint()
     {
-        //Calculate random point in range
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
@@ -105,13 +104,12 @@ public class SkeletonController : MonoBehaviour
         if (!alreadyAttacked)
         {
             animator.SetTrigger("Attack");
-            bulletSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z + 1.0f);
-            GameObject bullet = Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            bullet.layer = LayerMask.NameToLayer("EnemiesProjectiles");
-            Vector3 targetPoint = player.transform.position;
-            bulletScript.Shoot(targetPoint);
+            attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z + 0.5f);
+            GameObject slash = Instantiate(projectile, attackSpawnPoint, transform.rotation);
+            slash.layer = LayerMask.NameToLayer("EnemiesProjectiles");
+            Slash slashAsset = slash.GetComponent<Slash>();
+            slashAsset.PerformAttack();
+
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
