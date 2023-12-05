@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public DamageLayerMapping damageLayerMapping;
     public float maxTravelDistance = 10f;
     private Vector3 startPosition;
+    private Rigidbody rigidBody;
 
     void Start()
     {
@@ -20,9 +22,21 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public void Shoot(Vector3 targetPoint)
+    {
+        Vector3 direction = targetPoint - transform.position;
+        direction.y = 0;
+        direction.Normalize();
+        rigidBody = GetComponent<Rigidbody>();
+        rigidBody.velocity = direction * 30.0f;
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
-        if (gameObject.layer != collider.gameObject.layer)
+
+        string attackerLayer = LayerMask.LayerToName(gameObject.layer);
+        string targetLayer = LayerMask.LayerToName(collider.gameObject.layer);
+        if (damageLayerMapping.CanDamage(attackerLayer, targetLayer))
         {
             if (collider.gameObject.TryGetComponent(out VulnerableUnit target))
             {

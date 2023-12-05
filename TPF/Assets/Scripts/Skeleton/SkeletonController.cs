@@ -43,11 +43,6 @@ public class SkeletonController : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-
-        Debug.Log("playerInSightRange");
-        Debug.Log(playerInSightRange);
-        Debug.Log("playerInAttackRange");
-        Debug.Log(playerInAttackRange);
         if (!playerInSightRange && !playerInAttackRange)
         {
             animator.SetBool("isMoving", true);
@@ -112,20 +107,11 @@ public class SkeletonController : MonoBehaviour
             animator.SetTrigger("Attack");
             bulletSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z + 1.0f);
             GameObject bullet = Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            bullet.layer = LayerMask.NameToLayer("Enemies");
-            //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-
-
+            bullet.layer = LayerMask.NameToLayer("EnemiesProjectiles");
             Vector3 targetPoint = player.transform.position;
-            Vector3 direction = targetPoint - bulletSpawnPoint;
-
-            direction.y = 0;
-            direction.Normalize();
-
-
-            rb.velocity = direction * 30.0f;
+            bulletScript.Shoot(targetPoint);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -135,21 +121,6 @@ public class SkeletonController : MonoBehaviour
     {
         alreadyAttacked = false;
     }
-
-    // public void TakeDamage(int damage)
-    // {
-    //     health -= damage;
-
-    //     if (health <= 0)
-    //     {
-    //         Invoke(nameof(DestroyEnemy), 0.5f);
-    //     }
-    // }
-
-    // private void DestroyEnemy()
-    // {
-    //     Destroy(gameObject);
-    // }
 
     private void OnDrawGizmosSelected()
     {

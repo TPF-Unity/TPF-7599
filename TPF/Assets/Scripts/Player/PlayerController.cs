@@ -163,7 +163,7 @@ namespace StarterAssets
 
             JumpAndGravity();
             GroundedCheck();
-            Shoot();
+            Attack();
             TurnAround();
             Move();
         }
@@ -199,7 +199,7 @@ namespace StarterAssets
             }
         }
 
-        private void Shoot()
+        private void Attack()
         {
 
             if (_input.shoot && Time.time - _lastShootTime > 1f / AttackSpeed)
@@ -210,17 +210,11 @@ namespace StarterAssets
                 if (groundPlane.Raycast(ray, out float position))
                 {
                     Vector3 targetPoint = ray.GetPoint(position);
-                    Vector3 direction = targetPoint - bulletSpawnPoint.position;
-
-                    direction.y = 0;
-                    direction.Normalize();
-
-                    GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(direction));
-                    bullet.layer = LayerMask.NameToLayer("Player");
-                    Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-                    bulletRb.velocity = direction * _bulletSpeed;
+                    GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+                    bullet.layer = LayerMask.NameToLayer("PlayerProjectiles");
+                    Bullet bulletScript = bullet.GetComponent<Bullet>();
+                    bulletScript.Shoot(targetPoint);
                     _lastShootTime = Time.time;
-
                 }
             }
 

@@ -15,8 +15,8 @@ TagManager:
   - Player
   - Ground
   - Enemies
-  - 
-  - 
+  - PlayerProjectiles
+  - EnemiesProjectiles
   - 
   - 
   - 
