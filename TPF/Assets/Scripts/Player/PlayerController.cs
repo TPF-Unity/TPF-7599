@@ -78,8 +78,10 @@ namespace StarterAssets
         public bool LockCameraPosition = false;
 
         public GameObject bulletPrefab;
-        public Transform bulletSpawnPoint;
+        public Transform attackSpawnPoint;
         public float spawnPointRadius = 0f;
+
+        private BasicAttack basicAttack;
 
         public VulnerableUnit playerHealth;
 
@@ -97,7 +99,6 @@ namespace StarterAssets
 
         private Camera _camera;
 
-        private float _lastShootTime;
 
         private float _bulletSpeed = 30.0f;
 
@@ -149,6 +150,7 @@ namespace StarterAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<PlayerInputs>();
             _playerInput = GetComponent<PlayerInput>();
+            basicAttack = GetComponent<BasicAttack>();
 
             AssignAnimationIDs();
 
@@ -180,7 +182,7 @@ namespace StarterAssets
         private void TurnAround()
         {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            //Plane groundPlane = new Plane(Vector3.up, new Vector3(0, bulletSpawnPoint.position.y, 0));
+            //Plane groundPlane = new Plane(Vector3.up, new Vector3(0, attackSpawnPoint.position.y, 0));
 
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
             {
@@ -192,32 +194,27 @@ namespace StarterAssets
 
                 Vector3 heightOffset = new Vector3(0f, 1f, 0f);
 
-                // Set the bulletSpawnPoint in a circle around the player
-                bulletSpawnPoint.position = transform.position + heightOffset + direction * spawnPointRadius;
+                // Set the attackSpawnPoint in a circle around the player
+                attackSpawnPoint.position = transform.position + heightOffset + direction * spawnPointRadius;
 
-                bulletSpawnPoint.rotation = Quaternion.LookRotation(direction);
+                attackSpawnPoint.rotation = Quaternion.LookRotation(direction);
             }
+        }
+
+        private Vector3 CalculateTargetPositionFromCursor()
+        {
+            Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Plane groundPlane = new Plane(Vector3.up, new Vector3(0, attackSpawnPoint.position.y, 0));
+            groundPlane.Raycast(ray, out float position);
+            return ray.GetPoint(position);
         }
 
         private void Attack()
         {
-
-            if (_input.shoot && Time.time - _lastShootTime > 1f / AttackSpeed)
+            if (_input.shoot)
             {
-                Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-                Plane groundPlane = new Plane(Vector3.up, new Vector3(0, bulletSpawnPoint.position.y, 0));
-
-                if (groundPlane.Raycast(ray, out float position))
-                {
-                    Vector3 targetPoint = ray.GetPoint(position);
-                    GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-                    bullet.layer = LayerMask.NameToLayer("PlayerProjectiles");
-                    Bullet bulletScript = bullet.GetComponent<Bullet>();
-                    bulletScript.Shoot(targetPoint);
-                    _lastShootTime = Time.time;
-                }
+                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), AttackSpeed);
             }
-
         }
 
         private void GroundedCheck()

@@ -462,6 +462,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f290af176d30e8b4db5f8484fadd9516, type: 3}
+--- !u!4 &700351676 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6478055097333401439, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+    type: 3}
+  m_PrefabInstance: {fileID: 558813395231044749}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &746329221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1631,6 +1637,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4202167462525600419, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: m_Name
+      value: AttackSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4674185784974568143, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpawnPoint
+      value: 
+      objectReference: {fileID: 700351676}
     - target: {fileID: 5384270823678057871, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: m_LocalPosition.x
