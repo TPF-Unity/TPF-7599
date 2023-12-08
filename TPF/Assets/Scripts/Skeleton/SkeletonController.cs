@@ -108,7 +108,7 @@ public class SkeletonController : MonoBehaviour
             GameObject slash = Instantiate(projectile, attackSpawnPoint, transform.rotation);
             slash.layer = LayerMask.NameToLayer("EnemiesProjectiles");
             Slash slashAsset = slash.GetComponent<Slash>();
-            slashAsset.PerformAttack();
+            slashAsset.Execute();
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);

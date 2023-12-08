@@ -83,7 +83,7 @@ namespace StarterAssets
 
         private BasicAttack basicAttack;
 
-        public VulnerableUnit playerHealth;
+        public Unit playerUnit;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -143,7 +143,6 @@ namespace StarterAssets
 
         private void Start()
         {
-            //playerHealth.onDied()
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
             _hasAnimator = TryGetComponent(out _animator);

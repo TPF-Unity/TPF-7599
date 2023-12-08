@@ -6,24 +6,24 @@ using UnityEngine.UI;
 public class HealthUI : MonoBehaviour
 {
 
-    public VulnerableUnit targetHealth;
+    public Unit unit;
     public Slider slider;
 
     void OnEnable()
     {
-        if (targetHealth)
+        if (unit)
         {
-            targetHealth.onHealthChanged.AddListener(UpdateHealthDisplay);
-            targetHealth.onDied.AddListener(HandleDeath);
+            unit.onHealthChanged.AddListener(UpdateHealthDisplay);
+            unit.onDied.AddListener(HandleDeath);
         }
     }
 
     void OnDisable()
     {
-        if (targetHealth)
+        if (unit)
         {
-            targetHealth.onHealthChanged.AddListener(UpdateHealthDisplay);
-            targetHealth.onDied.AddListener(HandleDeath);
+            unit.onHealthChanged.AddListener(UpdateHealthDisplay);
+            unit.onDied.AddListener(HandleDeath);
         }
 
     }
@@ -35,6 +35,5 @@ public class HealthUI : MonoBehaviour
 
     void HandleDeath()
     {
-        slider.value = targetHealth.maxHealth;
     }
 }

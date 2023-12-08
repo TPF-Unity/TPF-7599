@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour
         string targetLayer = LayerMask.LayerToName(collider.gameObject.layer);
         if (damageLayerMapping.CanDamage(attackerLayer, targetLayer))
         {
-            if (collider.gameObject.TryGetComponent(out VulnerableUnit target))
+            if (collider.gameObject.TryGetComponent(out Unit target))
             {
                 target.TakeDamage(10);
                 Destroy(gameObject);

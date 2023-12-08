@@ -9,17 +9,7 @@ public class Slash : MonoBehaviour
     public GameObject visualSpherePrefab;
     public float displayDuration = 0.5f;
 
-
-    void OnDrawGizmos()
-    {
-        // Set the color of the Gizmo
-        Gizmos.color = Color.red;
-
-        // Draw a wireframe sphere representing the overlap sphere
-        Gizmos.DrawWireSphere(transform.position, range);
-    }
-
-    public void PerformAttack()
+    public void Execute()
     {
         ShowAttackRange();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
@@ -29,17 +19,10 @@ public class Slash : MonoBehaviour
             {
                 string attackerLayer = LayerMask.LayerToName(gameObject.layer);
                 string targetLayer = LayerMask.LayerToName(hitCollider.gameObject.layer);
-                Debug.Log("attackerLayer");
-                Debug.Log(attackerLayer);
-                Debug.Log("targetLayer");
-                Debug.Log(targetLayer);
                 if (damageLayerMapping.CanDamage(attackerLayer, targetLayer))
                 {
-                    Debug.Log("3");
-                    if (hitCollider.gameObject.TryGetComponent(out VulnerableUnit target))
+                    if (hitCollider.gameObject.TryGetComponent(out Unit target))
                     {
-                        Debug.Log("it is damaging");
-                        Debug.Log(target.ToString());
                         target.TakeDamage(10);
                     }
                 }
@@ -49,14 +32,8 @@ public class Slash : MonoBehaviour
 
     private bool IsWithinAttackAngle(Transform target)
     {
-        // Debug.Log("target");
-        // Debug.Log(target.position);
         Vector3 directionToTarget = target.position - transform.position;
-        // Debug.Log("directionToTarget");
-        // Debug.Log(directionToTarget);
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-        // Debug.Log("angleToTarget");
-        // Debug.Log(angleToTarget);
         return angleToTarget < angle;
     }
 

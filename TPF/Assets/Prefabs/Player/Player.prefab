@@ -1286,9 +1286,9 @@ MonoBehaviour:
   LockCameraPosition: 0
   bulletPrefab: {fileID: 804997577081715565, guid: eda4efe5489a57a46bd624c28f06b243,
     type: 3}
-  bulletSpawnPoint: {fileID: 6478055097333401439}
+  attackSpawnPoint: {fileID: 0}
   spawnPointRadius: 0.3
-  playerHealth: {fileID: 0}
+  playerUnit: {fileID: 0}
 --- !u!114 &2077074377566246348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,7 +1437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c87fe60b377d4ab351fc561029f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  stats: {fileID: 0}
   onHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2924,5 +2924,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c4eac43c038fc4aaf6341e3ad1c612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetHealth: {fileID: 7622708488484109623}
+  unit: {fileID: 0}
   slider: {fileID: 3463916173025947652}

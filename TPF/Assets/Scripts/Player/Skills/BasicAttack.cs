@@ -17,7 +17,6 @@ public class BasicAttack : MonoBehaviour
 
     private bool IsOnCooldown(float AttackSpeed)
     {
-        Debug.Log(_lastShootTime);
         return Time.time - _lastShootTime < 1f / AttackSpeed;
     }
 
