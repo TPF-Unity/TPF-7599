@@ -99,9 +99,6 @@ namespace StarterAssets
 
         private Camera _camera;
 
-
-        private float _bulletSpeed = 30.0f;
-
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
