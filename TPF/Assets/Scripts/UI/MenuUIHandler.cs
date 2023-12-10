@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,9 +7,11 @@ using UnityEditor;
 [DefaultExecutionOrder(10000)] // Ensures UI initializes last
 public class MenuUIHandler : MonoBehaviour
 {
+    public SceneLoader sceneLoader;
+
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        sceneLoader.LoadScene(SceneLoader.GameScene.MainScene);
     }
 
     public void Exit()
