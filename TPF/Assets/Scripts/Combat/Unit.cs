@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +8,8 @@ public class Unit : MonoBehaviour
     public UnitStats stats;
     public UnityEvent<int> onHealthChanged;
     public UnityEvent onDied;
+
+    public static EventHandler OnDestroyed;
 
     public void Start()
     {
@@ -22,6 +25,7 @@ public class Unit : MonoBehaviour
         {
             Debug.Log("destroy");
             onDied?.Invoke();
+            OnDestroyed?.Invoke(this, EventArgs.Empty);
             Destroy(gameObject);
         }
     }
