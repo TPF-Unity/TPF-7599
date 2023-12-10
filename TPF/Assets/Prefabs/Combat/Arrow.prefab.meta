@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:TPF/Assets/Prefabs/Combat/Arrow.prefab.meta
+guid: 80390be0e614259468b4e4b70fa813a9
+========
+guid: 92293735630a8214bab0029a0f35dc12
+>>>>>>>> 7f67b9e (Added ranged enemy):TPF/Assets/Prefabs/Skeleton/Skeleton.prefab.meta
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
