@@ -9,6 +9,12 @@ public class HealthUI : MonoBehaviour
     public Unit unit;
     public Slider slider;
 
+
+    void Awake()
+    {
+        unit = GetComponentInParent<Unit>();
+    }
+
     void OnEnable()
     {
         if (unit)
