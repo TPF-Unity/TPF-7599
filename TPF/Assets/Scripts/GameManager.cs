@@ -68,4 +68,15 @@ public class GameManager : MonoBehaviour
             _doors = _doors.Concat(new DoorController[] { door.GetComponent<DoorController>() }).ToArray();
         }
     }
+
+    public int getRecolectedKeys()
+    {
+        return _recolectedKeys;
+    }
+
+    public int getTotalKeys()
+    {
+        return _totalKeys;
+    }
+
 }
