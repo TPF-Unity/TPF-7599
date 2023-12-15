@@ -6089,8 +6089,7 @@ GameObject:
   - component: {fileID: 7517547802613283945}
   - component: {fileID: 2124933832599758501}
   - component: {fileID: 177959478115967521}
-  - component: {fileID: 2471972268496263948}
-  - component: {fileID: 2090836054790998267}
+  - component: {fileID: 987628849884151832}
   m_Layer: 8
   m_Name: WizardSkeleton
   m_TagString: Untagged
@@ -6224,6 +6223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c87fe60b377d4ab351fc561029f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: bcfd333db8d27fe48a010ed5e81e593b, type: 2}
   stats: {fileID: 0}
   onHealthChanged:
     m_PersistentCalls:
@@ -6231,7 +6231,7 @@ MonoBehaviour:
   onDied:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2471972268496263948
+--- !u!114 &987628849884151832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6240,26 +6240,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5059605513834509477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb3315fce0992849b14a5194201a147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStatsTemplate: {fileID: 11400000, guid: 683104aa1ce4d5b4ab32a1b47076c1e0, type: 2}
---- !u!114 &2090836054790998267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059605513834509477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 162ceb3d774155e41b38561c68aaf34f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0708a217336e84f498e3fb2569f4d8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
-  timeBetweenAttacks: 1
+  walkPointRange: 0
   projectile: {fileID: 1914259636039885570, guid: 5008233d14b9aee439fbd5f92231bb91,
     type: 3}
   whatIsGround:
@@ -6274,6 +6260,8 @@ MonoBehaviour:
   playerInAttackRange: 0
   animator: {fileID: 6328466643875704609}
   agent: {fileID: 5812795703819869166}
+  stats: {fileID: 0}
+  AnimatorController: 0
 --- !u!1 &5102015350900378559
 GameObject:
   m_ObjectHideFlags: 0

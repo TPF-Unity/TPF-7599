@@ -755,8 +755,7 @@ GameObject:
   - component: {fileID: 6325801485821368476}
   - component: {fileID: 283778647828019520}
   - component: {fileID: 2550825476773848841}
-  - component: {fileID: 1807344229099023195}
-  - component: {fileID: 4317060888447944474}
+  - component: {fileID: 7229251134532703220}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Untagged
@@ -887,6 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c87fe60b377d4ab351fc561029f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 13ac51799a422844f830f9e8eaa14aa5, type: 2}
   stats: {fileID: 0}
   onHealthChanged:
     m_PersistentCalls:
@@ -894,7 +894,7 @@ MonoBehaviour:
   onDied:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1807344229099023195
+--- !u!114 &7229251134532703220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -903,40 +903,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7854626586947057641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b00cb77b45547924f81a1c1444f3754e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0708a217336e84f498e3fb2569f4d8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2342651178732552467}
-  agent: {fileID: 5578695435009857133}
   player: {fileID: 0}
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 5
+  projectile: {fileID: 1914259636039885570, guid: 5008233d14b9aee439fbd5f92231bb91,
+    type: 3}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
-  timeBetweenAttacks: 1
-  projectile: {fileID: 1914259636039885570, guid: 5008233d14b9aee439fbd5f92231bb91,
-    type: 3}
   sightRange: 11
   attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
---- !u!114 &4317060888447944474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7854626586947057641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb3315fce0992849b14a5194201a147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStatsTemplate: {fileID: 11400000, guid: eabcd4c2c2647084b90ea2369597276c, type: 2}
+  animator: {fileID: 2342651178732552467}
+  agent: {fileID: 5578695435009857133}
+  stats: {fileID: 0}
+  AnimatorController: 1
 --- !u!1 &7985919035108974081
 GameObject:
   m_ObjectHideFlags: 0
