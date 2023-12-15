@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public float maxTravelDistance = 10f;
     private Vector3 startPosition;
     private Rigidbody rigidBody;
+    private float damage;
 
     void Start()
     {
@@ -40,9 +41,11 @@ public class Bullet : MonoBehaviour
         {
             if (collider.gameObject.TryGetComponent(out Unit target))
             {
-                target.TakeDamage(10);
+                target.TakeDamage(damage);
                 Destroy(gameObject);
             }
         }
     }
+
+    public float Damage { set => damage = value; }
 }

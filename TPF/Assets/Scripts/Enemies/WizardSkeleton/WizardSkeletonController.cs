@@ -10,13 +10,14 @@ public class WizardSkeletonController : EnemyNPCController
     bool alreadyAttacked;
 
     private Vector3 attackSpawnPoint;
-
+    [SerializeField] private NPCStats stats;
 
     private void Start()
     {
         Animator animator = GetComponent<Animator>();
         animationController = new WizardSkeletonAnimationController();
         animationController.Initialize(animator);
+        stats = GetComponent<Unit>().stats;
     }
 
     private void Awake()
@@ -42,7 +43,7 @@ public class WizardSkeletonController : EnemyNPCController
             slashAsset.Execute();
 
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            Invoke(nameof(ResetAttack), 1f / stats.AttackSpeed);
         }
     }
 

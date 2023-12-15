@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class ArcherSkeletonController : EnemyNPCController
 {
-
+    [SerializeField] private NPCStats stats;
     bool alreadyAttacked;
     float lastAttackTime;
 
@@ -18,6 +18,7 @@ public class ArcherSkeletonController : EnemyNPCController
         Animator animator = GetComponent<Animator>();
         animationController = new ArcherSkeletonAnimationController();
         animationController.Initialize(animator);
+        stats = GetComponent<Unit>().stats;
     }
 
     private void Awake()
@@ -34,8 +35,8 @@ public class ArcherSkeletonController : EnemyNPCController
         if (!alreadyAttacked)
         {
             animationController.PlayAnimation(AnimationType.Attack);
-            Invoke(nameof(Shoot), timeBetweenAttacks / 2); // TODO: Synchronize with animation
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            Invoke(nameof(Shoot), 1f / stats.AttackSpeed); // TODO: Synchronize with animation
+            Invoke(nameof(ResetAttack), 2f / stats.AttackSpeed);
             alreadyAttacked = true;
         }
     }
@@ -45,6 +46,7 @@ public class ArcherSkeletonController : EnemyNPCController
         attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z + 0.5f);
         GameObject arrow = Instantiate(projectile, attackSpawnPoint, transform.rotation);
         arrow.layer = LayerMask.NameToLayer("EnemiesProjectiles");
+        arrow.GetComponent<Arrow>().Damage = stats.Damage;
         Arrow arrowAsset = arrow.GetComponent<Arrow>();
         arrowAsset.Shoot(player.transform.position);
     }

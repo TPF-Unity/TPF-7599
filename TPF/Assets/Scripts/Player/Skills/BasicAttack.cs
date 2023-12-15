@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class BasicAttack : MonoBehaviour
 {
-
+    [SerializeField] private NPCStats stats;
     public GameObject bulletPrefab;
 
     private float _lastShootTime;
+
+    private void Awake()
+    {
+        stats = GetComponent<Unit>().stats;
+    }
 
     void Start()
     {
@@ -26,6 +31,7 @@ public class BasicAttack : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab, attackSpawnPosition, Quaternion.identity);
             bullet.layer = LayerMask.NameToLayer(layerName);
+            bullet.GetComponent<Bullet>().Damage = stats.Damage;
             Bullet bulletScript = bullet.GetComponent<Bullet>();
             bulletScript.Shoot(targetPoint);
             _lastShootTime = Time.time;

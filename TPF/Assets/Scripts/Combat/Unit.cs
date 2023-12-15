@@ -5,23 +5,22 @@ using UnityEngine.Events;
 
 public class Unit : MonoBehaviour
 {
-    public UnitStats stats;
-    public UnityEvent<int> onHealthChanged;
+    public NPCStats baseStats;
+    public NPCStats stats;
+    public UnityEvent<float> onHealthChanged;
     public UnityEvent onDied;
-
     public static EventHandler OnDestroyed;
-
-    public void Start()
+    
+    public void Awake()
     {
-        stats = GetComponent<UnitStats>();
+        stats = Instantiate(baseStats);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        stats.CurrentHealth -= damage;
-        onHealthChanged?.Invoke(stats.CurrentHealth);
-
-        if (stats.CurrentHealth <= 0)
+        stats.TakeDamage(damage);
+        onHealthChanged?.Invoke(stats.Health);
+        if (stats.Health <= 0)
         {
             Debug.Log("destroy");
             onDied?.Invoke();

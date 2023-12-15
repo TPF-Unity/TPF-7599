@@ -13,7 +13,6 @@ public abstract class EnemyNPCController : MonoBehaviour
     public float walkPointRange;
 
     // Attacking
-    public float timeBetweenAttacks;
     public GameObject projectile;
     public LayerMask whatIsGround, whatIsPlayer;
 
