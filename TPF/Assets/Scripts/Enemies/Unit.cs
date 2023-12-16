@@ -22,7 +22,6 @@ public class Unit : MonoBehaviour
         onHealthChanged?.Invoke(stats.Health);
         if (stats.Health <= 0)
         {
-            Debug.Log("destroy");
             onDied?.Invoke();
             OnDestroyed?.Invoke(this, EventArgs.Empty);
             Destroy(gameObject);

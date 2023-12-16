@@ -17,7 +17,6 @@ public abstract class EnemyNPCController : MonoBehaviour
     public LayerMask whatIsGround, whatIsPlayer;
 
     // States
-    public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
     // Animation
@@ -26,7 +25,7 @@ public abstract class EnemyNPCController : MonoBehaviour
 
     // AI
     public UnityEngine.AI.NavMeshAgent agent;
-
+    [SerializeField] protected NPCStats stats;
 
     protected abstract void AttackPlayer();
 
@@ -39,8 +38,8 @@ public abstract class EnemyNPCController : MonoBehaviour
 
     private void Update()
     {
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        playerInSightRange = Physics.CheckSphere(transform.position, stats.SightRange, whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, stats.AttackRange, whatIsPlayer);
 
         if (!playerInSightRange && !playerInAttackRange)
         {
@@ -96,8 +95,8 @@ public abstract class EnemyNPCController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, stats.AttackRange);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawWireSphere(transform.position, stats.SightRange);
     }
 }

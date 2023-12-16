@@ -8,7 +8,6 @@ public abstract class SkeletonController : EnemyNPCController
 
     bool alreadyAttacked;
     protected Vector3 attackSpawnPoint;
-    [SerializeField] protected NPCStats stats;
 
     public enum AnimatorControllerType
     {
@@ -27,7 +26,6 @@ public abstract class SkeletonController : EnemyNPCController
 
     private void Start()
     {
-        Animator animator = GetComponent<Animator>();
         animationController = AnimatorController switch
         {
             AnimatorControllerType.WizardSkeleton => new WizardSkeletonAnimationController(),
@@ -37,13 +35,7 @@ public abstract class SkeletonController : EnemyNPCController
         };
         animationController.Initialize(animator);
         stats = GetComponent<Unit>().stats;
-    }
-
-    private void Awake()
-    {
-        player = GameObject.Find("Player").transform;
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        agent.speed = stats.MovementSpeed;
     }
 
     protected override void AttackPlayer()
