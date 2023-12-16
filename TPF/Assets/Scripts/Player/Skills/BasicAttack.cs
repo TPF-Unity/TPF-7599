@@ -9,15 +9,11 @@ public class BasicAttack : MonoBehaviour
     public GameObject bulletPrefab;
 
     private float _lastShootTime;
-
-    private void Awake()
-    {
-        stats = GetComponent<Unit>().stats;
-    }
-
+    
     void Start()
     {
         _lastShootTime = 0f;
+        stats = GetComponent<Unit>().stats;
     }
 
     private bool IsOnCooldown(float AttackSpeed)

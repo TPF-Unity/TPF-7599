@@ -128,7 +128,6 @@ namespace StarterAssets
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
             _camera = Camera.main;
-            stats = GetComponent<Unit>().stats;
         }
 
         private void Start()
@@ -146,6 +145,7 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            stats = GetComponent<Unit>().stats;
         }
 
         private void Update()
