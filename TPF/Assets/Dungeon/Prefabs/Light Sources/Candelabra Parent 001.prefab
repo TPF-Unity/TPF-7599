@@ -357,6 +357,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Base_Parent (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7183553855393488263, guid: f62b31a3464faf14f934e38f9ee55eba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7827578479462108488, guid: f62b31a3464faf14f934e38f9ee55eba,
         type: 3}
       propertyPath: ShapeModule.radius.value
@@ -671,6 +676,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Base_Parent (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7183553855393488263, guid: f62b31a3464faf14f934e38f9ee55eba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7827578479462108488, guid: f62b31a3464faf14f934e38f9ee55eba,
         type: 3}
       propertyPath: ShapeModule.radius.value
@@ -821,6 +831,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Base_Parent (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7183553855393488263, guid: f62b31a3464faf14f934e38f9ee55eba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7827578479462108488, guid: f62b31a3464faf14f934e38f9ee55eba,
         type: 3}
       propertyPath: ShapeModule.radius.value
@@ -970,6 +985,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fire_Base_Parent (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183553855393488263, guid: f62b31a3464faf14f934e38f9ee55eba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7827578479462108488, guid: f62b31a3464faf14f934e38f9ee55eba,
         type: 3}
