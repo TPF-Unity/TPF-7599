@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
     private DoorController[] _doors;
     public GameObject keyPrefab;
     public GameObject doorPrefab;
+    [SerializeField]
+    private GameObject[] keySpawnPositions;
+    [SerializeField]
+    private GameObject[] doorSpawnPositions;
 
     private void Awake()
     {
@@ -51,20 +55,22 @@ public class GameManager : MonoBehaviour
     {
         _recolectedKeys = 0;
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+        int[] randomIndex = Enumerable.Range(0, keySpawnPositions.Length).OrderBy(x => Random.Range(0, keySpawnPositions.Length)).Take(_totalKeys).ToArray();
         for (int i = 0; i < _totalKeys; i++)
         {
-            Vector3 randomPosition = new Vector3(Random.Range(-5, 5), 0.1f, Random.Range(-5, 5));
-            Instantiate(keyPrefab, player.position + randomPosition, Quaternion.identity);
+            int index = randomIndex[i];
+            Instantiate(keyPrefab, keySpawnPositions[index].transform.position, Quaternion.identity);
         }
     }
 
     private void SpawnDoors()
     {
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+        int[] randomIndex = Enumerable.Range(0, doorSpawnPositions.Length).OrderBy(x => Random.Range(0, doorSpawnPositions.Length)).Take(_totalDoors).ToArray();
         for (int i = 0; i < _totalDoors; i++)
         {
-            Vector3 randomPosition = new Vector3(Random.Range(-10, 10), 0.5f, Random.Range(-10, 10));
-            GameObject door = Instantiate(doorPrefab, player.position + randomPosition, Quaternion.identity);
+            int index = randomIndex[i];
+            GameObject door = Instantiate(doorPrefab, doorSpawnPositions[index].transform.position, Quaternion.identity);
             _doors = _doors.Concat(new DoorController[] { door.GetComponent<DoorController>() }).ToArray();
         }
     }
