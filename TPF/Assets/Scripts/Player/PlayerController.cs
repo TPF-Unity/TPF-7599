@@ -10,18 +10,10 @@ namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(PlayerInput))]
+    [RequireComponent(typeof(Unit))]
     public class PlayerController : MonoBehaviour
     {
-        [Header("Player")]
-        [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f;
-
-        [Header("Player")]
-        [Tooltip("Attack speed of the character in a/s")]
-        public float AttackSpeed = 40.0f;
-
-        [Tooltip("Sprint speed of the character in m/s")]
-        public float SprintSpeed = 5.335f;
+        [SerializeField] private NPCStats stats;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -153,6 +145,7 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            stats = GetComponent<Unit>().stats;
         }
 
         private void Update()
@@ -209,7 +202,7 @@ namespace StarterAssets
         {
             if (_input.shoot)
             {
-                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), AttackSpeed);
+                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), stats.AttackSpeed);
             }
         }
 
@@ -231,7 +224,7 @@ namespace StarterAssets
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed = _input.sprint ? stats.SprintSpeed : stats.MovementSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

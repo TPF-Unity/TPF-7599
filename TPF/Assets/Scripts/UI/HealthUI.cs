@@ -34,7 +34,7 @@ public class HealthUI : MonoBehaviour
 
     }
 
-    void UpdateHealthDisplay(int newHealth)
+    void UpdateHealthDisplay(float newHealth)
     {
         slider.value = newHealth;
     }

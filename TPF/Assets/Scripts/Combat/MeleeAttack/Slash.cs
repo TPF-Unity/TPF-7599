@@ -8,6 +8,7 @@ public class Slash : MonoBehaviour
 
     public GameObject visualSpherePrefab;
     public float displayDuration = 0.5f;
+    private float damage;
 
     public void Execute()
     {
@@ -23,7 +24,7 @@ public class Slash : MonoBehaviour
                 {
                     if (hitCollider.gameObject.TryGetComponent(out Unit target))
                     {
-                        target.TakeDamage(10);
+                        target.TakeDamage(damage);
                     }
                 }
             }
@@ -43,4 +44,6 @@ public class Slash : MonoBehaviour
         visualSphere.transform.localScale = new Vector3(range * 2, range * 2, range * 2);
         Destroy(visualSphere, displayDuration);
     }
+
+    public float Damage { set => damage = value; }
 }
