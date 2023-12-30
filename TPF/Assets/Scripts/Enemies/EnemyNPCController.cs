@@ -15,6 +15,8 @@ public abstract class EnemyNPCController : MonoBehaviour
     // Attacking
     public GameObject projectile;
     public LayerMask whatIsGround, whatIsPlayer;
+    
+    protected bool alreadyAttacked;
 
     // States
     public bool playerInSightRange, playerInAttackRange;
@@ -31,12 +33,13 @@ public abstract class EnemyNPCController : MonoBehaviour
 
     private void Awake()
     {
+        animationController = GetComponent<NPCAnimationController>();
         player = GameObject.Find("Player").transform;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         playerInSightRange = Physics.CheckSphere(transform.position, stats.SightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, stats.AttackRange, whatIsPlayer);
@@ -92,11 +95,16 @@ public abstract class EnemyNPCController : MonoBehaviour
         agent.SetDestination(player.position);
     }
 
-    private void OnDrawGizmosSelected()
+    // private void OnDrawGizmosSelected()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, stats.AttackRange);
+    //     Gizmos.color = Color.yellow;
+    //     Gizmos.DrawWireSphere(transform.position, stats.SightRange);
+    // }
+
+    protected void ResetAttack()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, stats.AttackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, stats.SightRange);
+        alreadyAttacked = false;
     }
 }

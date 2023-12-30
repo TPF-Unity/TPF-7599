@@ -993,8 +993,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  sightRange: 11
-  attackRange: 6
   playerInSightRange: 0
   playerInAttackRange: 0
   animator: {fileID: 2998073835075559799}
