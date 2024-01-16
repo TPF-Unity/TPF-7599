@@ -5,8 +5,6 @@ using UnityEngine;
 
 public abstract class SkeletonController : EnemyNPCController
 {
-
-    bool alreadyAttacked;
     protected Vector3 attackSpawnPoint;
 
     public enum AnimatorControllerType
@@ -28,9 +26,9 @@ public abstract class SkeletonController : EnemyNPCController
     {
         animationController = AnimatorController switch
         {
-            AnimatorControllerType.WizardSkeleton => new WizardSkeletonAnimationController(),
-            AnimatorControllerType.MeleeSkeleton => new SkeletonAnimationController(),
-            AnimatorControllerType.ArcherSkeleton => new ArcherSkeletonAnimationController(),
+            AnimatorControllerType.WizardSkeleton => gameObject.AddComponent<WizardSkeletonAnimationController>(),
+            AnimatorControllerType.MeleeSkeleton => gameObject.AddComponent<SkeletonAnimationController>(),
+            AnimatorControllerType.ArcherSkeleton => gameObject.AddComponent<ArcherSkeletonAnimationController>(),
             _ => throw new ArgumentOutOfRangeException(),
         };
         animationController.Initialize(animator);
@@ -54,9 +52,4 @@ public abstract class SkeletonController : EnemyNPCController
     }
 
     protected abstract void ExecuteAttack();
-
-    private void ResetAttack()
-    {
-        alreadyAttacked = false;
-    }
 }

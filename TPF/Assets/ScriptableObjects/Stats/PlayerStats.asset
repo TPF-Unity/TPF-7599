@@ -15,5 +15,7 @@ MonoBehaviour:
   health: 100
   damage: 15
   movementSpeed: 2
-  sprintSpeed: 5
+  sprintSpeed: 24
   attackSpeed: 40
+  attackRange: 0
+  sightRange: 0

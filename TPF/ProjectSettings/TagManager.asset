@@ -20,6 +20,9 @@ TagManager:
   - PlayerProjectiles
   - EnemiesProjectiles
   - Wall
+  - EnemySensor
+  - Keys
+  - EnemyPlayers
   - 
   - 
   - 
@@ -37,9 +40,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  -
+  -
+  -
   m_SortingLayers:
   - name: Default
     uniqueID: 0
