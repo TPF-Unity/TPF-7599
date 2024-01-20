@@ -5,6 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     public DamageLayerMapping damageLayerMapping;
+    public LayerMask notShootableLayer;
     public float maxTravelDistance = 10f;
     private Vector3 startPosition;
     private Rigidbody rigidBody;
@@ -42,6 +43,11 @@ public class Arrow : MonoBehaviour
             if (collider.gameObject.TryGetComponent(out Unit target))
             {
                 target.TakeDamage(damage);
+                Destroy(gameObject);
+            }
+        } else {
+            if (notShootableLayer == (notShootableLayer | (1 << collider.gameObject.layer)))
+            {
                 Destroy(gameObject);
             }
         }

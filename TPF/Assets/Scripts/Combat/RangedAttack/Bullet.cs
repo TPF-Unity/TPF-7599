@@ -6,6 +6,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public DamageLayerMapping damageLayerMapping;
+    public LayerMask notShootableLayer;
     public float maxTravelDistance = 10f;
     private Vector3 startPosition;
     private Rigidbody rigidBody;
@@ -44,6 +45,11 @@ public class Bullet : MonoBehaviour
             if (collider.gameObject.TryGetComponent(out Unit target))
             {
                 target.TakeDamageFrom(damage, source);
+                Destroy(gameObject);
+            }
+        } else {
+            if (notShootableLayer == (notShootableLayer | (1 << collider.gameObject.layer)))
+            {
                 Destroy(gameObject);
             }
         }
