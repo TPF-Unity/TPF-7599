@@ -14,8 +14,8 @@ public abstract class EnemyNPCController : MonoBehaviour
 
     // Attacking
     public GameObject projectile;
-    public LayerMask whatIsGround, whatIsPlayer;
-    
+    public LayerMask whatIsGround, whatIsPlayer, whatIsWall;
+
     protected bool alreadyAttacked;
 
     // States
@@ -56,7 +56,20 @@ public abstract class EnemyNPCController : MonoBehaviour
         }
         if (playerInAttackRange && playerInSightRange)
         {
-            AttackPlayer();
+            Vector3 directionToPlayer = player.position - transform.position;
+            Debug.DrawRay(transform.position, directionToPlayer, Color.blue);
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, directionToPlayer, out hit, stats.AttackRange, whatIsWall))
+            {
+                Debug.DrawLine(transform.position, hit.point, Color.red);
+                animationController.PlayAnimation(AnimationType.Walk);
+                ChasePlayer();
+            }
+            else
+            {
+                Debug.DrawLine(transform.position, hit.point, Color.green);
+                AttackPlayer();
+            }
         }
     }
 

@@ -147,4 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageLayerMapping: {fileID: 11400000, guid: 63332883be3958c4fb8ec9ac2b28d72f, type: 2}
+  notShootableLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   maxTravelDistance: 20

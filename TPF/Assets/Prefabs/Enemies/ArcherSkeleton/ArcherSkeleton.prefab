@@ -993,6 +993,9 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 2048
   playerInSightRange: 0
   playerInAttackRange: 0
   animator: {fileID: 2998073835075559799}
