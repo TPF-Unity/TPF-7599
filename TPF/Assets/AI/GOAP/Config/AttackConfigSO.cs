@@ -13,5 +13,6 @@ namespace AI.GOAP.Config
         public float RangedAttackRadius = 7;
         public Bullet Bullet;
         public int RangedAttackCost = 1;
+        public float BulletSpeed = 30.0f;
     }
 }

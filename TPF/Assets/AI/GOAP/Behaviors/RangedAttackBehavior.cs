@@ -21,6 +21,7 @@ namespace AI.GOAP.Behaviors
         {
             Vector3 attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) +
                                        transform.forward * 1.0f;
+            // TODO: Add attackSpawn on each unit
             Vector3 yOffset = new Vector3(0,0.5f,0);
             var direction = (player.position + yOffset - attackSpawnPoint);
             OnSpawnBullet?.Invoke(attackSpawnPoint, direction.normalized);

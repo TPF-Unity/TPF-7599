@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b4a3f1e4c14a61b3dd1b87663bfdfb, type: 3}
-  m_Name: Keys Config
+  m_Script: {fileID: 11500000, guid: bdbfd12701534ccd9b133a991f033d46, type: 3}
+  m_Name: Doors Config
   m_EditorClassIdentifier: 
-  RequiredKeys: 2
-  KeySearchRadius: 11
-  KeyLayer:
-    serializedVersion: 2
-    m_Bits: 8192
+  DoorActionTimer: 2

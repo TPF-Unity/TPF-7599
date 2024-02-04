@@ -12,8 +12,9 @@ namespace AI.GOAP.Actions
 {
     public class CollectKeysAction : ActionBase<CollectKeysAction.Data>, IInjectable
     {
+        private const int KeyColliders = 3;
         private KeysConfigSO KeysConfig;
-        Collider[] Colliders = new Collider[3];
+        Collider[] Colliders = new Collider[KeyColliders];
 
         public override void Created()
         {
@@ -21,25 +22,24 @@ namespace AI.GOAP.Actions
 
         public override void Start(IMonoAgent agent, Data data)
         {
-            data.Timer = 1f;
+            data.Timer = KeysConfig.CollectKeysActionTimer;
         }
 
         public override ActionRunState Perform(IMonoAgent agent, Data data, ActionContext context)
         {
             data.KeysCollector.KeyNotFound = false;
             data.Timer -= context.DeltaTime;
-            Array.Clear(Colliders, 0, 3);
-            if (data.Target == null || data.KeysCollector.KeysRemaining <= 0 
-                                    ||
-                Physics.OverlapSphereNonAlloc(agent.transform.position, KeysConfig.KeySearchRadius, Colliders,
-                    KeysConfig.KeyLayer) <= 0
-               )
+            Array.Clear(Colliders, 0, KeyColliders);
+            if (data.Target != null && !(data.KeysCollector.KeysRemaining <= 0) && Physics.OverlapSphereNonAlloc(
+                    agent.transform.position, KeysConfig.KeySearchRadius,
+                    Colliders,
+                    KeysConfig.KeyLayer) > 0)
             {
-                data.KeysCollector.KeyNotFound = true;
-                return ActionRunState.Stop;
+                return data.Timer < 0 ? ActionRunState.Stop : ActionRunState.Continue;
             }
 
-            return ActionRunState.Continue;
+            data.KeysCollector.KeyNotFound = true;
+            return ActionRunState.Stop;
         }
 
 

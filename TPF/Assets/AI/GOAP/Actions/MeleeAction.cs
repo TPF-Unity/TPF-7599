@@ -33,7 +33,7 @@ namespace AI.GOAP.Actions
                 data.AnimationController.PlayAnimation(AnimationType.Attack);
                 agent.transform.LookAt(data.Target.Position);
             }
-            
+
             return data.Timer > 0 ? ActionRunState.Continue : ActionRunState.Stop;
         }
 

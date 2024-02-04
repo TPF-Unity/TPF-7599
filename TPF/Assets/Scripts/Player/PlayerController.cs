@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using Misc;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,8 +21,7 @@ namespace StarterAssets
         [SerializeField] private NPCStats stats;
         [SerializeField] private LevelUpInfoSO levelUpInfo;
 
-        [Tooltip("How fast the character turns to face movement direction")]
-        [Range(0.0f, 0.3f)]
+        [Tooltip("How fast the character turns to face movement direction")] [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.10f;
 
         [Tooltip("Acceleration and deceleration")]
@@ -31,8 +31,7 @@ namespace StarterAssets
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        [Space(10)]
-        [Tooltip("The height the player can jump")]
+        [Space(10)] [Tooltip("The height the player can jump")]
         public float JumpHeight = 1.2f;
 
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
@@ -49,8 +48,7 @@ namespace StarterAssets
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
         public bool Grounded = true;
 
-        [Tooltip("Useful for rough ground")]
-        public float GroundedOffset = -0.14f;
+        [Tooltip("Useful for rough ground")] public float GroundedOffset = -0.14f;
 
         [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
         public float GroundedRadius = 0.2f;
@@ -118,10 +116,7 @@ namespace StarterAssets
 
         private bool IsCurrentDeviceMouse
         {
-            get
-            {
-                return _playerInput.currentControlScheme == "KeyboardMouse";
-            }
+            get { return _playerInput.currentControlScheme == "KeyboardMouse"; }
         }
 
 
@@ -134,6 +129,7 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
             _camera = Camera.main;
         }
 
@@ -186,7 +182,8 @@ namespace StarterAssets
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
             {
                 Vector3 targetPoint = hitInfo.point;
-                targetPoint.y = transform.position.y; // Keep the target point at player's height to calculate direction in XZ plane
+                targetPoint.y =
+                    transform.position.y; // Keep the target point at player's height to calculate direction in XZ plane
 
                 // Calculate direction from player to targetPoint
                 Vector3 direction = (targetPoint - transform.position).normalized;
@@ -212,7 +209,8 @@ namespace StarterAssets
         {
             if (_input.shoot)
             {
-                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), stats.AttackSpeed, this);
+                basicAttack.Execute(Layer.PlayerProjectiles.ToString(), attackSpawnPoint.position,
+                    CalculateTargetPositionFromCursor(), stats.AttackSpeed, this);
             }
         }
 
@@ -376,7 +374,8 @@ namespace StarterAssets
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = UnityEngine.Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center),
+                        FootstepAudioVolume);
                 }
             }
         }
@@ -385,7 +384,8 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
+                    FootstepAudioVolume);
             }
         }
 

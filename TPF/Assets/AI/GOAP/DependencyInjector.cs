@@ -10,6 +10,7 @@ namespace AI.GOAP
         public AttackConfigSO AttackConfig;
         public WanderConfigSO WanderConfig;
         public KeysConfigSO KeysConfig;
+        public DoorConfigSO DoorsConfig;
 
         public override void InitConfig(GoapConfig config)
         {
