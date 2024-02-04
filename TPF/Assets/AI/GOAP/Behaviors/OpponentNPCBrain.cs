@@ -50,7 +50,7 @@ namespace AI.GOAP.Behaviors
 
         private void OnNoActionFound(IGoalBase goal)
         {
-            AgentBehaviour.SetGoal<WanderGoal>(false);
+            AgentBehaviour.SetGoal<WanderGoal>(true);
         }
 
         private void OnGoalCompleted(IGoalBase goal)
@@ -60,17 +60,27 @@ namespace AI.GOAP.Behaviors
 
         private void OnActionStop(IActionBase action)
         {
-            if (AgentBehaviour.CurrentGoal is KillPlayerGoal && PlayerIsInRange)
-                return;
-
             this.DetermineGoal();
         }
         
         private void DetermineGoal()
         {
+            var unit = GetComponent<Unit>();
+            if (unit.stats.Health < 50)
+            {
+                AgentBehaviour.SetGoal<SurviveGoal>(true);
+                return;
+            }
+
             if (PlayerIsInRange)
             {
                 AgentBehaviour.SetGoal<KillPlayerGoal>(false);
+                return;
+            }
+
+            if (KeyCollector.KeysRemaining == 0)
+            {
+                AgentBehaviour.SetGoal<GoToDoorGoal>(true);
                 return;
             }
             
@@ -87,7 +97,7 @@ namespace AI.GOAP.Behaviors
         private void PlayerSensorOnPlayerEnter(Transform Player)
         {
             PlayerIsInRange = true;
-            AgentBehaviour.SetGoal<KillPlayerGoal>(false);
+            AgentBehaviour.SetGoal<KillPlayerGoal>(true);
         }
 
         private void PlayerSensorOnPlayerExit(Vector3 LastKnownPosition)

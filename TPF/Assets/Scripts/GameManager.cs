@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour
     public GameObject keyPrefab;
     public GameObject doorPrefab;
     [SerializeField]
-    private GameObject[] keySpawnPositions;
+    public GameObject[] keySpawnPositions;
     [SerializeField]
-    private GameObject[] doorSpawnPositions;
+    public GameObject[] doorSpawnPositions;
 
     private void Awake()
     {

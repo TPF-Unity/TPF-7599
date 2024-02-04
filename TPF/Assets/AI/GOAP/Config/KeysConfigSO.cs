@@ -7,6 +7,7 @@ namespace AI.GOAP.Config
     {
         public float RequiredKeys = 2;
         public float KeySearchRadius = 11f;
+        public float CollectKeysActionTimer = 2.0f;
         public LayerMask KeyLayer;
     }
 }

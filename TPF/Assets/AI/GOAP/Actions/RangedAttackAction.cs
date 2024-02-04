@@ -5,6 +5,7 @@ using CrashKonijn.Goap.Classes;
 using CrashKonijn.Goap.Classes.References;
 using CrashKonijn.Goap.Enums;
 using CrashKonijn.Goap.Interfaces;
+using Misc;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -32,12 +33,12 @@ namespace AI.GOAP.Actions
         {
             Bullet instance = pool.Get();
             instance.Damage = stats.Damage;
-            instance.gameObject.layer = LayerMask.NameToLayer("EnemiesProjectiles");
+            instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
             var bulletTransform = instance.transform;
             bulletTransform.position = spawnLocation;
             bulletTransform.forward = forward;
             var bulletRigidBody = instance.GetComponent<Rigidbody>();
-            bulletRigidBody.velocity = forward * 30.0f;
+            bulletRigidBody.velocity = forward * attackConfig.BulletSpeed;
         }
 
         private Bullet CreateObject()
@@ -58,7 +59,7 @@ namespace AI.GOAP.Actions
                 agent.transform.LookAt(data.Target.Position);
                 data.AnimationController.PlayAnimation(AnimationType.Attack);
             }
-            
+
             return data.Timer > 0 ? ActionRunState.Continue : ActionRunState.Stop;
         }
 
