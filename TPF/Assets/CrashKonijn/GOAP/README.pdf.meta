@@ -1,5 +1,10 @@
 fileFormatVersion: 2
-guid: f57d97f6bde2a794e813d794eb1efee2
+<<<<<<<< HEAD:TPF/Assets/CrashKonijn/GOAP/README.pdf.meta
+guid: 4fe40debd3919294384578db3e72ef74
+========
+guid: 9e3d1639ef1e4fc418a5f80befca3cd0
+folderAsset: yes
+>>>>>>>> feat/power-ups:TPF/Assets/Animations/PowerUp.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

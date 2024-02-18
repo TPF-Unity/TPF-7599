@@ -18,7 +18,7 @@ public class Unit : MonoBehaviour
     public void TakeDamage(float damage)
     {
         stats.TakeDamage(damage);
-        onHealthChanged?.Invoke(stats.Health);
+        onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         if (stats.Health <= 0)
         {
             onDied?.Invoke();
