@@ -34,6 +34,17 @@ public abstract class SkeletonController : EnemyNPCController
         animationController.Initialize(animator);
         stats = GetComponent<Unit>().stats;
         agent.speed = stats.MovementSpeed;
+
+        PlayerInRangeCondition playerInSight = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer);
+        PlayerInRangeCondition lostPlayer = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer, false);
+        PatrolState patrolState = ScriptableObject.CreateInstance<PatrolState>();
+        ChaseState chaseState = ScriptableObject.CreateInstance<ChaseState>();
+        Transition patrolToChaseTransition = Transition.Create(chaseState, playerInSight);
+        Transition chaseToPatrolTransition = Transition.Create(patrolState, lostPlayer);
+        patrolState.AddTransition(patrolToChaseTransition);
+        chaseState.AddTransition(chaseToPatrolTransition);
+        FSM fsm = GetComponent<FSM>();
+        fsm.CurrentState = patrolState;
     }
 
     protected override void AttackPlayer()

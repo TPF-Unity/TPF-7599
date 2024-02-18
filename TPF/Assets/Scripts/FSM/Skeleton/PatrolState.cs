@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(menuName = "FSM/State/Patrol")]
 public class PatrolState : State
 {
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
+    private Vector3 walkPoint;
+    private bool walkPointSet;
 
     private NavMeshAgent agent;
     private NPCAnimationController animationController;
@@ -25,6 +23,7 @@ public class PatrolState : State
 
     protected override void ExecuteState(FSM fsm)
     {
+        Debug.Log("executing patrol");
         animationController.PlayAnimation(AnimationType.Walk);
 
         if (!walkPointSet)

@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "FSM/Transition")]
-public sealed class Transition : ScriptableObject
+public class Transition : ScriptableObject
 {
-    public State NewState;
-    public Condition Condition;
+    private State newState;
+    private Condition condition;
+
+    public static Transition Create(State newState, Condition condition)
+    {
+        Transition transition = ScriptableObject.CreateInstance<Transition>();
+        transition.newState = newState;
+        transition.condition = condition;
+        return transition;
+    }
 
     public void ExecuteTransition(FSM fsm)
     {
-        if (Condition.ConditionIsMet(fsm))
+        if (condition.ConditionIsMet(fsm))
         {
-            fsm.CurrentState.ExitState(fsm);
-            fsm.CurrentState = NewState;
-            fsm.CurrentState.EnterState(fsm);
+            fsm.CurrentState = newState;
         }
     }
 }

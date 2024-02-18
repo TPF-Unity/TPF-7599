@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class FSM : MonoBehaviour
 {
-    [SerializeField] private State _initialState;
-
-    private void Awake()
+    private State _currentState;
+    public State CurrentState
     {
-        CurrentState = _initialState;
-        CurrentState.EnterState(this);
-    }
+        get { return _currentState; }
+        set
+        {
+            Debug.Log("set state");
+            Debug.Log(value);
+            if (_currentState != value)
+            {
+                if (_currentState != null)
+                    _currentState.ExitState(this);
 
-    public State CurrentState { get; set; }
+                _currentState = value;
+
+                if (_currentState != null)
+                    _currentState.EnterState(this);
+            }
+        }
+    }
 
     private void Update()
     {
-        CurrentState.Execute(this);
+        if (_currentState != null)
+            _currentState.Execute(this);
     }
 }
