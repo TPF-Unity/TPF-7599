@@ -6,6 +6,7 @@ using UnityEngine;
 public class NPCStats : ScriptableObject
 {
     [SerializeField] private float health;
+    [SerializeField] private float maxHealth;
     [SerializeField] private float damage;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float sprintSpeed;
@@ -13,6 +14,7 @@ public class NPCStats : ScriptableObject
     [SerializeField] private float attackRange;
     [SerializeField] private float sightRange;
 
+    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
     public float Health { get => health; set => health = value; }
     public float Damage { get => damage; set => damage = value; }
     public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }

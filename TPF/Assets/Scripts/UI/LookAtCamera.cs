@@ -8,7 +8,8 @@ public class LookAtCamera : MonoBehaviour
         LookAt,
         LookAtInverted,
         CameraForward,
-        CameraForwardInverted
+        CameraForwardInverted,
+        Sprite3D
     }
 
     [SerializeField] private Mode mode;
@@ -27,6 +28,13 @@ public class LookAtCamera : MonoBehaviour
                 break;
             case Mode.CameraForwardInverted:
                 transform.forward = -Camera.main.transform.forward;
+                break;
+            case Mode.Sprite3D:
+                Vector3 cameraForward = Camera.main.transform.forward;
+                // cameraForward.x = 0f;
+                cameraForward.y = 0f;
+                // cameraForward.z = 0f;
+                transform.LookAt(cameraForward);
                 break;
         }
     }

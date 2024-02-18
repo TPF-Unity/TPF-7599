@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c560d2070bdd47e4a88a13044547a3a7, type: 3}
+  m_Name: AttSpeedPowerUp
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6264364909791261784, guid: 13499823cf9807241bd6dd59f0870a06, type: 3}
+  sprite: {fileID: 21300000, guid: 47bdfc6858efd6947a7725a45ca5934f, type: 3}
+  type: 2

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -122,6 +125,8 @@ namespace StarterAssets
 
         private void Awake()
         {
+            powerUpList = new List<PowerUp>();
+
             // get a reference to our main camera
             if (_mainCamera == null)
             {
@@ -145,7 +150,9 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-            stats = GetComponent<Unit>().stats;
+
+            stats = playerUnit.stats;
+            playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         }
 
         private void Update()
@@ -157,6 +164,7 @@ namespace StarterAssets
             Attack();
             TurnAround();
             Move();
+            CheckPowerUps();
         }
 
         private void AssignAnimationIDs()
@@ -378,5 +386,80 @@ namespace StarterAssets
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
         }
+
+
+        public event EventHandler<EventArgs> OnPowerUpChanged;
+
+        [SerializeField]
+        public List<PowerUp> powerUpList;
+        public List<PowerUp> GetPowerUpList() {
+            return powerUpList;
+        }
+
+        public bool PickUpPowerUp(PowerUp powerUp) {
+            PowerUp existingPowerUp = powerUpList.Find(pUp => pUp.powerUpSO.type == powerUp.powerUpSO.type);
+            if (existingPowerUp != null) {
+                existingPowerUp.durationLeft = 0f; // remove power up of same type in the next frame
+            }
+
+            powerUpList.Add(powerUp);
+            OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+
+            switch (powerUp.powerUpSO.type) {
+                case PowerUpType.Health:
+                    stats.Health = Math.Min(stats.MaxHealth, stats.Health + powerUp.floatVal);
+                    playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+                    break;
+                case PowerUpType.MovSpeed:
+                    stats.MovementSpeed *= powerUp.floatVal;
+                    stats.SprintSpeed *= powerUp.floatVal;
+                    break;
+                case PowerUpType.AttSpeed:
+                    stats.AttackSpeed *= powerUp.floatVal;
+                    break;
+                case PowerUpType.Damage:
+                    stats.Damage *= powerUp.floatVal;
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
+        }
+
+        private void CheckPowerUps() {
+            bool powerUpsChanged = false;
+
+            powerUpList.ForEach(powerUp => {
+                powerUp.durationLeft -= Time.deltaTime;
+
+                if (powerUp.durationLeft < 0f) {
+                    powerUpsChanged = true;
+                    // remove effect
+                    switch (powerUp.powerUpSO.type) {
+                        case PowerUpType.Health:
+                            break;
+                        case PowerUpType.MovSpeed:
+                            stats.MovementSpeed /= powerUp.floatVal;
+                            stats.SprintSpeed /= powerUp.floatVal;
+                            break;
+                        case PowerUpType.AttSpeed:
+                            stats.AttackSpeed /= powerUp.floatVal;
+                            break;
+                        case PowerUpType.Damage:
+                            stats.Damage /= powerUp.floatVal;
+                            break;
+                        default:
+                            break;
+                    }
+                } 
+            });
+
+            if (powerUpsChanged) {
+                powerUpList.RemoveAll(powerUp => powerUp.durationLeft < 0f);
+                OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
     }
 }
