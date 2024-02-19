@@ -10,8 +10,6 @@ public class FSM : MonoBehaviour
         get { return _currentState; }
         set
         {
-            Debug.Log("set state");
-            Debug.Log(value);
             if (_currentState != value)
             {
                 if (_currentState != null)

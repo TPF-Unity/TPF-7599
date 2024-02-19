@@ -199,7 +199,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7229251134532703220, guid: 02f9e2b7b5fb7794c80f10bdf238c345, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -207,6 +208,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 696014418}
+    - targetCorrespondingSourceObject: {fileID: 7854626586947057641, guid: 02f9e2b7b5fb7794c80f10bdf238c345,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 696014426}
   m_SourcePrefab: {fileID: 100100000, guid: 02f9e2b7b5fb7794c80f10bdf238c345, type: 3}
 --- !u!1001 &131818940
 PrefabInstance:
@@ -1486,6 +1491,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5997e65d67e0584a8557b9d770bc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!195 &696014423 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 5578695435009857133, guid: 02f9e2b7b5fb7794c80f10bdf238c345,
+    type: 3}
+  m_PrefabInstance: {fileID: 17002591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &696014424 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2342651178732552467, guid: 02f9e2b7b5fb7794c80f10bdf238c345,
+    type: 3}
+  m_PrefabInstance: {fileID: 17002591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &696014426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696014417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e021b235fe6864b8010131c37619e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  projectile: {fileID: 1914259636039885570, guid: 5008233d14b9aee439fbd5f92231bb91,
+    type: 3}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 128
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  animator: {fileID: 696014424}
+  agent: {fileID: 696014423}
+  stats: {fileID: 0}
+  AnimatorController: 1
 --- !u!114 &740528708 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -1813903631715781769, guid: cef356584b1249949985a809fedbbd25,

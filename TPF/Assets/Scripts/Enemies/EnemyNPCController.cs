@@ -7,19 +7,9 @@ public abstract class EnemyNPCController : MonoBehaviour
 {
     public Transform player;
 
-    // Patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
-
     // Attacking
     public GameObject projectile;
     public LayerMask whatIsGround, whatIsPlayer;
-    
-    protected bool alreadyAttacked;
-
-    // States
-    public bool playerInSightRange, playerInAttackRange;
 
     // Animation
     public Animator animator;
@@ -28,8 +18,6 @@ public abstract class EnemyNPCController : MonoBehaviour
     // AI
     public UnityEngine.AI.NavMeshAgent agent;
     [SerializeField] protected NPCStats stats;
-
-    protected abstract void AttackPlayer();
 
     private void Awake()
     {
@@ -46,9 +34,4 @@ public abstract class EnemyNPCController : MonoBehaviour
     //     Gizmos.color = Color.yellow;
     //     Gizmos.DrawWireSphere(transform.position, stats.SightRange);
     // }
-
-    protected void ResetAttack()
-    {
-        alreadyAttacked = false;
-    }
 }

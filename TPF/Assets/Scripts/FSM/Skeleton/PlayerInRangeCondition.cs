@@ -11,7 +11,7 @@ public class PlayerInRangeCondition : Condition
 
     public static PlayerInRangeCondition Create(float range, LayerMask whatIsPlayer, bool returnTrueIfInRange = true)
     {
-        PlayerInRangeCondition condition = ScriptableObject.CreateInstance<PlayerInRangeCondition>();
+        PlayerInRangeCondition condition = CreateInstance<PlayerInRangeCondition>();
         condition.range = range;
         condition.whatIsPlayer = whatIsPlayer;
         condition.returnTrueIfInRange = returnTrueIfInRange;

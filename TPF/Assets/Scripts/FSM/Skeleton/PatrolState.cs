@@ -23,7 +23,6 @@ public class PatrolState : State
 
     protected override void ExecuteState(FSM fsm)
     {
-        Debug.Log("executing patrol");
         animationController.PlayAnimation(AnimationType.Walk);
 
         if (!walkPointSet)
