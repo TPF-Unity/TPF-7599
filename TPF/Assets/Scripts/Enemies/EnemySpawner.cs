@@ -8,8 +8,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform enemySpawner;
 
-    private float minSpawnDistance = 5f;
-    private float maxSpawnDistance = 20f;
+    [SerializeField] private float minSpawnDistance = 5f;
+    [SerializeField] private float maxSpawnDistance = 100f;
 
     public void SpawnEnemy() {
         GameObject enemy = Instantiate(enemyPrefab, enemySpawner);
