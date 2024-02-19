@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -17,6 +18,7 @@ namespace StarterAssets
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private NPCStats stats;
+        [SerializeField] private LevelUpInfoSO levelUpInfo;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -210,7 +212,7 @@ namespace StarterAssets
         {
             if (_input.shoot)
             {
-                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), stats.AttackSpeed);
+                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), stats.AttackSpeed, this);
             }
         }
 
@@ -461,5 +463,40 @@ namespace StarterAssets
             }
         }
 
+
+        private int lv = 1;
+        private float xp = 0f;
+        public UnityEvent<float> onXPChanged;
+        
+
+        public void GainXP(float amt) {
+            xp += amt;
+            if (xp >= levelUpInfo.GetXPNeededForLevel(lv + 1) && lv < levelUpInfo.maxLevel) {
+                LevelUp();
+            }
+            onXPChanged?.Invoke(xp / levelUpInfo.GetXPNeededForLevel(lv + 1) * 100);
+        }
+
+        private void LevelUp() {
+            xp -= levelUpInfo.GetXPNeededForLevel(lv + 1);
+            lv += 1;
+
+            stats.MaxHealth += levelUpInfo.GetStatIncreaseForLevel(lv).maxHealth;
+            stats.Damage += levelUpInfo.GetStatIncreaseForLevel(lv).damage;
+            stats.AttackSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).attSpeed;
+            stats.MovementSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).MovSpeed;
+            stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).MovSpeed;
+
+            stats.Health = stats.MaxHealth;
+            playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+        }
+
+        public float GetXP() {
+            return xp;
+        }
+
+        public int GetLV() {
+            return lv;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -9,6 +10,7 @@ public class Bullet : MonoBehaviour
     private Vector3 startPosition;
     private Rigidbody rigidBody;
     private float damage;
+    public PlayerController source;
 
     void Start()
     {
@@ -41,7 +43,7 @@ public class Bullet : MonoBehaviour
         {
             if (collider.gameObject.TryGetComponent(out Unit target))
             {
-                target.TakeDamage(damage);
+                target.TakeDamageFrom(damage, source);
                 Destroy(gameObject);
             }
         }
