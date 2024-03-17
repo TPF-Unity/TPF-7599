@@ -8,15 +8,15 @@ public class AttackState : State
 {
     protected Vector3 attackSpawnPoint;
     protected bool alreadyAttacked;
-    private float attackSpeed;
-    private float damage;
-    private GameObject projectile;
+    protected float attackSpeed;
+    protected float damage;
+    protected GameObject projectile;
 
-    private NavMeshAgent agent;
-    private NPCAnimationController animationController;
-    private Transform player;
-    private Transform transform;
-    private float timeSinceLastAttack;
+    protected NavMeshAgent agent;
+    protected NPCAnimationController animationController;
+    protected Transform player;
+    protected Transform transform;
+    protected float timeSinceLastAttack;
 
     public static AttackState Create(GameObject projectile, float attackSpeed, float damage)
     {
@@ -54,7 +54,7 @@ public class AttackState : State
         timeSinceLastAttack += Time.deltaTime;
     }
 
-    private void ExecuteAttack()
+    protected virtual void ExecuteAttack()
     {
         attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z + 0.5f);
         GameObject slash = Instantiate(projectile, attackSpawnPoint, transform.rotation);

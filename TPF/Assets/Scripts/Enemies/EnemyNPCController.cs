@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public abstract class EnemyNPCController : MonoBehaviour
 {
-    public Transform player;
+    private Transform player;
 
     // Attacking
     public GameObject projectile;

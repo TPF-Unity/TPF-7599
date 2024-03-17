@@ -20,6 +20,10 @@ public class ChaseState : State
     protected override void ExecuteState(FSM fsm)
     {
         animationController.PlayAnimation(AnimationType.Walk);
-        agent.SetDestination(player.position);
+        if (player != null)
+        {
+            agent.SetDestination(player.position);
+        }
+        
     }
 }
