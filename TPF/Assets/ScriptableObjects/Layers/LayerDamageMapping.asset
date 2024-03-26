@@ -20,3 +20,15 @@ MonoBehaviour:
   - layerName: EnemyProjectiles
     canDamageLayerNames:
     - Player
+    - Enemies
+    - EnemyPlayers
+  - layerName: EnemyPlayers
+    canDamageLayerNames:
+    - Player
+    - Enemies
+    - EnemyPlayers
+  - layerName: EnemySensor
+    canDamageLayerNames:
+    - Player
+    - Enemies
+    - EnemyPlayers

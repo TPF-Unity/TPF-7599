@@ -82,6 +82,7 @@ namespace AI.GOAP.Factories
             builder.AddWorldSensor<KeysRemainingSensor>().SetKey<KeysRemaining>();
             builder.AddWorldSensor<KeysPickedSensor>().SetKey<KeysPicked>();
             builder.AddWorldSensor<OpponentDangerSensor>().SetKey<OpponentDanger>();
+            builder.AddWorldSensor<TargetHealthSensor>().SetKey<PlayerHealth>();
         }
     }
 }

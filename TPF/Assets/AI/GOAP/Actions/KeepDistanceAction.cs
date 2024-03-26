@@ -45,15 +45,15 @@ namespace AI.GOAP.Actions
 
             var leastDenseSectors = sectorCounts
                 .Select((count, index) =>
-                    new { Count = count, Index = index }) // Project each count to an object with its index
-                .OrderBy(x => x.Count); // Order by the count of enemies
+                    new { Count = count, Index = index })
+                .OrderBy(x => x.Count);
 
             Vector3 possibleEscapeTarget = Vector3.zero;
 
             foreach (var sector in leastDenseSectors)
             {
                 float escapeAngle =
-                    sectorAngle * sector.Index - 180f + sectorAngle / 2; // Center angle of the sector
+                    sectorAngle * sector.Index - 180f + sectorAngle / 2;
                 var direction = Quaternion.Euler(0, escapeAngle, 0) * Vector3.forward;
                 possibleEscapeTarget = transform.position + direction * escapeDistance;
                 if (NavMesh.SamplePosition(possibleEscapeTarget, out NavMeshHit hit, 1, NavMesh.AllAreas))
@@ -65,16 +65,6 @@ namespace AI.GOAP.Actions
             return possibleEscapeTarget;
         }
 
-        // public override ActionRunState Perform(IMonoAgent agent, CommonData data, ActionContext context)
-        // {
-        //     data.Timer -= context.DeltaTime;
-        //     var navMesh = agent.GetComponent<NavMeshAgent>();
-        //     Vector3 escapeTarget = FindEscapeDirection(agent.transform);
-        //     navMesh.SetDestination(escapeTarget);
-        //
-        //     return data.Timer > 0 ? ActionRunState.Continue : ActionRunState.Stop;
-        // }
-        
         private float minDistanceToRecalculate = 5f; // Minimum distance to travel before recalculating
 
         public override ActionRunState Perform(IMonoAgent agent, CommonData data, ActionContext context)
