@@ -68,7 +68,7 @@ namespace AI.GOAP.Behaviors
             var unit = GetComponent<Unit>();
             if (unit.stats.Health < 50)
             {
-                AgentBehaviour.SetGoal<SurviveGoal>(true);
+                AgentBehaviour.SetGoal<SurviveGoal>(false);
                 return;
             }
 

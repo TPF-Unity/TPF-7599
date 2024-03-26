@@ -36,7 +36,7 @@ namespace AI.GOAP.Behaviors
                 doorWaypoints.Add(new Waypoint(doorSpawnPosition.transform.position));
             }
         }
-        
+
         private void Start()
         {
             keyWaypoints = new List<Waypoint>();
@@ -45,7 +45,7 @@ namespace AI.GOAP.Behaviors
                 InitializeWaypoints();
             }
         }
-        
+
         private void Awake()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -64,7 +64,7 @@ namespace AI.GOAP.Behaviors
             AgentBehavior.Events.OnTargetChanged -= EventsOnTargetChanged;
             AgentBehavior.Events.OnTargetInRange -= EventsOnTargetInRange;
         }
-        
+
         private void EventsOnTargetInRange(ITarget target)
         {
             var targetKeyWaypoint = keyWaypoints?.Where(waypoint => waypoint?.Position == target?.Position)?.ToArray();
@@ -72,8 +72,9 @@ namespace AI.GOAP.Behaviors
             {
                 targetKeyWaypoint[0].Visited = true;
             }
-            
-            var targetDoorWaypoint = doorWaypoints?.Where(waypoint => waypoint?.Position == target?.Position)?.ToArray();
+
+            var targetDoorWaypoint =
+                doorWaypoints?.Where(waypoint => waypoint?.Position == target?.Position)?.ToArray();
             if (targetDoorWaypoint?.Length > 0)
             {
                 targetDoorWaypoint[0].Visited = true;

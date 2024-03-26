@@ -11,8 +11,9 @@ namespace AI.GOAP.Config
         public float AttackDelay = 1;
         public LayerMask AttackableLayerMask;
         public float RangedAttackRadius = 7;
-        public Bullet Bullet;
+        public GameObject Bullet;
         public int RangedAttackCost = 1;
         public float BulletSpeed = 30.0f;
+        public DamageLayerMapping damageLayerMapping;
     }
 }

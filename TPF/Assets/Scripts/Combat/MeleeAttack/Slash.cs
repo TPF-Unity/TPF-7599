@@ -20,9 +20,6 @@ public class Slash : MonoBehaviour
             {
                 string attackerLayer = LayerMask.LayerToName(gameObject.layer);
                 string targetLayer = LayerMask.LayerToName(hitCollider.gameObject.layer);
-                Debug.Log(attackerLayer);
-                Debug.Log(targetLayer);
-                Debug.Log(damageLayerMapping.CanDamage(attackerLayer, targetLayer));
                 if (damageLayerMapping.CanDamage(attackerLayer, targetLayer))
                 {
                     if (hitCollider.gameObject.TryGetComponent(out Unit target))

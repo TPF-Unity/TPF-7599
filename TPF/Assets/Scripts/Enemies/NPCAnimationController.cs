@@ -13,10 +13,12 @@ public enum AnimationType
 public abstract class NPCAnimationController : MonoBehaviour
 {
     public Animator animator;
+    protected Unit unit;
 
     public void Start()
     {
         animator = GetComponent<Animator>();
+        unit = GetComponent<Unit>();
         this.Initialize(animator);
     }
 

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b4a3f1e4c14a61b3dd1b87663bfdfb, type: 3}
   m_Name: Keys Config
   m_EditorClassIdentifier: 
-  RequiredKeys: 2
+  RequiredKeys: 3
   KeySearchRadius: 11
+  CollectKeysActionTimer: 2
   KeyLayer:
     serializedVersion: 2
     m_Bits: 8192

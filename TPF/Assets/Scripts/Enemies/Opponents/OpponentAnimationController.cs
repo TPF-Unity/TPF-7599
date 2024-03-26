@@ -12,6 +12,8 @@ public class OpponentAnimationController : NPCAnimationController
     private int animationIdleCombat;
     private int animationAttack;
 
+    private string ATTACK_SPEED_PARAMETER = "attackSpeed";
+
     private void AssignAnimationIDs()
     {
         animationIsMoving = Animator.StringToHash("op_move_forward");
@@ -35,6 +37,7 @@ public class OpponentAnimationController : NPCAnimationController
 
         Action playAttackAnimation = () =>
         {
+            animator.SetFloat(ATTACK_SPEED_PARAMETER, unit.stats.AttackSpeed);
             animator.SetBool(animationIsMoving, false);
             animator.SetBool(animationIsMovingFast, false);
             animator.SetBool(animationIdleCombat, true);

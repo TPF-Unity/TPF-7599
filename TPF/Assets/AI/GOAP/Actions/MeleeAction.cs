@@ -10,6 +10,7 @@ namespace AI.GOAP.Actions
     public class MeleeAction : ActionBase<AttackData>, IInjectable
     {
         private AttackConfigSO AttackConfig;
+        private NPCStats stats;
 
         public override void Created()
         {
@@ -17,8 +18,10 @@ namespace AI.GOAP.Actions
 
         public override void Start(IMonoAgent agent, AttackData data)
         {
+            stats = agent.GetComponent<Unit>().stats;
             data.Timer = AttackConfig.AttackDelay;
         }
+        
 
         public override ActionRunState Perform(IMonoAgent agent, AttackData data, ActionContext context)
         {
