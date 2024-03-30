@@ -1003,6 +1003,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  walkPointRange: 5
   animator: {fileID: 2998073835075559799}
   agent: {fileID: 8113922938973725226}
   stats: {fileID: 0}

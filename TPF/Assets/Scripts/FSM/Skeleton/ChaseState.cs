@@ -10,6 +10,12 @@ public class ChaseState : State
     private NavMeshAgent agent;
     private NPCAnimationController animationController;
 
+    public static ChaseState Create()
+    {
+        ChaseState state = CreateInstance<ChaseState>();
+        return state;
+    }
+
     public override void EnterState(FSM fsm)
     {
         player = GameObject.Find("Player").transform;

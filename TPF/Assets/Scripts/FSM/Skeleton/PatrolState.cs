@@ -13,6 +13,12 @@ public class PatrolState : State
 
     private GameObject[] patrolPoints;
 
+    public static PatrolState Create()
+    {
+        PatrolState state = CreateInstance<PatrolState>();
+        return state;
+    }
+
     public override void EnterState(FSM fsm)
     {
         walkPointSet = false;
@@ -47,12 +53,13 @@ public class PatrolState : State
     {
         Vector3 distanceToWalkPoint = fsm.transform.position - walkPoint;
 
-        while (distanceToWalkPoint.magnitude < 1f) {
+        while (distanceToWalkPoint.magnitude < 1f)
+        {
             int index = Random.Range(0, patrolPoints.Length);
             walkPoint = patrolPoints[index].transform.position;
             distanceToWalkPoint = fsm.transform.position - walkPoint;
         }
 
-         walkPointSet = true;
+        walkPointSet = true;
     }
 }

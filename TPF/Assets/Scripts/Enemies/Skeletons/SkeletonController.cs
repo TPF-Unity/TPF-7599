@@ -41,8 +41,8 @@ public class SkeletonController : EnemyNPCController
         PlayerInRangeCondition lostPlayer = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer, false);
         PlayerInRangeCondition playerInAttackRange = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer);
         PlayerInRangeCondition playerUnreachable = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer, false);
-        PatrolState patrolState = ScriptableObject.CreateInstance<PatrolState>();
-        ChaseState chaseState = ScriptableObject.CreateInstance<ChaseState>();
+        PatrolState patrolState = PatrolState.Create();
+        ChaseState chaseState = ChaseState.Create();
         AttackState attackState = AttackState.Create(projectile, stats.AttackSpeed, stats.Damage);
         Transition patrolToChaseTransition = Transition.Create(chaseState, playerInSight);
         Transition chaseToPatrolTransition = Transition.Create(patrolState, lostPlayer);
