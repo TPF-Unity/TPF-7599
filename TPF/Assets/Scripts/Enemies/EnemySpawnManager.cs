@@ -40,17 +40,9 @@ public class EnemySpawnManager : MonoBehaviour
             enemyTimer = enemyTimerMax;
             if (enemyAmount < enemyAmountMax) {
                 // spawn enemy
-                List<EnemySpawner> availableSpawners = new();
-                foreach (EnemySpawner spawner in enemySpawnerList) {
-                    if (spawner.CanSpawn()) {
-                        availableSpawners.Add(spawner);
-                    }
-                }
-                if (availableSpawners.Count > 0) {
-                    EnemySpawner spawner = availableSpawners[UnityEngine.Random.Range(0, availableSpawners.Count)];
-                    spawner.SpawnEnemy();
-                    enemyAmount ++;
-                }
+                EnemySpawner spawner = enemySpawnerList[UnityEngine.Random.Range(0, enemySpawnerList.Count)];
+                spawner.SpawnEnemy();
+                enemyAmount ++;
             }
         }
     }

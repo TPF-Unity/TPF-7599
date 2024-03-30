@@ -9682,7 +9682,7 @@ PrefabInstance:
     - target: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 39.55637
+      value: 41.7
       objectReference: {fileID: 0}
     - target: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
@@ -43045,7 +43045,7 @@ PrefabInstance:
     - target: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.556369
+      value: -0.44363117
       objectReference: {fileID: 0}
     - target: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
@@ -43055,7 +43055,7 @@ PrefabInstance:
     - target: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -29.432682
+      value: -43.239998
       objectReference: {fileID: 0}
     - target: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
@@ -43096,6 +43096,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawner 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7103346794177847134, guid: cef356584b1249949985a809fedbbd25,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7373886827937321218, guid: cef356584b1249949985a809fedbbd25, type: 3}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FSM : MonoBehaviour
 {
-    private State _currentState;
+    public State _currentState;
     public State CurrentState
     {
         get { return _currentState; }

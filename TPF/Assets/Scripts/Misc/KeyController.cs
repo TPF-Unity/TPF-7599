@@ -7,7 +7,7 @@ public class KeyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        // Debug.Log(other.name);
         if (layersThatCanPickKeys.Contains(LayerMask.LayerToName(other.gameObject.layer)))
         {
             GameManager.instance.PickKey();

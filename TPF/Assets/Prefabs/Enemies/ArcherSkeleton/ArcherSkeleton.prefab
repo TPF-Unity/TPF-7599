@@ -983,6 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5997e65d67e0584a8557b9d770bc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: {fileID: 0}
 --- !u!114 &966417503962941102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1003,7 +1004,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  walkPointRange: 5
   animator: {fileID: 2998073835075559799}
   agent: {fileID: 8113922938973725226}
   stats: {fileID: 0}
