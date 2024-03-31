@@ -5,6 +5,7 @@ public class PauseManager : MonoBehaviour
     public GameObject pausePanel;
 
     private bool isPaused = false;
+    private bool isDisabled = false;
 
     private void Update()
     {
@@ -28,15 +29,27 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        isPaused = true;
-        Time.timeScale = 0f;
-        pausePanel.SetActive(true);
+        if (!isDisabled && !isPaused)
+        {
+            isPaused = true;
+            Time.timeScale = 0f;
+            pausePanel.SetActive(true);
+        }
     }
 
     public void ResumeGame()
     {
-        isPaused = false;
-        Time.timeScale = 1f;
+        if (isPaused)
+        {
+            isPaused = false;
+            Time.timeScale = 1f;
+            pausePanel.SetActive(false);
+        }
+    }
+
+    public void DisablePause()
+    {
+        isDisabled = true;
         pausePanel.SetActive(false);
     }
 }

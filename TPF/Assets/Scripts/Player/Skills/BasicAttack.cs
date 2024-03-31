@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 
 public class BasicAttack : MonoBehaviour
@@ -21,7 +22,7 @@ public class BasicAttack : MonoBehaviour
         return Time.time - _lastShootTime < 1f / AttackSpeed;
     }
 
-    public void Execute(string layerName, Vector3 attackSpawnPosition, Vector3 targetPoint, float attackSpeed)
+    public void Execute(string layerName, Vector3 attackSpawnPosition, Vector3 targetPoint, float attackSpeed, PlayerController source)
     {
         if (!IsOnCooldown(attackSpeed))
         {
@@ -29,6 +30,7 @@ public class BasicAttack : MonoBehaviour
             bullet.layer = LayerMask.NameToLayer(layerName);
             bullet.GetComponent<Bullet>().Damage = stats.Damage;
             Bullet bulletScript = bullet.GetComponent<Bullet>();
+            bulletScript.source = source;
             bulletScript.Shoot(targetPoint);
             _lastShootTime = Time.time;
         }

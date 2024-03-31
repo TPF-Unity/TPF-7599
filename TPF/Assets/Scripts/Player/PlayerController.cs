@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -14,6 +18,7 @@ namespace StarterAssets
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private NPCStats stats;
+        [SerializeField] private LevelUpInfoSO levelUpInfo;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -122,6 +127,8 @@ namespace StarterAssets
 
         private void Awake()
         {
+            powerUpList = new List<PowerUp>();
+
             // get a reference to our main camera
             if (_mainCamera == null)
             {
@@ -145,7 +152,9 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-            stats = GetComponent<Unit>().stats;
+
+            stats = playerUnit.stats;
+            playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         }
 
         private void Update()
@@ -157,6 +166,7 @@ namespace StarterAssets
             Attack();
             TurnAround();
             Move();
+            CheckPowerUps();
         }
 
         private void AssignAnimationIDs()
@@ -202,7 +212,7 @@ namespace StarterAssets
         {
             if (_input.shoot)
             {
-                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), stats.AttackSpeed);
+                basicAttack.Execute("PlayerProjectiles", attackSpawnPoint.position, CalculateTargetPositionFromCursor(), stats.AttackSpeed, this);
             }
         }
 
@@ -377,6 +387,116 @@ namespace StarterAssets
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
+        }
+
+
+        public event EventHandler<EventArgs> OnPowerUpChanged;
+
+        [SerializeField]
+        public List<PowerUp> powerUpList;
+        public List<PowerUp> GetPowerUpList() {
+            return powerUpList;
+        }
+
+        public bool PickUpPowerUp(PowerUp powerUp) {
+            PowerUp existingPowerUp = powerUpList.Find(pUp => pUp.powerUpSO.type == powerUp.powerUpSO.type);
+            if (existingPowerUp != null) {
+                existingPowerUp.durationLeft = 0f; // remove power up of same type in the next frame
+            }
+
+            powerUpList.Add(powerUp);
+            OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+
+            switch (powerUp.powerUpSO.type) {
+                case PowerUpType.Health:
+                    stats.Health = Math.Min(stats.MaxHealth, stats.Health + powerUp.floatVal);
+                    playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+                    break;
+                case PowerUpType.MovSpeed:
+                    stats.MovementSpeed *= powerUp.floatVal;
+                    stats.SprintSpeed *= powerUp.floatVal;
+                    break;
+                case PowerUpType.AttSpeed:
+                    stats.AttackSpeed *= powerUp.floatVal;
+                    break;
+                case PowerUpType.Damage:
+                    stats.Damage *= powerUp.floatVal;
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
+        }
+
+        private void CheckPowerUps() {
+            bool powerUpsChanged = false;
+
+            powerUpList.ForEach(powerUp => {
+                powerUp.durationLeft -= Time.deltaTime;
+
+                if (powerUp.durationLeft < 0f) {
+                    powerUpsChanged = true;
+                    // remove effect
+                    switch (powerUp.powerUpSO.type) {
+                        case PowerUpType.Health:
+                            break;
+                        case PowerUpType.MovSpeed:
+                            stats.MovementSpeed /= powerUp.floatVal;
+                            stats.SprintSpeed /= powerUp.floatVal;
+                            break;
+                        case PowerUpType.AttSpeed:
+                            stats.AttackSpeed /= powerUp.floatVal;
+                            break;
+                        case PowerUpType.Damage:
+                            stats.Damage /= powerUp.floatVal;
+                            break;
+                        default:
+                            break;
+                    }
+                } 
+            });
+
+            if (powerUpsChanged) {
+                powerUpList.RemoveAll(powerUp => powerUp.durationLeft < 0f);
+                OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+        private int lv = 1;
+        private float xp = 0f;
+        public UnityEvent<float> onXPChanged;
+        
+
+        public void GainXP(float amt) {
+            xp += amt;
+            if (xp >= levelUpInfo.GetXPNeededForLevel(lv + 1) && lv < levelUpInfo.maxLevel) {
+                LevelUp();
+            }
+            onXPChanged?.Invoke(xp / levelUpInfo.GetXPNeededForLevel(lv + 1) * 100);
+        }
+
+        private void LevelUp() {
+            xp -= levelUpInfo.GetXPNeededForLevel(lv + 1);
+            lv += 1;
+
+            stats.MaxHealth += levelUpInfo.GetStatIncreaseForLevel(lv).maxHealth;
+            stats.Damage += levelUpInfo.GetStatIncreaseForLevel(lv).damage;
+            stats.AttackSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).attSpeed;
+            stats.MovementSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).MovSpeed;
+            stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).MovSpeed;
+
+            stats.Health = stats.MaxHealth;
+            playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+        }
+
+        public float GetXP() {
+            return xp;
+        }
+
+        public int GetLV() {
+            return lv;
         }
     }
 }

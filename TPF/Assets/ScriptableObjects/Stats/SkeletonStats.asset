@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: SkeletonStats
   m_EditorClassIdentifier: 
   health: 75
+  maxHealth: 75
   damage: 25
   movementSpeed: 3
   sprintSpeed: 1
   attackSpeed: 1
   attackRange: 1
   sightRange: 11
+  xpDropped: 10

@@ -1,4 +1,6 @@
 using System;
+using StarterAssets;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,14 +17,21 @@ public class Unit : MonoBehaviour
         stats = Instantiate(baseStats);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage) {
+        TakeDamageFrom(damage, null);
+    }
+
+    public void TakeDamageFrom(float damage, PlayerController player)
     {
         stats.TakeDamage(damage);
-        onHealthChanged?.Invoke(stats.Health);
+        onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         if (stats.Health <= 0)
         {
             onDied?.Invoke();
             OnDestroyed?.Invoke(this, EventArgs.Empty);
+            if (player) {
+                player.GainXP(stats.XPDropped);
+            }
             Destroy(gameObject);
         }
     }

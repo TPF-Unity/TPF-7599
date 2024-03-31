@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: WizardSkeletonStats
   m_EditorClassIdentifier: 
   health: 50
+  maxHealth: 50
   damage: 25
   movementSpeed: 5
   sprintSpeed: 1
   attackSpeed: 1
   attackRange: 2
   sightRange: 11
+  xpDropped: 20
