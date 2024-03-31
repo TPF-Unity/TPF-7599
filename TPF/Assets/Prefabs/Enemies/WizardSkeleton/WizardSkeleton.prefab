@@ -6089,7 +6089,8 @@ GameObject:
   - component: {fileID: 7517547802613283945}
   - component: {fileID: 2124933832599758501}
   - component: {fileID: 177959478115967521}
-  - component: {fileID: 987628849884151832}
+  - component: {fileID: 7428409384292467018}
+  - component: {fileID: 5046578192601431127}
   m_Layer: 8
   m_Name: WizardSkeleton
   m_TagString: Untagged
@@ -6231,7 +6232,7 @@ MonoBehaviour:
   onDied:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &987628849884151832
+--- !u!114 &7428409384292467018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6240,12 +6241,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5059605513834509477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0708a217336e84f498e3fb2569f4d8d1, type: 3}
+  m_Script: {fileID: 11500000, guid: a5997e65d67e0584a8557b9d770bc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
+  _currentState: {fileID: 0}
+--- !u!114 &5046578192601431127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5059605513834509477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e021b235fe6864b8010131c37619e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   projectile: {fileID: 1914259636039885570, guid: 5008233d14b9aee439fbd5f92231bb91,
     type: 3}
   whatIsGround:
@@ -6254,14 +6265,9 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  whatIsWall:
-    serializedVersion: 2
-    m_Bits: 2048
-  playerInSightRange: 0
-  playerInAttackRange: 0
   animator: {fileID: 6328466643875704609}
   agent: {fileID: 5812795703819869166}
-  stats: {fileID: 11400000, guid: bcfd333db8d27fe48a010ed5e81e593b, type: 2}
+  stats: {fileID: 0}
   AnimatorController: 0
 --- !u!1 &5102015350900378559
 GameObject:
