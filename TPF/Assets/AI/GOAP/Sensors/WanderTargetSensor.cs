@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using AI.GOAP;
+using AI.GOAP.Behaviors;
 using AI.GOAP.Config;
+using AI.GOAP.Scripts;
 using CrashKonijn.Goap.Classes;
 using CrashKonijn.Goap.Interfaces;
 using CrashKonijn.Goap.Sensors;
@@ -19,31 +23,25 @@ public class WanderTargetSensor : LocalTargetSensorBase, IInjectable
 
     public override ITarget Sense(IMonoAgent agent, IComponentReference references)
     {
-        Vector3 position = GetRandomPosition(agent);
-        return new PositionTarget(position);
+        var moveBehaviour = references.GetCachedComponent<AgentMoveBehavior>();
+        Waypoint position = GetUnvisitedWaypoint(moveBehaviour.keyWaypoints, agent.transform.position);
+        return new PositionTarget(position.Position);
     }
     
-
-    private Vector3 GetRandomPosition(IMonoAgent agent)
+    
+    private Waypoint GetUnvisitedWaypoint(List<Waypoint> waypoints, Vector3 currentPosition)
     {
-        int maxTries = 5;
-        int count = 0;
-        while (count < maxTries)
-        {
-            Vector2 random = Random.insideUnitCircle * WanderConfig.WanderRadius;
-            Vector3 position = agent.transform.position + new Vector3(random.x, 0, random.y);
-
-            if (NavMesh.SamplePosition(position, out NavMeshHit hit, 1, NavMesh.AllAreas))
-            {
-                return hit.position;
-            }
-
-            count++;
-        }
-
-        return agent.transform.position;
+        return waypoints
+            .OrderBy(waypoint => waypoint.Visited)
+            .ThenBy(waypoint => GetDistance(waypoint.Position, currentPosition))
+            .FirstOrDefault();
     }
-
+    
+    private float GetDistance(Vector3 waypointPosition, Vector3 currentPosition)
+    {
+        return Vector3.Distance(waypointPosition, currentPosition);
+    }
+    
     public void Inject(DependencyInjector injector)
     {
         WanderConfig = injector.WanderConfig;

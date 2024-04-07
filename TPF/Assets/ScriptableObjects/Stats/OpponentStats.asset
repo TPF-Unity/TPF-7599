@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: OpponentStats
   m_EditorClassIdentifier: 
   health: 100
-  maxHealth: 0
+  maxHealth: 100
   damage: 15
   movementSpeed: 2
   sprintSpeed: 5
-  attackSpeed: 40
+  attackSpeed: 10
   attackRange: 0
   sightRange: 0
   xpDropped: 100

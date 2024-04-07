@@ -21,15 +21,28 @@ namespace AI.GOAP.Sensors
 
         public override SenseValue Sense(IMonoAgent agent, IComponentReference references)
         {
-            if (Physics.OverlapSphereNonAlloc(agent.transform.position, AttackConfig.SensorRadius, Colliders,
-                    AttackConfig.AttackableLayerMask) > 0 && Colliders[0].TryGetComponent(out Player player))
+            int count = Physics.OverlapSphereNonAlloc(agent.transform.position, AttackConfig.SensorRadius, Colliders,
+                AttackConfig.AttackableLayerMask);
+
+            for (int i = 0; i < count; i++)
             {
-                return new SenseValue(
-                    Mathf.CeilToInt(Vector3.Distance(agent.transform.position, player.transform.position)));
+                if (Colliders[i] != null && Colliders[i].gameObject != agent.gameObject &&
+                    Colliders[i].TryGetComponent(out Unit unit))
+                {
+                    if (AttackConfig.damageLayerMapping.CanDamage(LayerMask.LayerToName(agent.gameObject.layer),
+                            LayerMask.LayerToName(Colliders[i].gameObject.layer)))
+                    {
+                        int distance = Mathf.CeilToInt(Vector3.Distance(agent.transform.position,
+                            Colliders[i].transform.position));
+
+                        return new SenseValue(distance);
+                    }
+                }
             }
 
             return int.MaxValue;
         }
+
 
         public void Inject(DependencyInjector injector)
         {

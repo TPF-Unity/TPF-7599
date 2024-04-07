@@ -1,3 +1,5 @@
+using System.Linq;
+using AI.GOAP.Behaviors;
 using AI.GOAP.Config;
 using CrashKonijn.Goap.Classes;
 using CrashKonijn.Goap.Interfaces;
@@ -24,6 +26,13 @@ namespace AI.GOAP.Sensors
             if (Physics.OverlapSphereNonAlloc(agent.transform.position, AttackConfig.SensorRadius, Colliders,
                     AttackConfig.AttackableLayerMask) > 0)
             {
+                Colliders = Colliders.OrderBy(collider =>
+                        collider == null
+                            ? int.MaxValue
+                            : (collider.transform.position - agent.transform.position).sqrMagnitude)
+                    .ToArray();
+                var attackBehaviour = references.GetCachedComponent<RangedAttackBehavior>();
+                attackBehaviour.currentTarget = Colliders[0].gameObject;
                 return new TransformTarget(Colliders[0].transform);
             }
 

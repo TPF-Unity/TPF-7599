@@ -5,48 +5,60 @@ using CrashKonijn.Goap.Classes;
 using CrashKonijn.Goap.Classes.References;
 using CrashKonijn.Goap.Enums;
 using CrashKonijn.Goap.Interfaces;
+using Misc;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace AI.GOAP.Actions
 {
-    public class RangedAttackAction : ActionBase<RangedAttackAction.Data>, IInjectable
+    public class RangedAttackAction : ActionBase<AttackData>, IInjectable
     {
         private AttackConfigSO attackConfig;
-        private ObjectPool<Bullet> pool;
+        private ObjectPool<GameObject> pool;
         private NPCStats stats;
+        private AttackData currentTargetData;
 
         public override void Created()
         {
-            pool = new ObjectPool<Bullet>(CreateObject);
+            pool = new ObjectPool<GameObject>(CreateObject);
         }
 
-        public override void Start(IMonoAgent agent, Data data)
+        public override void Start(IMonoAgent agent, AttackData data)
         {
-            data.Timer = attackConfig.AttackDelay;
             stats = agent.GetComponent<Unit>().stats;
+            data.Timer = attackConfig.AttackDelay;
             data.RangedAttackBehavior.OnSpawnBullet += RangedAttackBehaviorOnRangedAttack;
         }
 
-        private void RangedAttackBehaviorOnRangedAttack(Vector3 spawnLocation, Vector3 forward)
+        private void RangedAttackBehaviorOnRangedAttack(Vector3 spawnLocation)
         {
-            Bullet instance = pool.Get();
+            if (currentTargetData == null)
+            {
+                return;
+            }
+
+            GameObject bullet = pool.Get();
+            Bullet instance = bullet.GetComponent<Bullet>();
             instance.Damage = stats.Damage;
-            instance.gameObject.layer = LayerMask.NameToLayer("EnemiesProjectiles");
+            instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
             var bulletTransform = instance.transform;
             bulletTransform.position = spawnLocation;
-            bulletTransform.forward = forward;
-            var bulletRigidBody = instance.GetComponent<Rigidbody>();
-            bulletRigidBody.velocity = forward * 30.0f;
+            instance.Shoot(currentTargetData.Target.Position);
         }
 
-        private Bullet CreateObject()
+        private GameObject CreateObject()
         {
             return Object.Instantiate(attackConfig.Bullet);
         }
 
-        public override ActionRunState Perform(IMonoAgent agent, Data data, ActionContext context)
+        public override ActionRunState Perform(IMonoAgent agent, AttackData data, ActionContext context)
         {
+            if (data.Target == null)
+            {
+                return ActionRunState.Stop;
+            }
+
+            currentTargetData = data;
             data.Timer -= context.DeltaTime;
 
             bool shouldAttack =
@@ -58,11 +70,11 @@ namespace AI.GOAP.Actions
                 agent.transform.LookAt(data.Target.Position);
                 data.AnimationController.PlayAnimation(AnimationType.Attack);
             }
-            
+
             return data.Timer > 0 ? ActionRunState.Continue : ActionRunState.Stop;
         }
 
-        public override void End(IMonoAgent agent, Data data)
+        public override void End(IMonoAgent agent, AttackData data)
         {
             data.RangedAttackBehavior.OnSpawnBullet -= RangedAttackBehaviorOnRangedAttack;
         }
@@ -70,11 +82,6 @@ namespace AI.GOAP.Actions
         public void Inject(DependencyInjector injector)
         {
             attackConfig = injector.AttackConfig;
-        }
-
-        public class Data : AttackData
-        {
-            [GetComponent] public RangedAttackBehavior RangedAttackBehavior { get; set; }
         }
     }
 }

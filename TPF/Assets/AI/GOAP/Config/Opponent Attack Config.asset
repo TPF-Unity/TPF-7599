@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa82b1295f1040d7a6ade0cd03265ffd, type: 3}
   m_Name: Opponent Attack Config
   m_EditorClassIdentifier: 
-  SensorRadius: 10
+  SensorRadius: 15
   MeleeAttackRadius: 2
-  MeleeAttackCost: 1
-  AttackDelay: 1
+  MeleeAttackCost: 50
+  AttackDelay: 0.5
   AttackableLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   RangedAttackRadius: 10
-  Bullet: {fileID: 1421944374042143299, guid: eda4efe5489a57a46bd624c28f06b243, type: 3}
+  Bullet: {fileID: 804997577081715565, guid: eda4efe5489a57a46bd624c28f06b243, type: 3}
   RangedAttackCost: 1
+  BulletSpeed: 30
+  damageLayerMapping: {fileID: 11400000, guid: 63332883be3958c4fb8ec9ac2b28d72f, type: 2}

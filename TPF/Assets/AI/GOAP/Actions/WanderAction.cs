@@ -25,12 +25,7 @@ namespace AI.GOAP.Factories
         {
             data.Timer -= context.DeltaTime;
 
-            if (data.Timer > 0)
-            {
-                return ActionRunState.Continue;
-            }
-
-            return ActionRunState.Stop;
+            return data.Timer > 0 ? ActionRunState.Continue : ActionRunState.Stop;
         }
 
         public override void End(IMonoAgent agent, CommonData data) {}

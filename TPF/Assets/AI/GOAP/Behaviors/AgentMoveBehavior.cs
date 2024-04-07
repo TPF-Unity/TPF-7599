@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using AI.GOAP.Scripts;
 using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Interfaces;
 using UnityEngine;
@@ -16,7 +19,32 @@ namespace AI.GOAP.Behaviors
 
         [SerializeField] private float MinMoveDistance = 0.25f;
         private Vector3 LastPosition;
-        
+        public List<Waypoint> keyWaypoints;
+        public List<Waypoint> doorWaypoints;
+
+        private void InitializeWaypoints()
+        {
+            var keySpawnPositions = GameManager.instance.keySpawnPositions;
+            var doorSpawnPositions = GameManager.instance.doorSpawnPositions;
+            foreach (var keySpawnPosition in keySpawnPositions)
+            {
+                keyWaypoints.Add(new Waypoint(keySpawnPosition.transform.position));
+            }
+
+            foreach (var doorSpawnPosition in doorSpawnPositions)
+            {
+                doorWaypoints.Add(new Waypoint(doorSpawnPosition.transform.position));
+            }
+        }
+
+        private void Start()
+        {
+            keyWaypoints = new List<Waypoint>();
+            if (GameManager.instance && !keyWaypoints.Any() || !doorWaypoints.Any())
+            {
+                InitializeWaypoints();
+            }
+        }
 
         private void Awake()
         {
@@ -28,11 +56,29 @@ namespace AI.GOAP.Behaviors
         private void OnEnable()
         {
             AgentBehavior.Events.OnTargetChanged += EventsOnTargetChanged;
+            AgentBehavior.Events.OnTargetInRange += EventsOnTargetInRange;
         }
 
         private void OnDisable()
         {
             AgentBehavior.Events.OnTargetChanged -= EventsOnTargetChanged;
+            AgentBehavior.Events.OnTargetInRange -= EventsOnTargetInRange;
+        }
+
+        private void EventsOnTargetInRange(ITarget target)
+        {
+            var targetKeyWaypoint = keyWaypoints?.Where(waypoint => waypoint?.Position == target?.Position)?.ToArray();
+            if (targetKeyWaypoint?.Length > 0)
+            {
+                targetKeyWaypoint[0].Visited = true;
+            }
+
+            var targetDoorWaypoint =
+                doorWaypoints?.Where(waypoint => waypoint?.Position == target?.Position)?.ToArray();
+            if (targetDoorWaypoint?.Length > 0)
+            {
+                targetDoorWaypoint[0].Visited = true;
+            }
         }
 
         private void EventsOnTargetChanged(ITarget target, bool inrange)
@@ -47,12 +93,6 @@ namespace AI.GOAP.Behaviors
             if (CurrentTarget == null)
             {
                 return;
-            }
-
-            if (MinMoveDistance <= Vector3.Distance(CurrentTarget.Position, LastPosition))
-            {
-                LastPosition = CurrentTarget.Position;
-                NavMeshAgent.SetDestination(CurrentTarget.Position);
             }
         }
     }
