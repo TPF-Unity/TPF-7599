@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using Misc;
 
 public class AttackState : State
 {
@@ -58,7 +59,7 @@ public class AttackState : State
     {
         attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z + 0.5f);
         GameObject slash = Instantiate(projectile, attackSpawnPoint, transform.rotation);
-        slash.layer = LayerMask.NameToLayer("EnemiesProjectiles");
+        slash.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
         slash.GetComponent<Slash>().Damage = damage;
         Slash slashAsset = slash.GetComponent<Slash>();
         slashAsset.Execute();
