@@ -25417,7 +25417,7 @@ MonoBehaviour:
   configInitializer: {fileID: 742314254}
   setConfigFactories: []
   goapSetConfigFactories:
-  - {fileID: 0}
+  - {fileID: 742314253}
 --- !u!114 &742314253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29789,7 +29789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &855592561
 Transform:
   m_ObjectHideFlags: 0
@@ -46667,7 +46667,7 @@ Transform:
   m_GameObject: {fileID: 1240887753}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40108648, y: 0.34473994, z: -0.16613546, w: 0.83227587}
-  m_LocalPosition: {x: -15.792404, y: 12.389013, z: 9.581296}
+  m_LocalPosition: {x: 15.4875965, y: 12.35901, z: 6.2012963}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
