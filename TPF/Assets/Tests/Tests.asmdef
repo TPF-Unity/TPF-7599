@@ -8,7 +8,8 @@
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
         "Unity.TextMeshPro",
-        "Unity.TextMeshPro.Tests"
+        "Unity.TextMeshPro.Tests",
+        "CrashKonijn.Goap"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

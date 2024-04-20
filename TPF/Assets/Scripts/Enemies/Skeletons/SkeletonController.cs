@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SkeletonController : EnemyNPCController
+public class SkeletonController : EnemyNPCController
 {
-    protected Vector3 attackSpawnPoint;
-
     public enum AnimatorControllerType
     {
         WizardSkeleton,
@@ -14,13 +12,13 @@ public abstract class SkeletonController : EnemyNPCController
         ArcherSkeleton,
     }
 
-    public AnimatorControllerType AnimatorController;
-
     public enum AttackType
     {
         Melee,
         Ranged,
     }
+
+    public AnimatorControllerType AnimatorController;
 
     private void Start()
     {
@@ -34,22 +32,27 @@ public abstract class SkeletonController : EnemyNPCController
         animationController.Initialize(animator);
         stats = GetComponent<Unit>().stats;
         agent.speed = stats.MovementSpeed;
+        InitializeFSM();
     }
 
-    protected override void AttackPlayer()
+    protected virtual void InitializeFSM()
     {
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
-        {
-            animationController.PlayAnimation(AnimationType.Attack);
-            Invoke(nameof(ExecuteAttack), 1f / stats.AttackSpeed); // TODO: Synchronize with animation
-            Invoke(nameof(ResetAttack), 1f / stats.AttackSpeed);
-            alreadyAttacked = true;
-        }
+        PlayerInRangeCondition playerInSight = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer);
+        PlayerInRangeCondition lostPlayer = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer, false);
+        PlayerInRangeCondition playerInAttackRange = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer);
+        PlayerInRangeCondition playerUnreachable = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer, false);
+        PatrolState patrolState = PatrolState.Create();
+        ChaseState chaseState = ChaseState.Create();
+        AttackState attackState = AttackState.Create(projectile, stats.AttackSpeed, stats.Damage);
+        Transition patrolToChaseTransition = Transition.Create(chaseState, playerInSight);
+        Transition chaseToPatrolTransition = Transition.Create(patrolState, lostPlayer);
+        Transition chaseToAttackTransition = Transition.Create(attackState, playerInAttackRange);
+        Transition attackToChaseTransition = Transition.Create(chaseState, playerUnreachable);
+        patrolState.AddTransition(patrolToChaseTransition);
+        chaseState.AddTransition(chaseToPatrolTransition);
+        chaseState.AddTransition(chaseToAttackTransition);
+        attackState.AddTransition(attackToChaseTransition);
+        FSM fsm = GetComponent<FSM>();
+        fsm.CurrentState = patrolState;
     }
-
-    protected abstract void ExecuteAttack();
 }

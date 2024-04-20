@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using Misc;
 using UnityEngine;
 
 public class RangedSkeletonController : SkeletonController
 {
-    protected override void ExecuteAttack()
+    protected override void InitializeFSM()
     {
-        attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z + 0.5f);
-        GameObject arrow = Instantiate(projectile, attackSpawnPoint, transform.rotation);
-        arrow.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
-        arrow.GetComponent<Arrow>().Damage = stats.Damage;
-        Arrow arrowAsset = arrow.GetComponent<Arrow>();
-        arrowAsset.Shoot(player.transform.position);
+        PlayerInRangeCondition playerInSight = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer);
+        PlayerInRangeCondition lostPlayer = PlayerInRangeCondition.Create(stats.SightRange, whatIsPlayer, false);
+        PlayerInRangeCondition playerInAttackRange = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer);
+        PlayerInRangeCondition playerUnreachable = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer, false);
+        PatrolState patrolState = PatrolState.Create();
+        ChaseState chaseState = ChaseState.Create();
+        RangedAttackState attackState = RangedAttackState.Create(projectile, stats.AttackSpeed, stats.Damage);
+        Transition patrolToChaseTransition = Transition.Create(chaseState, playerInSight);
+        Transition chaseToPatrolTransition = Transition.Create(patrolState, lostPlayer);
+        Transition chaseToAttackTransition = Transition.Create(attackState, playerInAttackRange);
+        Transition attackToChaseTransition = Transition.Create(chaseState, playerUnreachable);
+        patrolState.AddTransition(patrolToChaseTransition);
+        chaseState.AddTransition(chaseToPatrolTransition);
+        chaseState.AddTransition(chaseToAttackTransition);
+        attackState.AddTransition(attackToChaseTransition);
+        FSM fsm = GetComponent<FSM>();
+        fsm.CurrentState = patrolState;
     }
 }

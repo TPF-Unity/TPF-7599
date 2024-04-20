@@ -829,7 +829,8 @@ GameObject:
   - component: {fileID: 281115501618428381}
   - component: {fileID: 1001058032798955038}
   - component: {fileID: 3067120952739435103}
-  - component: {fileID: 2517633040342846570}
+  - component: {fileID: 7282946698965656142}
+  - component: {fileID: 8878440361349013159}
   m_Layer: 8
   m_Name: ArcherSkeleton
   m_TagString: Untagged
@@ -970,7 +971,7 @@ MonoBehaviour:
   onDied:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2517633040342846570
+--- !u!114 &7282946698965656142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -979,12 +980,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2713646513097774758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 908553cad2777504da0f939822f593e5, type: 3}
+  m_Script: {fileID: 11500000, guid: a5997e65d67e0584a8557b9d770bc9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
+  _currentState: {fileID: 0}
+--- !u!114 &8878440361349013159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2713646513097774758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154b594f6703f5f49a687fb75d76eaa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   projectile: {fileID: 7939047890215535669, guid: 80390be0e614259468b4e4b70fa813a9,
     type: 3}
   whatIsGround:
@@ -993,14 +1004,9 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  whatIsWall:
-    serializedVersion: 2
-    m_Bits: 2048
-  playerInSightRange: 0
-  playerInAttackRange: 0
   animator: {fileID: 2998073835075559799}
   agent: {fileID: 8113922938973725226}
-  stats: {fileID: 11400000, guid: 712fb9bc2b188dc4698e3c0d3af42fcd, type: 2}
+  stats: {fileID: 0}
   AnimatorController: 2
 --- !u!1 &3008303769728848792
 GameObject:
