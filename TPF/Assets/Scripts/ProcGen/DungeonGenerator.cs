@@ -25,6 +25,7 @@ using UnityEngine;
 using Random = System.Random;
 using Graphs;
 using System;
+using static UnityEditor.FilePathAttribute;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -88,6 +89,7 @@ public class DungeonGenerator : MonoBehaviour
         Triangulate();
         CreateHallways();
         PathfindHallways();
+        PlacePrefabs();
     }
 
     void PlaceRooms()
@@ -126,7 +128,6 @@ public class DungeonGenerator : MonoBehaviour
             if (add)
             {
                 rooms.Add(newRoom);
-                PlaceRoom(newRoom.bounds.position, newRoom.bounds.size);
 
                 foreach (var pos in newRoom.bounds.allPositionsWithin)
                 {
@@ -227,14 +228,6 @@ public class DungeonGenerator : MonoBehaviour
                         var delta = current - prev;
                     }
                 }
-
-                foreach (var pos in path)
-                {
-                    if (grid[pos] == CellType.Hallway)
-                    {
-                        PlaceHallway(pos);
-                    }
-                }
             }
         }
     }
@@ -283,34 +276,51 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    void PlaceRoom(Vector2Int location, Vector2Int size)
+    Boolean isBetweenBounds(Vector2Int position)
     {
-        int maxX = size.x;
-        int maxY = size.y;
-
-        for (int i = 0; i < maxX; i++)
-        {
-            for (int j = 0; j < maxY; j++)
-            {
-                PlaceGround(new Vector2Int(location.x + i, location.y + j));
-            }
-        }
-
-        for (int i = 0; i < maxX; i++)
-        {
-            PlaceWall(new Vector2Int(location.x + i, location.y), WallRotation.Down);
-            PlaceWall(new Vector2Int(location.x + i, location.y + maxY - 1), WallRotation.Up);
-        }
-
-        for (int j = 0; j < maxY; j++)
-        {
-            PlaceWall(new Vector2Int(location.x, location.y + j), WallRotation.Left);
-            PlaceWall(new Vector2Int(location.x + maxX - 1, location.y + j), WallRotation.Right);
-        }
+        return position.x < size.x && position.x >= 0 && position.y < size.y && position.y >= 0;
     }
 
-    void PlaceHallway(Vector2Int location)
+    void PlacePrefabs()
     {
-        PlaceGround(location);
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                Vector2Int currentPosition = new Vector2Int(x, y);
+                CellType currentCell = grid[currentPosition];
+
+                if (currentCell == CellType.None)
+                {
+                    continue;
+                }
+
+                PlaceGround(currentPosition);
+
+                Vector2Int abovePosition = currentPosition + Vector2Int.up;
+                if (!isBetweenBounds(abovePosition) || grid[abovePosition] == CellType.None)
+                {
+                    PlaceWall(currentPosition, WallRotation.Up);
+                }
+
+                Vector2Int belowPosition = currentPosition + Vector2Int.down;
+                if (!isBetweenBounds(belowPosition) || grid[belowPosition] == CellType.None)
+                {
+                    PlaceWall(currentPosition, WallRotation.Down);
+                }
+
+                Vector2Int leftPosition = currentPosition + Vector2Int.left;
+                if (!isBetweenBounds(leftPosition) || grid[leftPosition] == CellType.None)
+                {
+                    PlaceWall(currentPosition, WallRotation.Left);
+                }
+
+                Vector2Int rightPosition = currentPosition + Vector2Int.right;
+                if (!isBetweenBounds(rightPosition) || grid[rightPosition] == CellType.None)
+                {
+                    PlaceWall(currentPosition, WallRotation.Right);
+                }
+            }
+        }
     }
 }
