@@ -18892,7 +18892,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 80}
+  m_SizeDelta: {x: 0, y: 137.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &491934501
 MonoBehaviour:
@@ -18914,7 +18914,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AI Escape
+  m_text: Dungeon Escape
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a79acfb389d32ee48b9f25e23e4433ad, type: 2}
   m_sharedMaterial: {fileID: -775265040586742081, guid: a79acfb389d32ee48b9f25e23e4433ad,
@@ -18924,15 +18924,15 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901771
-  m_fontColor: {r: 0.043137256, g: 0, b: 1, a: 1}
+    rgba: 4278197503
+  m_fontColor: {r: 1, g: 0.110657394, b: 0, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 1
   m_fontColorGradient:
-    topLeft: {r: 0.38039216, g: 0.4627451, b: 0.6117647, a: 1}
-    topRight: {r: 0, g: 0.13725491, b: 0.3764706, a: 1}
-    bottomLeft: {r: 0.38039216, g: 0.4627451, b: 0.6117647, a: 1}
-    bottomRight: {r: 0, g: 0.13725491, b: 0.3764706, a: 1}
+    topLeft: {r: 0.5849056, g: 0.37473345, b: 0.33383763, a: 1}
+    topRight: {r: 0.177, g: 0.024513287, b: 0, a: 1}
+    bottomLeft: {r: 0.5849056, g: 0.37473345, b: 0.33383763, a: 1}
+    bottomRight: {r: 0.177, g: 0.024513287, b: 0, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -18942,8 +18942,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -70187,7 +70187,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: -60
+    m_Top: -58
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 15

@@ -25,7 +25,7 @@ using UnityEngine;
 using Random = System.Random;
 using Graphs;
 using System;
-using static UnityEditor.FilePathAttribute;
+using Unity.AI.Navigation;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -64,6 +64,8 @@ public class DungeonGenerator : MonoBehaviour
     GameObject groundPrefab;
     [SerializeField]
     GameObject wallPrefab;
+    [SerializeField]
+    GameObject environmentbHolder;
 
     Random random;
     Grid<CellType> grid;
@@ -90,6 +92,7 @@ public class DungeonGenerator : MonoBehaviour
         CreateHallways();
         PathfindHallways();
         PlacePrefabs();
+        BakeNavmesh();
     }
 
     void PlaceRooms()
@@ -234,7 +237,8 @@ public class DungeonGenerator : MonoBehaviour
 
     void PlaceGround(Vector2Int location)
     {
-        Instantiate(groundPrefab, new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier), Quaternion.identity);
+        GameObject ground = Instantiate(groundPrefab, new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier), Quaternion.identity);
+        ground.transform.parent = environmentbHolder.transform;
     }
 
     enum WallRotation
@@ -247,32 +251,39 @@ public class DungeonGenerator : MonoBehaviour
 
     void PlaceWall(Vector2Int location, WallRotation rotation)
     {
+        GameObject wall = null;
+
         switch (rotation)
         {
             case WallRotation.Up:
-                Instantiate(
+                wall = Instantiate(
                     wallPrefab,
                     new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier + (positionMultiplier / 2)),
                     Quaternion.Euler(0, 90, 0));
                 break;
             case WallRotation.Down:
-                Instantiate(
+                wall = Instantiate(
                     wallPrefab,
                     new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier - (positionMultiplier / 2)),
                     Quaternion.Euler(0, -90, 0));
                 break;
             case WallRotation.Left:
-                Instantiate(
+                wall = Instantiate(
                     wallPrefab,
                     new Vector3(location.x * positionMultiplier - (positionMultiplier / 2), 0, location.y * positionMultiplier),
                     Quaternion.Euler(0, 0, 0));
                 break;
             case WallRotation.Right:
-                Instantiate(
+                wall = Instantiate(
                     wallPrefab,
                     new Vector3(location.x * positionMultiplier + (positionMultiplier / 2), 0, location.y * positionMultiplier),
                     Quaternion.Euler(0, 180, 0));
                 break;
+        }
+
+        if (wall != null)
+        {
+            wall.transform.parent = environmentbHolder.transform;
         }
     }
 
@@ -321,6 +332,20 @@ public class DungeonGenerator : MonoBehaviour
                     PlaceWall(currentPosition, WallRotation.Right);
                 }
             }
+        }
+    }
+
+    void BakeNavmesh()
+    {
+        NavMeshSurface navMeshSurface = environmentbHolder.GetComponent<NavMeshSurface>();
+
+        if (navMeshSurface != null)
+        {
+            navMeshSurface.BuildNavMesh();
+        }
+        else
+        {
+            Debug.LogWarning("NavMeshSurface component not found on prefabHolder.");
         }
     }
 }
