@@ -4253,10 +4253,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19925b6b65787cf439172e5e095b51fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configInitializer: {fileID: 0}
+  configInitializer: {fileID: 1372274639}
   setConfigFactories: []
   goapSetConfigFactories:
-  - {fileID: 0}
+  - {fileID: 1372274638}
 --- !u!114 &1372274638
 MonoBehaviour:
   m_ObjectHideFlags: 0

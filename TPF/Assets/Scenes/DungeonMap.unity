@@ -3433,7 +3433,7 @@ GameObject:
   - component: {fileID: 115280223}
   m_Layer: 0
   m_Name: Key (7)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13253,7 +13253,7 @@ GameObject:
   - component: {fileID: 402471752}
   m_Layer: 0
   m_Name: Door (4)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19899,7 +19899,7 @@ GameObject:
   - component: {fileID: 594836572}
   m_Layer: 0
   m_Name: Key (3)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22044,7 +22044,7 @@ GameObject:
   - component: {fileID: 651499733}
   m_Layer: 0
   m_Name: Key (6)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25273,7 +25273,7 @@ GameObject:
   - component: {fileID: 737086212}
   m_Layer: 0
   m_Name: Door (1)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26727,7 +26727,7 @@ GameObject:
   - component: {fileID: 770294618}
   m_Layer: 0
   m_Name: Key (2)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39854,7 +39854,7 @@ GameObject:
   - component: {fileID: 1088121307}
   m_Layer: 0
   m_Name: Door (3)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43578,7 +43578,7 @@ GameObject:
   - component: {fileID: 1162914951}
   m_Layer: 0
   m_Name: Key
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45324,7 +45324,7 @@ GameObject:
   - component: {fileID: 1211147405}
   m_Layer: 0
   m_Name: Key (5)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54085,7 +54085,7 @@ GameObject:
   - component: {fileID: 1438001723}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58321,7 +58321,7 @@ GameObject:
   - component: {fileID: 1548931915}
   m_Layer: 0
   m_Name: Door (2)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59173,7 +59173,7 @@ GameObject:
   - component: {fileID: 1570704208}
   m_Layer: 0
   m_Name: Key (4)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61526,7 +61526,7 @@ GameObject:
   - component: {fileID: 1622152877}
   m_Layer: 0
   m_Name: Key (1)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66827,31 +66827,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _recolectedKeys: 0
-  _totalKeys: 3
-  _totalDoors: 2
   _doors: []
   keyPrefab: {fileID: 4365414444426960560, guid: d97a2054e3512f945a173b38c0400c62,
     type: 3}
   doorPrefab: {fileID: 4194831201209891919, guid: 3ea5c23656bb4514cbe2458c36592443,
     type: 3}
-  keySpawnPositions:
-  - {fileID: 1162914950}
-  - {fileID: 1622152876}
-  - {fileID: 770294617}
-  - {fileID: 594836571}
-  - {fileID: 1570704207}
-  - {fileID: 1211147404}
-  - {fileID: 651499732}
-  - {fileID: 115280222}
-  - {fileID: 2006729929}
-  - {fileID: 2144484145}
-  doorSpawnPositions:
-  - {fileID: 1438001722}
-  - {fileID: 737086211}
-  - {fileID: 1548931914}
-  - {fileID: 1088121306}
-  - {fileID: 402471751}
-  - {fileID: 2125223740}
 --- !u!114 &1766537696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74407,7 +74387,7 @@ GameObject:
   - component: {fileID: 2006729930}
   m_Layer: 0
   m_Name: Key (8)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79383,7 +79363,7 @@ GameObject:
   - component: {fileID: 2125223741}
   m_Layer: 0
   m_Name: Door (5)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80322,7 +80302,7 @@ GameObject:
   - component: {fileID: 2144484146}
   m_Layer: 0
   m_Name: Key (9)
-  m_TagString: Untagged
+  m_TagString: KeySpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
