@@ -8,6 +8,8 @@ TagManager:
   - Key
   - Door
   - PatrolPoint
+  - DoorSpawn
+  - KeySpawn
   layers:
   - Default
   - TransparentFX

@@ -27,6 +27,7 @@ using Graphs;
 using System;
 using Unity.AI.Navigation;
 
+[DefaultExecutionOrder(-1)] // This script should be initialized first
 public class DungeonGenerator : MonoBehaviour
 {
     enum CellType
@@ -65,7 +66,18 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField]
     GameObject wallPrefab;
     [SerializeField]
-    GameObject environmentbHolder;
+    GameObject opponentPrefab;
+    [SerializeField]
+    GameObject environmentHolder;
+    [SerializeField]
+    GameObject patrolPointHolder;
+    [SerializeField]
+    GameObject keySpawnHolder;
+    [SerializeField]
+    GameObject doorSpawnHolder;
+
+    public int totalKeys;
+    public int totalDoors;
 
     Random random;
     Grid<CellType> grid;
@@ -78,7 +90,14 @@ public class DungeonGenerator : MonoBehaviour
 
     void Start()
     {
-        Generate();
+        do
+        {
+            Generate();
+        } while (rooms.Count < 5);
+        PlacePrefabs();
+        BakeNavmesh();
+        PlacePatrolPoints();
+        PlaceSpawnPositions();
     }
 
     void Generate()
@@ -91,8 +110,6 @@ public class DungeonGenerator : MonoBehaviour
         Triangulate();
         CreateHallways();
         PathfindHallways();
-        PlacePrefabs();
-        BakeNavmesh();
     }
 
     void PlaceRooms()
@@ -169,7 +186,7 @@ public class DungeonGenerator : MonoBehaviour
 
         foreach (var edge in remainingEdges)
         {
-            if (random.NextDouble() < 0.125)
+            if (random.NextDouble() < 0.2)
             {
                 selectedEdges.Add(edge);
             }
@@ -238,7 +255,7 @@ public class DungeonGenerator : MonoBehaviour
     void PlaceGround(Vector2Int location)
     {
         GameObject ground = Instantiate(groundPrefab, new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier), Quaternion.identity);
-        ground.transform.parent = environmentbHolder.transform;
+        ground.transform.parent = environmentHolder.transform;
     }
 
     enum WallRotation
@@ -283,11 +300,11 @@ public class DungeonGenerator : MonoBehaviour
 
         if (wall != null)
         {
-            wall.transform.parent = environmentbHolder.transform;
+            wall.transform.parent = environmentHolder.transform;
         }
     }
 
-    Boolean isBetweenBounds(Vector2Int position)
+    Boolean IsBetweenBounds(Vector2Int position)
     {
         return position.x < size.x && position.x >= 0 && position.y < size.y && position.y >= 0;
     }
@@ -309,25 +326,25 @@ public class DungeonGenerator : MonoBehaviour
                 PlaceGround(currentPosition);
 
                 Vector2Int abovePosition = currentPosition + Vector2Int.up;
-                if (!isBetweenBounds(abovePosition) || grid[abovePosition] == CellType.None)
+                if (!IsBetweenBounds(abovePosition) || grid[abovePosition] == CellType.None)
                 {
                     PlaceWall(currentPosition, WallRotation.Up);
                 }
 
                 Vector2Int belowPosition = currentPosition + Vector2Int.down;
-                if (!isBetweenBounds(belowPosition) || grid[belowPosition] == CellType.None)
+                if (!IsBetweenBounds(belowPosition) || grid[belowPosition] == CellType.None)
                 {
                     PlaceWall(currentPosition, WallRotation.Down);
                 }
 
                 Vector2Int leftPosition = currentPosition + Vector2Int.left;
-                if (!isBetweenBounds(leftPosition) || grid[leftPosition] == CellType.None)
+                if (!IsBetweenBounds(leftPosition) || grid[leftPosition] == CellType.None)
                 {
                     PlaceWall(currentPosition, WallRotation.Left);
                 }
 
                 Vector2Int rightPosition = currentPosition + Vector2Int.right;
-                if (!isBetweenBounds(rightPosition) || grid[rightPosition] == CellType.None)
+                if (!IsBetweenBounds(rightPosition) || grid[rightPosition] == CellType.None)
                 {
                     PlaceWall(currentPosition, WallRotation.Right);
                 }
@@ -337,7 +354,7 @@ public class DungeonGenerator : MonoBehaviour
 
     void BakeNavmesh()
     {
-        NavMeshSurface navMeshSurface = environmentbHolder.GetComponent<NavMeshSurface>();
+        NavMeshSurface navMeshSurface = environmentHolder.GetComponent<NavMeshSurface>();
 
         if (navMeshSurface != null)
         {
@@ -346,6 +363,109 @@ public class DungeonGenerator : MonoBehaviour
         else
         {
             Debug.LogWarning("NavMeshSurface component not found on prefabHolder.");
+        }
+    }
+
+    void PlacePatrolPoints()
+    {
+        foreach (Room room in rooms)
+        {
+            Vector3 roomCenter = new Vector3(
+                room.bounds.center.x * positionMultiplier - (positionMultiplier / 2),
+                0f,
+                room.bounds.center.y * positionMultiplier - (positionMultiplier / 2));
+
+            GameObject patrolPoint = new GameObject("PatrolPoint");
+            patrolPoint.transform.position = roomCenter;
+            patrolPoint.tag = "PatrolPoint";
+            patrolPoint.transform.parent = patrolPointHolder.transform;
+        }
+    }
+
+    bool IsHallwayAdjacent(Vector2Int position)
+    {
+        Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+        foreach (Vector2Int direction in directions)
+        {
+            Vector2Int adjacentPosition = position + direction;
+            if (IsBetweenBounds(adjacentPosition) && grid[adjacentPosition] == CellType.Hallway)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    List<Vector2Int> GetAvailableCells()
+    {
+        List<Vector2Int> availableCells = new List<Vector2Int>();
+
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                Vector2Int currentPosition = new Vector2Int(x, y);
+                if (grid[currentPosition] == CellType.Room)
+                {
+                    if (!IsHallwayAdjacent(currentPosition))
+                    {
+                        availableCells.Add(currentPosition);
+                    }
+                }
+            }
+        }
+
+        return availableCells;
+    }
+
+    void PlaceSpawnPositions()
+    {
+        List<Vector2Int> availableCells = GetAvailableCells();
+
+        int randomIndex = random.Next(0, availableCells.Count);
+        Vector2Int randomPosition = availableCells[randomIndex];
+        availableCells.RemoveAt(randomIndex);
+
+        Vector3 positionCenter = new Vector3(
+            randomPosition.x * positionMultiplier,
+            0f,
+            randomPosition.y * positionMultiplier);
+
+        Player.Instance.transform.position = positionCenter + Vector3.right;
+        Instantiate(opponentPrefab, positionCenter + Vector3.left, Quaternion.identity);
+
+        for (int i = 0; i < totalKeys;  i++)
+        {
+            randomIndex = random.Next(0, availableCells.Count);
+            randomPosition = availableCells[randomIndex];
+            availableCells.RemoveAt(randomIndex);
+
+            positionCenter = new Vector3(
+                randomPosition.x * positionMultiplier,
+                0f,
+                randomPosition.y * positionMultiplier);
+
+            GameObject keySpawn = new GameObject("KeySpawn");
+            keySpawn.transform.position = positionCenter;
+            keySpawn.tag = "KeySpawn";
+            keySpawn.transform.parent = keySpawnHolder.transform;
+        }
+
+        for (int i = 0; i < totalDoors; i++)
+        {
+            randomIndex = random.Next(0, availableCells.Count);
+            randomPosition = availableCells[randomIndex];
+            availableCells.RemoveAt(randomIndex);
+
+            positionCenter = new Vector3(
+                randomPosition.x * positionMultiplier,
+                0f,
+                randomPosition.y * positionMultiplier);
+
+            GameObject doorSpawn = new GameObject("DoorSpawn");
+            doorSpawn.transform.position = positionCenter;
+            doorSpawn.tag = "DoorSpawn";
+            doorSpawn.transform.parent = doorSpawnHolder.transform;
         }
     }
 }
