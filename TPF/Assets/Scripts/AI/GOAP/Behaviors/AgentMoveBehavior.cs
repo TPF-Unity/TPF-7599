@@ -4,6 +4,8 @@ using System.Linq;
 using AI.GOAP.Scripts;
 using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Interfaces;
+using Misc;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +17,7 @@ namespace AI.GOAP.Behaviors
         private NavMeshAgent NavMeshAgent;
         private Animator Animator;
         private AgentBehaviour AgentBehavior;
+        private GameManager GameManager;
         private ITarget CurrentTarget;
 
         [SerializeField] private float MinMoveDistance = 0.25f;
@@ -22,10 +25,11 @@ namespace AI.GOAP.Behaviors
         public List<Waypoint> keyWaypoints;
         public List<Waypoint> doorWaypoints;
 
+
         private void InitializeWaypoints()
         {
-            var keySpawnPositions = GameManager.instance.keySpawnPositions;
-            var doorSpawnPositions = GameManager.instance.doorSpawnPositions;
+            var keySpawnPositions = GameManager.keySpawnPositions;
+            var doorSpawnPositions = GameManager.doorSpawnPositions;
             foreach (var keySpawnPosition in keySpawnPositions)
             {
                 keyWaypoints.Add(new Waypoint(keySpawnPosition.transform.position));
@@ -40,7 +44,7 @@ namespace AI.GOAP.Behaviors
         private void Start()
         {
             keyWaypoints = new List<Waypoint>();
-            if (GameManager.instance && !keyWaypoints.Any() || !doorWaypoints.Any())
+            if (GetComponentInParent<GameManager>() && !keyWaypoints.Any() || !doorWaypoints.Any())
             {
                 InitializeWaypoints();
             }
@@ -51,6 +55,7 @@ namespace AI.GOAP.Behaviors
             NavMeshAgent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
             AgentBehavior = GetComponent<AgentBehaviour>();
+            GameManager = GameObject.Find(GameObjects.GameManager.ToString()).GetComponent<GameManager>();
         }
 
         private void OnEnable()

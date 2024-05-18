@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform enemySpawner;
 
     private float minSpawnDistance = 15f;
     private GameObject[] spawnPoints;
 
+    private List<GameObject> enemies = new();
+
     private void Start()
     {
         spawnPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
     }
 
-    public void SpawnEnemy() {
+    public void SpawnEnemy()
+    {
 
         List<GameObject> eligiblePatrolPoints = new List<GameObject>();
         foreach (GameObject point in spawnPoints)
@@ -35,11 +37,19 @@ public class EnemySpawner : MonoBehaviour
             GameObject enemy = Instantiate(enemyPrefab, chosenPoint.transform.position, Quaternion.identity);
             enemy.transform.parent = enemySpawner;
             enemy.transform.localPosition = Vector3.zero;
+            enemies.Add(enemy);
         }
     }
 
-    public bool CanSpawn(Vector3 position) {
+    public bool CanSpawn(Vector3 position)
+    {
         float distanceToPlayer = Vector3.Distance(position, Player.Instance.transform.position);
         return minSpawnDistance < distanceToPlayer;
+    }
+
+    public void DeSpawnAllEnemies()
+    {
+        enemies.ForEach(Destroy);
+        enemies = new List<GameObject>();
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class Bullet : MonoBehaviour
     private float damage;
     public PlayerController source;
 
+    void Awake()
+    {
+        rigidBody = GetComponent<Rigidbody>();
+    }
+    
     void Start()
     {
         startPosition = transform.position;
@@ -31,31 +37,37 @@ public class Bullet : MonoBehaviour
         Vector3 direction = targetPoint - transform.position;
         direction.y = 0;
         direction.Normalize();
-        rigidBody = GetComponent<Rigidbody>();
         rigidBody.velocity = direction * 30.0f;
     }
 
-    private void OnTriggerEnter(Collider collider)
+    public void ShootAtDirection(Vector3 direction)
     {
+        rigidBody.velocity = direction * 30.0f;
+    }
 
+    private void OnTriggerEnter(Collider targetCollider)
+    {
         string attackerLayer = LayerMask.LayerToName(gameObject.layer);
-        string targetLayer = LayerMask.LayerToName(collider.gameObject.layer);
+        string targetLayer = LayerMask.LayerToName(targetCollider.gameObject.layer);
         if (damageLayerMapping.CanDamage(attackerLayer, targetLayer))
         {
-            if (collider.gameObject.TryGetComponent(out Unit target))
+            if (targetCollider.gameObject.TryGetComponent(out Unit target))
             {
-                // Debug.Log("damage");
-                // Debug.Log(damage);
                 target.TakeDamageFrom(damage, source);
                 Destroy(gameObject);
             }
-        } else {
-            if (notShootableLayer == (notShootableLayer | (1 << collider.gameObject.layer)))
+        }
+        else
+        {
+            if (notShootableLayer == (notShootableLayer | (1 << targetCollider.gameObject.layer)))
             {
                 Destroy(gameObject);
             }
         }
     }
 
-    public float Damage { set => damage = value; }
+    public float Damage
+    {
+        set => damage = value;
+    }
 }

@@ -6093,7 +6093,7 @@ GameObject:
   - component: {fileID: 5046578192601431127}
   m_Layer: 8
   m_Name: WizardSkeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6210,7 +6210,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &177959478115967521
 MonoBehaviour:

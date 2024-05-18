@@ -8,6 +8,10 @@ TagManager:
   - Key
   - Door
   - PatrolPoint
+  - Wall
+  - Waypoint
+  - Stairs
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -24,7 +28,7 @@ TagManager:
   - EnemySensor
   - Keys
   - EnemyPlayers
-  - 
+  - Waypoint
   - 
   - 
   - 

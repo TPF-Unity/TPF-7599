@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Misc;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,8 +22,19 @@ public abstract class EnemyNPCController : MonoBehaviour
 
     private void Awake()
     {
+        // TODO: Find better way to get player
+        var playerGameObject = GameObject.Find(GameObjects.Player.ToString());
+        //var playerGameObject = transform.parent.parent.parent.Find("Player");
+        if (playerGameObject != null)
+        {
+            player = playerGameObject.transform;
+        }
+        else
+        {
+            Debug.Log("Could not find Player reference");
+        }
+
         animationController = GetComponent<NPCAnimationController>();
-        player = GameObject.Find("Player").transform;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         animator = GetComponent<Animator>();
     }

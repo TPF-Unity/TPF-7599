@@ -56010,7 +56010,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.08
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 9399265bbfa1f2145bfd4cea6a75fd70, type: 2}
   m_BuildHeightMesh: 0
@@ -66798,6 +66798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keysText: {fileID: 899162947}
+  gameManager: {fileID: 1766537695}
 --- !u!114 &1766537694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79551,6 +79552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keysText: {fileID: 899162947}
+  gameManager: {fileID: 0}
 --- !u!114 &2127257952
 MonoBehaviour:
   m_ObjectHideFlags: 0

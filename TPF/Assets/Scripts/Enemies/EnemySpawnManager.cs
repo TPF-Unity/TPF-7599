@@ -33,7 +33,15 @@ public class EnemySpawnManager : MonoBehaviour
         }
     }
 
-    private void Update() {
+    public void DeSpawnAllEnemies()
+    {
+        enemyAmount = 0;
+        enemyTimer = 0;
+        enemySpawnerList.ForEach(spawner => spawner.DeSpawnAllEnemies());
+    }
+
+    private void Update()
+    {
         enemyTimer -= Time.deltaTime;
 
         if (enemyTimer < 0f) {

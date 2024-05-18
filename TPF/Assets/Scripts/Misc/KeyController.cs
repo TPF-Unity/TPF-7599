@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class KeyController : MonoBehaviour
 {
-    private readonly List<string> layersThatCanPickKeys = new List<string>()
+    private readonly List<string> _layersThatCanPickKeys = new()
         { Layer.Player.ToString(), Layer.EnemyPlayers.ToString() };
 
     private void OnTriggerEnter(Collider other)
     {
-        if (layersThatCanPickKeys.Contains(LayerMask.LayerToName(other.gameObject.layer)))
+        if (_layersThatCanPickKeys.Contains(LayerMask.LayerToName(other.gameObject.layer)))
         {
-            GameManager.instance.PickKey();
+            GetComponentInParent<GameManager>().PickKey();
             KeyCollectorBehavior keyCollector = other.GetComponent<KeyCollectorBehavior>();
             if (keyCollector != null)
             {
