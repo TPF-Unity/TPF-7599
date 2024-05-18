@@ -1,4 +1,5 @@
 using System;
+using Misc;
 using StarterAssets;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,10 @@ public class Unit : MonoBehaviour
     public void Awake()
     {
         stats = Instantiate(baseStats);
+        if (unitDifficultyManager == null)
+        {
+            unitDifficultyManager = GetComponent<UnitDifficultyManager>();
+        }
     }
 
     public void Start()
@@ -36,8 +41,6 @@ public class Unit : MonoBehaviour
 
     public void TakeDamageFrom(float damage, PlayerController player)
     {
-        // Debug.Log("maxHealth");
-        // Debug.Log(stats.MaxHealth);
         stats.TakeDamage(damage);
         onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         if (stats.Health <= 0)
@@ -48,7 +51,12 @@ public class Unit : MonoBehaviour
             {
                 player.GainXP(stats.XPDropped);
             }
-            Destroy(gameObject);
+
+            if (!gameObject.CompareTag(Tags.Player.ToString()))
+            {
+                Destroy(gameObject);
+            }
+
         }
     }
 }

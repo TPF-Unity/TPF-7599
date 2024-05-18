@@ -26,8 +26,7 @@ namespace AI.GOAP.Sensors
                 hp = references.GetCachedComponent<RangedAttackBehavior>().currentTarget.GetComponent<Unit>().stats
                     .Health;
             }
-
-            Debug.Log(Mathf.FloorToInt(hp));
+            
             return new SenseValue(Mathf.FloorToInt(hp));
         }
     }

@@ -15,8 +15,18 @@ public class XPUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
 
 
-    private void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    private void Start()
+    {
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var currentPlayer in players)
+        {
+            var playerController = currentPlayer.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                player = playerController;
+            }
+        }
+
         player.onXPChanged.AddListener(Player_OnXPGained);
         UpdateVisual(0);
     }

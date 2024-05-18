@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 16d97c0a91cf4a44fb49b79ef765b8c3
+<<<<<<<< HEAD:TPF/Assets/Scenes/DifficultyTest.unity.meta
+guid: edabc0613da822c4b8fe910f7ff831c4
+========
+guid: 517b402cb67fa744188ad75fafd713e7
+>>>>>>>> dc16607 (Feature/ML Opponent):TPF/Assets/Scenes/MLTraining/DungeonMapTraining10.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

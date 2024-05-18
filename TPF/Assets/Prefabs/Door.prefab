@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4501404463751188558}
   - component: {fileID: 2874856280283593116}
   - component: {fileID: 6413542507105414304}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Door
-  m_TagString: Door
+  m_TagString: Waypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

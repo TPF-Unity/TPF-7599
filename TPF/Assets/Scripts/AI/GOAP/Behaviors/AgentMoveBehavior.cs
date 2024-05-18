@@ -4,6 +4,8 @@ using System.Linq;
 using AI.GOAP.Scripts;
 using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Interfaces;
+using Misc;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,14 +20,16 @@ namespace AI.GOAP.Behaviors
         private ITarget CurrentTarget;
 
         [SerializeField] private float MinMoveDistance = 0.25f;
+        [SerializeField] public GameManager gameManager;
         private Vector3 LastPosition;
         public List<Waypoint> keyWaypoints;
         public List<Waypoint> doorWaypoints;
 
+
         private void InitializeWaypoints()
         {
-            var keySpawnPositions = GameManager.instance.keySpawnPositions;
-            var doorSpawnPositions = GameManager.instance.doorSpawnPositions;
+            var keySpawnPositions = gameManager.keySpawnPositions;
+            var doorSpawnPositions = gameManager.doorSpawnPositions;
             foreach (var keySpawnPosition in keySpawnPositions)
             {
                 keyWaypoints.Add(new Waypoint(keySpawnPosition.transform.position));
@@ -39,8 +43,13 @@ namespace AI.GOAP.Behaviors
 
         private void Start()
         {
+            if (gameManager == null)
+            {
+                Debug.Log("GameManager reference is missing in agent");
+            }
+
             keyWaypoints = new List<Waypoint>();
-            if (GameManager.instance && !keyWaypoints.Any() || !doorWaypoints.Any())
+            if (gameManager && !keyWaypoints.Any() || !doorWaypoints.Any())
             {
                 InitializeWaypoints();
             }
@@ -51,6 +60,11 @@ namespace AI.GOAP.Behaviors
             NavMeshAgent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
             AgentBehavior = GetComponent<AgentBehaviour>();
+            if (gameManager == null)
+            {
+
+                gameManager = GameObject.Find(GameObjects.GameManager.ToString()).GetComponent<GameManager>();
+            }
         }
 
         private void OnEnable()

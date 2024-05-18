@@ -44,6 +44,14 @@ Generated\ Files/
 # ============ #
 crashlytics-build.properties
 
+# ====== #
+# Python #
+# ====== #
+
+venv/
+results/
+Assets/ML-Agents
+
 # =============== #
 # User generated #
 # =============== #

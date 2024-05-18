@@ -41,8 +41,15 @@ public class AttackState : State
     protected override void ExecuteState(FSM fsm)
     {
         agent.SetDestination(fsm.transform.position);
-
-        fsm.transform.LookAt(player);
+        
+        Vector3 lookDirection = player.position - fsm.transform.position;
+        lookDirection.y = 0;
+        
+        if (lookDirection != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+            fsm.transform.rotation = Quaternion.Slerp(fsm.transform.rotation, lookRotation, Time.deltaTime * 300);
+        }
 
         if (!alreadyAttacked || timeSinceLastAttack >= 1f / attackSpeed)
         {

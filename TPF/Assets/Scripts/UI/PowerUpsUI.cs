@@ -10,8 +10,17 @@ public class PowerUpsUI : MonoBehaviour
     private PlayerController player;
     [SerializeField] private Transform iconTemplate;
 
-    private void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    private void Start()
+    {
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var currentPlayer in players)
+        {
+            var playerController = currentPlayer.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                player = playerController;
+            }
+        }
         player.OnPowerUpChanged += Player_OnPowerUpChanged;
     }
 

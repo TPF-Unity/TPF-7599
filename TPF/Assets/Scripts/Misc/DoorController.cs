@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    [SerializeField]
-    private bool open = false;
+    [SerializeField] private bool open = false;
 
     private Renderer doorRenderer;
 
@@ -25,7 +24,11 @@ public class DoorController : MonoBehaviour
     {
         if (other.CompareTag("Player") && open)
         {
-            gameManager.Win();
+            var player = other.GetComponent<Player>();
+            if (player.isMainPlayer)
+            {
+                gameManager.Win();
+            }
         }
     }
 

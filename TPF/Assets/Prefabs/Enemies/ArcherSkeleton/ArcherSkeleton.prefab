@@ -834,7 +834,7 @@ GameObject:
   - component: {fileID: 4416523784110496356}
   m_Layer: 8
   m_Name: ArcherSkeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -921,7 +921,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.5
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
@@ -950,7 +950,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 2
 --- !u!114 &3067120952739435103
 MonoBehaviour:
@@ -1005,7 +1005,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 16448
   animator: {fileID: 2998073835075559799}
   agent: {fileID: 8113922938973725226}
   stats: {fileID: 0}
