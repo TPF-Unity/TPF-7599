@@ -17,10 +17,10 @@ namespace AI.GOAP.Behaviors
         private NavMeshAgent NavMeshAgent;
         private Animator Animator;
         private AgentBehaviour AgentBehavior;
-        private GameManager GameManager;
         private ITarget CurrentTarget;
 
         [SerializeField] private float MinMoveDistance = 0.25f;
+        [SerializeField] public GameManager gameManager;
         private Vector3 LastPosition;
         public List<Waypoint> keyWaypoints;
         public List<Waypoint> doorWaypoints;
@@ -28,8 +28,8 @@ namespace AI.GOAP.Behaviors
 
         private void InitializeWaypoints()
         {
-            var keySpawnPositions = GameManager.keySpawnPositions;
-            var doorSpawnPositions = GameManager.doorSpawnPositions;
+            var keySpawnPositions = gameManager.keySpawnPositions;
+            var doorSpawnPositions = gameManager.doorSpawnPositions;
             foreach (var keySpawnPosition in keySpawnPositions)
             {
                 keyWaypoints.Add(new Waypoint(keySpawnPosition.transform.position));
@@ -43,8 +43,13 @@ namespace AI.GOAP.Behaviors
 
         private void Start()
         {
+            if (gameManager == null)
+            {
+                Debug.Log("GameManager reference is missing in agent");
+            }
+
             keyWaypoints = new List<Waypoint>();
-            if (GetComponentInParent<GameManager>() && !keyWaypoints.Any() || !doorWaypoints.Any())
+            if (gameManager && !keyWaypoints.Any() || !doorWaypoints.Any())
             {
                 InitializeWaypoints();
             }
@@ -55,7 +60,11 @@ namespace AI.GOAP.Behaviors
             NavMeshAgent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
             AgentBehavior = GetComponent<AgentBehaviour>();
-            GameManager = GameObject.Find(GameObjects.GameManager.ToString()).GetComponent<GameManager>();
+            if (gameManager == null)
+            {
+
+                gameManager = GameObject.Find(GameObjects.GameManager.ToString()).GetComponent<GameManager>();
+            }
         }
 
         private void OnEnable()

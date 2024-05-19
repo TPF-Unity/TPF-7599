@@ -40893,6 +40893,12 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1290098275088313851, guid: 351737aa1343c434099044e9738c8f60,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 1844bc563fa11e040b70916cec3bf469,
+        type: 2}
     - target: {fileID: 1400686534012519587, guid: 351737aa1343c434099044e9738c8f60,
         type: 3}
       propertyPath: damageLayerMapping
@@ -40938,6 +40944,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438913989523010722, guid: 351737aa1343c434099044e9738c8f60,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1766537695}
+    - target: {fileID: 8438913989523010722, guid: 351737aa1343c434099044e9738c8f60,
+        type: 3}
+      propertyPath: keyWaypoints.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8959587336062068724, guid: 351737aa1343c434099044e9738c8f60,
         type: 3}
