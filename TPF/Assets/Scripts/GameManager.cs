@@ -21,11 +21,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public GameObject[] doorSpawnPositions;
 
+    public DifficultyManager difficultyManager;
+    private SceneLoader sceneLoader;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this);
         }
         else
         {
@@ -35,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        difficultyManager = GetComponent<DifficultyManager>();
+        sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         SpawnKeys();
         SpawnDoors();
     }
@@ -75,6 +81,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Win()
+    {
+        sceneLoader.LoadGameWinScene();
+        difficultyManager.MatchResult(true);
+    }
+
+    public void Lose()
+    {
+        difficultyManager.MatchResult(false);
+    }
+
     public int getRecolectedKeys()
     {
         return _recolectedKeys;
@@ -83,6 +100,11 @@ public class GameManager : MonoBehaviour
     public int getTotalKeys()
     {
         return _totalKeys;
+    }
+
+    public float GetDifficulty()
+    {
+        return difficultyManager.GetDifficulty();
     }
 
 }

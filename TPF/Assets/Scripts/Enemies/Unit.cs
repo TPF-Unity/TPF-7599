@@ -11,13 +11,26 @@ public class Unit : MonoBehaviour
     public UnityEvent<float> onHealthChanged;
     public UnityEvent onDied;
     public static EventHandler OnDestroyed;
-    
+    public UnitDifficultyManager unitDifficultyManager;
+
     public void Awake()
     {
         stats = Instantiate(baseStats);
     }
 
-    public void TakeDamage(float damage) {
+    public void Start()
+    {
+        stats.MaxHealth *= unitDifficultyManager.GetHealthMultiplier();
+        stats.Health = stats.MaxHealth;
+        stats.MovementSpeed *= unitDifficultyManager.GetSpeedMultiplier();
+        stats.Damage *= unitDifficultyManager.GetDamageMultiplier();
+        stats.AttackSpeed *= unitDifficultyManager.GetAttackSpeedMultiplier();
+        stats.SightRange *= unitDifficultyManager.GetSightRangeMultiplier();
+        stats.XPDropped = (int)(stats.XPDropped * unitDifficultyManager.GetXpDropMultiplier());
+    }
+
+    public void TakeDamage(float damage)
+    {
         TakeDamageFrom(damage, null);
     }
 
@@ -31,7 +44,8 @@ public class Unit : MonoBehaviour
         {
             onDied?.Invoke();
             OnDestroyed?.Invoke(this, EventArgs.Empty);
-            if (player) {
+            if (player)
+            {
                 player.GainXP(stats.XPDropped);
             }
             Destroy(gameObject);
