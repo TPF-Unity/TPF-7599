@@ -75,6 +75,8 @@ public class DungeonGenerator : MonoBehaviour
     GameObject keySpawnHolder;
     [SerializeField]
     GameObject doorSpawnHolder;
+    [SerializeField]
+    GameObject[] powerupSpawners;
 
     public int totalKeys;
     public int totalDoors;
@@ -469,6 +471,20 @@ public class DungeonGenerator : MonoBehaviour
             doorSpawn.transform.position = positionCenter;
             doorSpawn.tag = "DoorSpawn";
             doorSpawn.transform.parent = doorSpawnHolder.transform;
+        }
+
+        for (int i = 0; i < powerupSpawners.Length; i++)
+        {
+            randomIndex = random.Next(0, availableCells.Count);
+            randomPosition = availableCells[randomIndex];
+            availableCells.RemoveAt(randomIndex);
+
+            positionCenter = new Vector3(
+                randomPosition.x * positionMultiplier,
+                0f,
+                randomPosition.y * positionMultiplier);
+
+            powerupSpawners[i].transform.position = positionCenter;
         }
     }
 }

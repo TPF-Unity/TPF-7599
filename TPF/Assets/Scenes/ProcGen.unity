@@ -779,6 +779,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &241367839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9151475020158992798, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2032047228}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &297974766
 GameObject:
   m_ObjectHideFlags: 3
@@ -3427,6 +3433,11 @@ MonoBehaviour:
   patrolPointHolder: {fileID: 2008302606}
   keySpawnHolder: {fileID: 179717848}
   doorSpawnHolder: {fileID: 440952175}
+  powerupSpawners:
+  - {fileID: 2143689859}
+  - {fileID: 1424087384}
+  - {fileID: 241367839}
+  - {fileID: 1622358039}
   totalKeys: 3
   totalDoors: 3
 --- !u!1001 &1103379639
@@ -4341,6 +4352,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 435910615}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1424087384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9151475020158992798, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1994584727}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1469868519
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,6 +4905,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e99455eb6c7cd1c40b6dd587a0b53a9e, type: 3}
+--- !u!1 &1622358039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9151475020158992798, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 976708685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1649726529
 GameObject:
   m_ObjectHideFlags: 0
@@ -6945,6 +6968,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121911445}
   m_CullTransparentMesh: 1
+--- !u!1 &2143689859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9151475020158992798, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1586798564}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
