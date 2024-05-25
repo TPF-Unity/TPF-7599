@@ -3734,7 +3734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574c3b6a63bed5c45999c272237a18e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAmountMax: 22
+  enemyAmountMax: 30
   enemyTimerMax: 3
   enemySpawnerList:
   - {fileID: 302414929}

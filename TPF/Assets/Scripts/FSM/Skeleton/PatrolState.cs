@@ -52,13 +52,12 @@ public class PatrolState : State
     private void SearchWalkPoint(FSM fsm)
     {
         Vector3 distanceToWalkPoint = fsm.transform.position - walkPoint;
-
-        while (distanceToWalkPoint.magnitude < 1f)
+        do
         {
             int index = Random.Range(0, patrolPoints.Length);
             walkPoint = patrolPoints[index].transform.position;
             distanceToWalkPoint = fsm.transform.position - walkPoint;
-        }
+        } while (distanceToWalkPoint.magnitude < 1f);
 
         walkPointSet = true;
     }
