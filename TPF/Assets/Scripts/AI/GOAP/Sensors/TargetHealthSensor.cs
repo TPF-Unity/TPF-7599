@@ -27,7 +27,6 @@ namespace AI.GOAP.Sensors
                     .Health;
             }
 
-            Debug.Log(Mathf.FloorToInt(hp));
             return new SenseValue(Mathf.FloorToInt(hp));
         }
     }

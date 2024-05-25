@@ -24,18 +24,25 @@ namespace AI.GOAP.Behaviors
 
         private void InitializeWaypoints()
         {
+            GameObject[] patrolPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
             GameObject[] keySpawns = GameObject.FindGameObjectsWithTag("KeySpawn");
+            GameObject[] doorSpawns = GameObject.FindGameObjectsWithTag("DoorSpawn");
 
             foreach (var keySpawn in keySpawns)
             {
                 keyWaypoints.Add(new Waypoint(keySpawn.transform.position));
             }
 
-            GameObject[] doorSpawns = GameObject.FindGameObjectsWithTag("DoorSpawn");
 
             foreach (var doorSpawn in doorSpawns)
             {
-                keyWaypoints.Add(new Waypoint(doorSpawn.transform.position));
+                doorWaypoints.Add(new Waypoint(doorSpawn.transform.position));
+            }
+
+            foreach (var patrolPoint in patrolPoints)
+            {
+                keyWaypoints.Add(new Waypoint(patrolPoint.transform.position));
+                doorWaypoints.Add(new Waypoint(patrolPoint.transform.position));
             }
         }
 
