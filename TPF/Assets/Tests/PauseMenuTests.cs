@@ -13,7 +13,7 @@ public class PauseMenuTests
     [OneTimeSetUp]
     public void LoadScene()
     {
-        SceneManager.LoadScene("DungeonMap");
+        SceneManager.LoadScene("ProcGen");
     }
 
     [UnitySetUp]
@@ -33,7 +33,7 @@ public class PauseMenuTests
 
     IEnumerator WaitForSceneLoad()
     {
-        while (!SceneManager.GetSceneByName("DungeonMap").isLoaded)
+        while (!SceneManager.GetSceneByName("ProcGen").isLoaded)
         {
             yield return null;
         }

@@ -41,7 +41,7 @@ public class MenuSceneTests
         yield return new WaitForSeconds(1f);
 
         string currentSceneName = SceneManager.GetActiveScene().name;
-        Assert.AreEqual("DungeonMap", currentSceneName, "Clicking Start Game button did not redirect to DungeonMap scene");
+        Assert.AreEqual("ProcGen", currentSceneName, "Clicking Start Game button did not redirect to DungeonMap scene");
     }
 
     [UnityTest]
