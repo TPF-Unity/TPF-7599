@@ -16600,7 +16600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e1f286dcd64436ad64bf01baa2c35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoapRunner: {fileID: 0}
 --- !u!114 &4557954541076191670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21741,7 +21740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 3731406819098340627}
-  damageLayerMapping: {fileID: 0}
+  damageLayerMapping: {fileID: 11400000, guid: 63332883be3958c4fb8ec9ac2b28d72f, type: 2}
 --- !u!1 &6650230049820208470
 GameObject:
   m_ObjectHideFlags: 0

@@ -427,64 +427,47 @@ public class DungeonGenerator : MonoBehaviour
     {
         List<Vector2Int> availableCells = GetAvailableCells();
 
-        int randomIndex = random.Next(0, availableCells.Count);
-        Vector2Int randomPosition = availableCells[randomIndex];
-        availableCells.RemoveAt(randomIndex);
+        Vector3 randomPosition = GetRandomPosition(availableCells);
+        Player.Instance.transform.position = randomPosition;
+        randomPosition = GetRandomPosition(availableCells);
+        Instantiate(opponentPrefab, randomPosition, Quaternion.identity);
 
-        Vector3 positionCenter = new Vector3(
-            randomPosition.x * positionMultiplier,
-            0f,
-            randomPosition.y * positionMultiplier);
-
-        Player.Instance.transform.position = positionCenter + Vector3.right;
-        Instantiate(opponentPrefab, positionCenter + Vector3.left, Quaternion.identity);
-
-        for (int i = 0; i < totalKeys;  i++)
+        for (int i = 0; i < totalKeys; i++)
         {
-            randomIndex = random.Next(0, availableCells.Count);
-            randomPosition = availableCells[randomIndex];
-            availableCells.RemoveAt(randomIndex);
-
-            positionCenter = new Vector3(
-                randomPosition.x * positionMultiplier,
-                0f,
-                randomPosition.y * positionMultiplier);
+            randomPosition = GetRandomPosition(availableCells);
 
             GameObject keySpawn = new GameObject("KeySpawn");
-            keySpawn.transform.position = positionCenter;
+            keySpawn.transform.position = randomPosition;
             keySpawn.tag = "KeySpawn";
             keySpawn.transform.parent = keySpawnHolder.transform;
         }
 
         for (int i = 0; i < totalDoors; i++)
         {
-            randomIndex = random.Next(0, availableCells.Count);
-            randomPosition = availableCells[randomIndex];
-            availableCells.RemoveAt(randomIndex);
-
-            positionCenter = new Vector3(
-                randomPosition.x * positionMultiplier,
-                0f,
-                randomPosition.y * positionMultiplier);
+            randomPosition = GetRandomPosition(availableCells);
 
             GameObject doorSpawn = new GameObject("DoorSpawn");
-            doorSpawn.transform.position = positionCenter;
+            doorSpawn.transform.position = randomPosition;
             doorSpawn.tag = "DoorSpawn";
             doorSpawn.transform.parent = doorSpawnHolder.transform;
         }
 
         for (int i = 0; i < powerupSpawners.Length; i++)
         {
-            randomIndex = random.Next(0, availableCells.Count);
-            randomPosition = availableCells[randomIndex];
-            availableCells.RemoveAt(randomIndex);
-
-            positionCenter = new Vector3(
-                randomPosition.x * positionMultiplier,
-                0f,
-                randomPosition.y * positionMultiplier);
-
-            powerupSpawners[i].transform.position = positionCenter;
+            randomPosition = GetRandomPosition(availableCells);
+            powerupSpawners[i].transform.position = randomPosition;
         }
+    }
+
+    Vector3 GetRandomPosition(List<Vector2Int> availableCells)
+    {
+        int randomIndex = random.Next(0, availableCells.Count);
+        Vector2Int randomPosition = availableCells[randomIndex];
+        availableCells.RemoveAt(randomIndex);
+
+        return new Vector3(
+            randomPosition.x * positionMultiplier,
+            0f,
+            randomPosition.y * positionMultiplier);
     }
 }
