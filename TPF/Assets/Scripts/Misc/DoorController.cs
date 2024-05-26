@@ -15,12 +15,12 @@ public class DoorController : MonoBehaviour
         doorRenderer = GetComponent<Renderer> ();
         doorRenderer.material.color = Color.red;
         sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
-
     }
 
     private void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player") && open) {
-            sceneLoader.LoadGameWinScene();
+            GameData.NextLevel();
+            sceneLoader.LoadMainScene();
         }
     }
 
