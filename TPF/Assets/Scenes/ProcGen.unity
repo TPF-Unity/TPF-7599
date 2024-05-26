@@ -679,6 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 209674308}
   - component: {fileID: 209674309}
+  - component: {fileID: 209674310}
   m_Layer: 5
   m_Name: Container (1)
   m_TagString: Untagged
@@ -735,6 +736,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &209674310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209674307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3e16e96f14d9b4a892370d86490dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthText: {fileID: 1469868521}
+  attackText: {fileID: 1786615500}
+  attackSpeedText: {fileID: 1912815854}
+  moveSpeedText: {fileID: 2121911447}
 --- !u!1 &229094269
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,6 +3117,11 @@ PrefabInstance:
       propertyPath: powerUpFloatVal
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -6533517775787007944, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+        type: 3}
+      propertyPath: respawnTimerMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2350401434797688134, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3455,6 +3477,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 959283607219683108, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025122365312068487, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025122365312068487, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3914,8 +3946,7 @@ GameObject:
   - component: {fileID: 1159561408}
   - component: {fileID: 1159561404}
   - component: {fileID: 1159561407}
-  - component: {fileID: 1159561406}
-  - component: {fileID: 1159561405}
+  - component: {fileID: 1159561409}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3936,36 +3967,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 1025509553}
---- !u!114 &1159561405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159561403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d0c60b197db9d4a81e2a8ff9dd2987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keysText: {fileID: 397101113}
-  levelText: {fileID: 1288098498}
---- !u!114 &1159561406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159561403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e3e16e96f14d9b4a892370d86490dbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthText: {fileID: 1469868521}
-  attackText: {fileID: 1786615500}
-  attackSpeedText: {fileID: 1912815854}
-  moveSpeedText: {fileID: 2121911447}
 --- !u!114 &1159561407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3984,6 +3985,7 @@ MonoBehaviour:
     type: 3}
   doorPrefab: {fileID: 4194831201209891919, guid: 3ea5c23656bb4514cbe2458c36592443,
     type: 3}
+  difficultyManager: {fileID: 1159561409}
 --- !u!4 &1159561408
 Transform:
   m_ObjectHideFlags: 0
@@ -3999,6 +4001,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1159561409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159561403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef14bc1276e076440959ccdd65b349d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customDifficulty: 0
+  difficultyMultiplier: 1
+  recentDifficulty:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  recentDifficultyIndex: 0
+  difficultyRangeThreshold: 0.3
+  consecutiveWins: 0
+  consecutiveLosses: 0
 --- !u!4 &1236712252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
@@ -4530,7 +4556,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 220, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1469868521
 MonoBehaviour:
@@ -4981,6 +5007,11 @@ PrefabInstance:
         type: 3}
       propertyPath: powerUpFloatVal
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -6533517775787007944, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+        type: 3}
+      propertyPath: respawnTimerMax
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2350401434797688134, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
         type: 3}
@@ -5584,7 +5615,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 220, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1786615500
 MonoBehaviour:
@@ -6065,7 +6096,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 220, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1912815854
 MonoBehaviour:
@@ -6300,7 +6331,12 @@ PrefabInstance:
     - target: {fileID: -6533517775787007944, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
         type: 3}
       propertyPath: powerUpFloatVal
-      value: 2
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6533517775787007944, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+        type: 3}
+      propertyPath: respawnTimerMax
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2350401434797688134, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
         type: 3}
@@ -6652,6 +6688,11 @@ PrefabInstance:
         type: 3}
       propertyPath: powerUpFloatVal
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6533517775787007944, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
+        type: 3}
+      propertyPath: respawnTimerMax
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2350401434797688134, guid: e99455eb6c7cd1c40b6dd587a0b53a9e,
         type: 3}
@@ -7097,7 +7138,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 220, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2121911447
 MonoBehaviour:

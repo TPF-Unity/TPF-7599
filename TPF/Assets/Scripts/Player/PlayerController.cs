@@ -464,35 +464,47 @@ namespace StarterAssets
         }
 
         public UnityEvent<float> onXPChanged;
+        private int lvl = 1;
+        private float xp = 0f;
 
         public void GainXP(float amt) {
-            GameData.xp += amt;
-            if (GameData.xp >= levelUpInfo.GetXPNeededForLevel(GameData.playerLevel + 1) && GameData.playerLevel < levelUpInfo.maxLevel) {
+            xp += amt;
+            if (xp >= levelUpInfo.GetXPNeededForLevel(lvl + 1) && lvl < levelUpInfo.maxLevel) {
                 LevelUp();
             }
-            onXPChanged?.Invoke(GameData.xp / levelUpInfo.GetXPNeededForLevel(GameData.playerLevel + 1) * 100);
+            onXPChanged?.Invoke(xp / levelUpInfo.GetXPNeededForLevel(lvl + 1) * 100);
+        }
+
+        private void addLevelStats(int level)
+        {
+            if (level < 2)
+            {
+                return;
+            }
+
+            stats.MaxHealth += levelUpInfo.GetStatIncreaseForLevel(level).maxHealth;
+            stats.Damage += levelUpInfo.GetStatIncreaseForLevel(level).damage;
+            stats.AttackSpeed += levelUpInfo.GetStatIncreaseForLevel(level).attSpeed;
+            stats.MovementSpeed += levelUpInfo.GetStatIncreaseForLevel(level).MovSpeed;
+            stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(level).MovSpeed;
         }
 
         private void LevelUp() {
-            GameData.xp -= levelUpInfo.GetXPNeededForLevel(GameData.playerLevel + 1);
-            GameData.playerLevel += 1;
+            xp -= levelUpInfo.GetXPNeededForLevel(lvl + 1);
+            lvl += 1;
 
-            stats.MaxHealth += levelUpInfo.GetStatIncreaseForLevel(GameData.playerLevel).maxHealth;
-            stats.Damage += levelUpInfo.GetStatIncreaseForLevel(GameData.playerLevel).damage;
-            stats.AttackSpeed += levelUpInfo.GetStatIncreaseForLevel(GameData.playerLevel).attSpeed;
-            stats.MovementSpeed += levelUpInfo.GetStatIncreaseForLevel(GameData.playerLevel).MovSpeed;
-            stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(GameData.playerLevel).MovSpeed;
+            addLevelStats(lvl);
 
             stats.Health = stats.MaxHealth;
             playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         }
 
         public float GetXP() {
-            return GameData.xp;
+            return xp;
         }
 
         public int GetLV() {
-            return GameData.playerLevel;
+            return lvl;
         }
     }
 }

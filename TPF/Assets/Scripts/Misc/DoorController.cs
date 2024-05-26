@@ -17,6 +17,7 @@ public class DoorController : MonoBehaviour
     {
         doorRenderer = GetComponent<Renderer>();
         doorRenderer.material.color = Color.red;
+        gameManager = GameManager.instance;
     }
 
     private void OnTriggerEnter(Collider other)

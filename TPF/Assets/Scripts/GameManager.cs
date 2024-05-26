@@ -68,11 +68,12 @@ public class GameManager : MonoBehaviour
     {
         GameObject[] spawnPositions = GameObject.FindGameObjectsWithTag("DoorSpawn");
         _totalDoors = spawnPositions.Length;
+        _doors = new DoorController[_totalDoors];
 
         for (int i = 0; i < _totalDoors; i++)
         {
             GameObject door = Instantiate(doorPrefab, spawnPositions[i].transform.position, Quaternion.identity);
-            _doors = _doors.Concat(new DoorController[] { door.GetComponent<DoorController>() }).ToArray();
+            _doors[i] = door.GetComponent<DoorController>();
         }
     }
 

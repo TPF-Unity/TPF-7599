@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LevelUpInfo
   m_EditorClassIdentifier: 
   maxLevel: 10
-  xpPerLevel: 190000003200000064000000c80000002c01000090010000f401000058020000bc02000020030000
+  xpPerLevel: 320000004b00000073000000af000000fa000000770100002602000039030000c904000008070000
   statIncreasePerLevel:
   - maxHealth: 0
     damage: 0
@@ -30,28 +30,28 @@ MonoBehaviour:
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
   - maxHealth: 10
     damage: 5
     attSpeed: 0
-    MovSpeed: 5
+    MovSpeed: 1
