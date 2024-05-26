@@ -16,11 +16,15 @@ public class GameManager : MonoBehaviour
     private int _totalKeys;
     private int _totalDoors;
 
+    public DifficultyManager difficultyManager;
+    private SceneLoader sceneLoader;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this);
         }
         else
         {
@@ -30,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     public void Initialize()
     {
+        difficultyManager = GetComponent<DifficultyManager>();
+        sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         SpawnKeys();
         SpawnDoors();
     }
@@ -70,6 +76,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Win()
+    {
+        difficultyManager.MatchResult(true);
+        GameData.NextLevel();
+        sceneLoader.LoadMainScene();
+    }
+
+    public void Lose()
+    {
+        difficultyManager.MatchResult(false);
+    }
+
     public int getRecolectedKeys()
     {
         return _recolectedKeys;
@@ -78,5 +96,10 @@ public class GameManager : MonoBehaviour
     public int getTotalKeys()
     {
         return _totalKeys;
+    }
+
+    public float GetDifficulty()
+    {
+        return difficultyManager.GetDifficulty();
     }
 }

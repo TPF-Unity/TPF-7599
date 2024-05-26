@@ -9,22 +9,26 @@ public class DoorController : MonoBehaviour
     private bool open = false;
 
     private Renderer doorRenderer;
-    private SceneLoader sceneLoader;
 
-    private void Start () {
-        doorRenderer = GetComponent<Renderer> ();
+    private GameManager gameManager;
+
+
+    private void Start()
+    {
+        doorRenderer = GetComponent<Renderer>();
         doorRenderer.material.color = Color.red;
-        sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
     }
 
-    private void OnTriggerEnter (Collider other) {
-        if (other.CompareTag("Player") && open) {
-            GameData.NextLevel();
-            sceneLoader.LoadMainScene();
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && open)
+        {
+            gameManager.Win();
         }
     }
 
-    public void OpenDoor () {
+    public void OpenDoor()
+    {
         open = true;
         doorRenderer.material.color = Color.green;
     }
