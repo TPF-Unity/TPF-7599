@@ -3430,7 +3430,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 34944
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -3493,8 +3493,16 @@ MonoBehaviour:
   roomMaxSize: {x: 6, y: 6}
   groundPrefab: {fileID: 6851746602139634862, guid: 3964c23ae9838e84889ea6d65b5861aa,
     type: 3}
-  wallPrefab: {fileID: 4141477301158711593, guid: 7a9c2872915ad414e83307c9864abb76,
-    type: 3}
+  wallPrefabs:
+  - {fileID: 4141477301158711593, guid: 7a9c2872915ad414e83307c9864abb76, type: 3}
+  - {fileID: 6336336503502825638, guid: cafb3b4966c8c144ebc1342e811a77e0, type: 3}
+  - {fileID: 6685726211250102279, guid: fe7a1c74587ac614790d0638b1873ba1, type: 3}
+  decorationPrefabs:
+  - {fileID: 624752744987018861, guid: f788699e56a01e64ebc9590bf70346c7, type: 3}
+  - {fileID: 906712773252517098, guid: 2477f1925337568479938d135074d127, type: 3}
+  - {fileID: 4038888298651656586, guid: a4140530cfba26e4f88f22ea8174b6f4, type: 3}
+  - {fileID: 5778406573754477521, guid: d2b67af396bfa6940a00740de263da1e, type: 3}
+  - {fileID: 1705236671311558949, guid: 5f1cf3fcc1acb1b4eb479d3826dfde11, type: 3}
   opponentPrefab: {fileID: 5921871130157532986, guid: 351737aa1343c434099044e9738c8f60,
     type: 3}
   environmentHolder: {fileID: 1089654527}

@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 using Graphs;
 using System;
 using Unity.AI.Navigation;
@@ -64,7 +64,9 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField]
     GameObject groundPrefab;
     [SerializeField]
-    GameObject wallPrefab;
+    GameObject[] wallPrefabs;
+    [SerializeField]
+    GameObject[] decorationPrefabs;
     [SerializeField]
     GameObject opponentPrefab;
     [SerializeField]
@@ -81,7 +83,6 @@ public class DungeonGenerator : MonoBehaviour
     public int totalKeys;
     public int totalDoors;
 
-    Random random;
     Grid<CellType> grid;
     List<Room> rooms;
     Delaunay delaunay;
@@ -92,14 +93,15 @@ public class DungeonGenerator : MonoBehaviour
 
     void Start()
     {
+        Random.InitState((int)DateTime.UtcNow.Ticks);
         do
         {
             Generate();
         } while (rooms.Count < 5);
         PlacePrefabs();
-        BakeNavmesh();
         PlacePatrolPoints();
         PlaceSpawnPositions();
+        BakeNavmesh();
 
         // Initialize GameManager after all spawns are set
         GameManager.instance.Initialize();
@@ -107,7 +109,6 @@ public class DungeonGenerator : MonoBehaviour
 
     void Generate()
     {
-        random = new Random((int)DateTime.UtcNow.Ticks);
         grid = new Grid<CellType>(size, Vector2Int.zero);
         rooms = new List<Room>();
 
@@ -122,13 +123,13 @@ public class DungeonGenerator : MonoBehaviour
         for (int i = 0; i < roomCount; i++)
         {
             Vector2Int location = new Vector2Int(
-                random.Next(0, size.x),
-                random.Next(0, size.y)
+                Random.Range(0, size.x),
+                Random.Range(0, size.y)
             );
 
             Vector2Int roomSize = new Vector2Int(
-                random.Next(roomMinSize.x, roomMaxSize.x + 1),
-                random.Next(roomMinSize.y, roomMaxSize.y + 1)
+                Random.Range(roomMinSize.x, roomMaxSize.x + 1),
+                Random.Range(roomMinSize.y, roomMaxSize.y + 1)
             );
 
             bool add = true;
@@ -191,7 +192,7 @@ public class DungeonGenerator : MonoBehaviour
 
         foreach (var edge in remainingEdges)
         {
-            if (random.NextDouble() < 0.2)
+            if (Random.value < 0.2)
             {
                 selectedEdges.Add(edge);
             }
@@ -274,6 +275,8 @@ public class DungeonGenerator : MonoBehaviour
     void PlaceWall(Vector2Int location, WallRotation rotation)
     {
         GameObject wall = null;
+        int index = Random.Range(0, wallPrefabs.Length);
+        GameObject wallPrefab = wallPrefabs[index];
 
         switch (rotation)
         {
@@ -457,11 +460,13 @@ public class DungeonGenerator : MonoBehaviour
             randomPosition = GetRandomPosition(availableCells);
             powerupSpawners[i].transform.position = randomPosition;
         }
+
+        PlaceDecorations(availableCells);
     }
 
     Vector3 GetRandomPosition(List<Vector2Int> availableCells)
     {
-        int randomIndex = random.Next(0, availableCells.Count);
+        int randomIndex = Random.Range(0, availableCells.Count);
         Vector2Int randomPosition = availableCells[randomIndex];
         availableCells.RemoveAt(randomIndex);
 
@@ -469,5 +474,21 @@ public class DungeonGenerator : MonoBehaviour
             randomPosition.x * positionMultiplier,
             0f,
             randomPosition.y * positionMultiplier);
+    }
+
+    void PlaceDecorations(List<Vector2Int> availableCells)
+    {
+        foreach (var cell in availableCells)
+        {
+            if (Random.value < 0.15)
+            {
+                Vector3 position = new Vector3(
+                    cell.x * positionMultiplier,
+                    0f,
+                    cell.y * positionMultiplier);
+                GameObject randomObject = decorationPrefabs[Random.Range(0, decorationPrefabs.Length)];
+                Instantiate(randomObject, position, Quaternion.identity);
+            }
+        }
     }
 }
