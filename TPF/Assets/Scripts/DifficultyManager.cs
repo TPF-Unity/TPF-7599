@@ -6,17 +6,6 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class DifficultyManager : MonoBehaviour
 {
-    [SerializeField]
-    int consecutiveWins = 0;
-    [SerializeField]
-    int consecutiveLosses = 0;
-
-    private void Update()
-    {
-        consecutiveLosses = GameData.consecutiveLosses;
-        consecutiveWins = GameData.consecutiveWins;
-    }
-
     public void SetDifficulty(string difficulty)
     {
         PlayerPrefs.SetString("Difficulty", difficulty);
