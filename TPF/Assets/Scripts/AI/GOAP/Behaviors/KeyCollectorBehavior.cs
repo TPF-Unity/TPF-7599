@@ -24,9 +24,9 @@ namespace AI.GOAP.Behaviors
             KeysRemaining -= 1;
         }
 
-        private void Awake()
+        private void Start()
         {
-            KeysRemaining = KeysConfig.RequiredKeys;
+            KeysRemaining = GameManager.instance.getTotalKeys();
         }
     }
 }

@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: Doors Config
   m_EditorClassIdentifier: 
   DoorActionTimer: 2
+  DoorLayer:
+    serializedVersion: 2
+    m_Bits: 32768
