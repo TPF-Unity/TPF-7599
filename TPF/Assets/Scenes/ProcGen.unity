@@ -3644,7 +3644,7 @@ PrefabInstance:
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
@@ -3663,6 +3663,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 101686436}
@@ -3678,6 +3683,11 @@ PrefabInstance:
       objectReference: {fileID: 921616046}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1159561407}
+    - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -3689,6 +3699,11 @@ PrefabInstance:
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
@@ -3708,6 +3723,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: Lose
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PauseManager, ScriptsMain
       objectReference: {fileID: 0}
@@ -3720,6 +3740,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: GameManager, ScriptsMain
       objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
@@ -3739,6 +3764,11 @@ PrefabInstance:
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7841848824908198423, guid: 3e9071da7660ded4b81fc8f4e6387e29,
@@ -4052,16 +4082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef14bc1276e076440959ccdd65b349d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customDifficulty: 0
-  difficultyMultiplier: 1
-  recentDifficulty:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  recentDifficultyIndex: 0
-  difficultyRangeThreshold: 0.3
   consecutiveWins: 0
   consecutiveLosses: 0
 --- !u!4 &1236712252 stripped

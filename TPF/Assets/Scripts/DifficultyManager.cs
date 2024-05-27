@@ -6,14 +6,16 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class DifficultyManager : MonoBehaviour
 {
-    public float customDifficulty;
-    public float difficultyMultiplier = 1.0f;
-    public const int recentDifficultySamples = 5;
-    public float[] recentDifficulty = new float[recentDifficultySamples];
-    public int recentDifficultyIndex = 0;
-    public float difficultyRangeThreshold = 0.3f;
-    public int consecutiveWins = 0;
-    public int consecutiveLosses = 0;
+    [SerializeField]
+    int consecutiveWins = 0;
+    [SerializeField]
+    int consecutiveLosses = 0;
+
+    private void Update()
+    {
+        consecutiveLosses = GameData.consecutiveLosses;
+        consecutiveWins = GameData.consecutiveWins;
+    }
 
     public void SetDifficulty(string difficulty)
     {
@@ -22,7 +24,7 @@ public class DifficultyManager : MonoBehaviour
 
     public void SetCustomDifficulty(float customDifficulty)
     {
-        this.customDifficulty = customDifficulty;
+        GameData.customDifficulty = customDifficulty;
     }
 
     public float GetDifficulty()
@@ -37,7 +39,7 @@ public class DifficultyManager : MonoBehaviour
             case "HARD":
                 return 1;
             case "CUSTOM":
-                return customDifficulty;
+                return GameData.customDifficulty;
             default:
                 return 0;
         }
@@ -48,19 +50,19 @@ public class DifficultyManager : MonoBehaviour
         if (PlayerPrefs.GetString("Difficulty", "NORMAL") != "CUSTOM") return;
         if (win)
         {
-            consecutiveWins++;
-            consecutiveLosses = 0;
+            GameData.consecutiveWins++;
+            GameData.consecutiveLosses = 0;
             AdjustScore(true);
         }
         else
         {
-            consecutiveLosses++;
-            consecutiveWins = 0;
+            GameData.consecutiveLosses++;
+            GameData.consecutiveWins = 0;
             AdjustScore(false);
         }
 
-        recentDifficulty[recentDifficultyIndex] = customDifficulty;
-        recentDifficultyIndex = (recentDifficultyIndex + 1) % recentDifficultySamples;
+        GameData.recentDifficulty[GameData.recentDifficultyIndex] = GameData.customDifficulty;
+        GameData.recentDifficultyIndex = (GameData.recentDifficultyIndex + 1) % GameData.recentDifficultySamples;
 
         if (IsNearIdealDifficulty())
         {
@@ -72,40 +74,40 @@ public class DifficultyManager : MonoBehaviour
     {
         if (win)
         {
-            customDifficulty += 0.1f * Mathf.Pow(1.2f, consecutiveWins);
+            GameData.customDifficulty += 0.1f * Mathf.Pow(1.2f, GameData.consecutiveWins);
         }
         else
         {
-            customDifficulty -= 0.1f * Mathf.Pow(1.2f, consecutiveLosses);
+            GameData.customDifficulty -= 0.1f * Mathf.Pow(1.2f, GameData.consecutiveLosses);
         }
-        customDifficulty = Mathf.Clamp(customDifficulty, -1, 1);
+        GameData.customDifficulty = Mathf.Clamp(GameData.customDifficulty, -1, 1);
     }
 
     private bool IsNearIdealDifficulty()
     {
         float sum = 0;
-        for (int i = 0; i < recentDifficultySamples; i++)
+        for (int i = 0; i < GameData.recentDifficultySamples; i++)
         {
-            sum += recentDifficulty[i];
+            sum += GameData.recentDifficulty[i];
         }
-        float average = sum / recentDifficultySamples;
-        float maxDiff = Mathf.Max(recentDifficulty);
-        float minDiff = Mathf.Min(recentDifficulty);
+        float average = sum / GameData.recentDifficultySamples;
+        float maxDiff = Mathf.Max(GameData.recentDifficulty);
+        float minDiff = Mathf.Min(GameData.recentDifficulty);
         float range = maxDiff - minDiff;
 
-        return range < difficultyRangeThreshold;
+        return range < GameData.difficultyRangeThreshold;
     }
 
     private void AdjustMultiplierNearIdeal()
     {
         float sum = 0;
-        for (int i = 0; i < recentDifficultySamples; i++)
+        for (int i = 0; i < GameData.recentDifficultySamples; i++)
         {
-            sum += recentDifficulty[i];
+            sum += GameData.recentDifficulty[i];
         }
-        float average = sum / recentDifficultySamples;
+        float average = sum / GameData.recentDifficultySamples;
         float diff = Mathf.Abs(average);
         float smoothFactor = Mathf.Clamp01(1.0f - diff * 2.0f);
-        difficultyMultiplier *= smoothFactor;
+        GameData.difficultyMultiplier *= smoothFactor;
     }
 }
