@@ -12,6 +12,7 @@ namespace Misc
         Wall,
         EnemySensor,
         Keys,
-        EnemyPlayers
+        EnemyPlayers,
+        Doors
     }
 }

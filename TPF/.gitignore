@@ -52,4 +52,6 @@ crashlytics-build.properties
 
 # Note: You might want to include your own specific file types to ignore
 
+venv/
+results/
 .fake

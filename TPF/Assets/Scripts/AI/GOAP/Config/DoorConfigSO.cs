@@ -6,5 +6,6 @@ namespace AI.GOAP.Config
     public class DoorConfigSO: ScriptableObject
     {
         public float DoorActionTimer = 2.0f;
+        public LayerMask DoorLayer;
     }
 }

@@ -8,6 +8,7 @@ public class SceneLoader : MonoBehaviour
         MenuScene = 0,
         MainScene = 1,
         GameWinScene = 2,
+        GameLoseScene = 3,
     }
 
     public void LoadScene(GameScene scene)
@@ -29,5 +30,10 @@ public class SceneLoader : MonoBehaviour
     public void LoadGameWinScene()
     {
         SceneManager.LoadScene((int)GameScene.GameWinScene);
+    }
+
+    public void LoadGameLoseScene()
+    {
+        SceneManager.LoadScene((int)GameScene.GameLoseScene);
     }
 }

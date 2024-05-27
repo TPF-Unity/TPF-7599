@@ -22,9 +22,13 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && open)
-        {
-            gameManager.Win();
+        KeyProgressionManager keyManager = other.GetComponent<KeyProgressionManager>();
+        if (keyManager != null && keyManager.HasAllKeys()) {
+            if (other.CompareTag("Player")) {
+                gameManager.Win();
+            } else {
+                gameManager.Lose();
+            }
         }
     }
 

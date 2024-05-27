@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/DungeonMap.unity
     guid: 1b40bfbe0df9802479a6ced0fe4529e3
+  - enabled: 0
+    path: Assets/Scenes/BTTestScene.unity
+    guid: f62236a65a4304e499dff682344d6407
+  - enabled: 1
+    path: Assets/Scenes/GameLoseScene.unity
+    guid: e1d785e17ed41264e844474d0e07bfce
   m_configObjects: {}

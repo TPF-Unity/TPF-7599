@@ -9,4 +9,9 @@ public class ConfigManager : MonoBehaviour
         Debug.Log("Difficulty set to " + PlayerPrefs.GetString("Difficulty", "MISSING"));
     }
 
+    public void SetAIStrategy(string strat)
+    {
+        GameManager.instance.UseGOAP = strat == "GOAP";
+    }
+
 }

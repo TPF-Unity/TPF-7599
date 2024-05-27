@@ -62,5 +62,9 @@ namespace AI.Sensors
                 OnPlayerExit?.Invoke(other.transform.position);
             }
         }
+
+        public void SetRadius(float radius) {
+            Collider.radius = radius;
+        }
     }
 }

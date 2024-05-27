@@ -16,6 +16,22 @@ public class GameManager : MonoBehaviour
     private int _totalKeys;
     private int _totalDoors;
 
+    public event System.Action<bool> OnStrategyChange;
+    [SerializeField]
+    private bool useGOAP;
+    public bool UseGOAP
+    {
+        get { return useGOAP; }
+        set
+        {
+            if (useGOAP != value)
+            {
+                useGOAP = value;
+                OnStrategyChange?.Invoke(useGOAP);
+            }
+        }
+    }
+
     public DifficultyManager difficultyManager;
     private SceneLoader sceneLoader;
 
@@ -85,6 +101,7 @@ public class GameManager : MonoBehaviour
 
     public void Lose()
     {
+        sceneLoader.LoadGameLoseScene();
         difficultyManager.MatchResult(false);
     }
 
