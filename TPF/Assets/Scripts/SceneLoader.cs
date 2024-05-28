@@ -15,6 +15,12 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene((int)scene);
     }
 
+    public void LoadMenuScene()
+    {
+        GameData.RestartLevel();
+        SceneManager.LoadScene((int)GameScene.MenuScene);
+    }
+
     public void LoadMainScene()
     {
         SceneManager.LoadScene((int)GameScene.MainScene);

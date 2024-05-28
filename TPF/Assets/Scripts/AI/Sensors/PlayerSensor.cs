@@ -32,7 +32,7 @@ namespace AI.Sensors
                 directionToTarget.y = 0f;
                 Debug.DrawLine(transform.position + new Vector3(0, 1, 0), transform.position + directionToTarget * 10f,
                     Color.red,
-                    duration: 1000.0f);
+                    duration: 1.0f);
                 if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), directionToTarget,
                         out RaycastHit hitInfo,
                         distanceToTarget + 3.0f))

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5335554258312166605}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire_Chalice_Particle_Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2177696407995418697}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Stone Chalice Parent 002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 3686188182050835310}
   - component: {fileID: 3732447442289265103}
   - component: {fileID: 7500858287185672648}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire_ADD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4909,7 +4909,7 @@ GameObject:
   - component: {fileID: 6075136514079173184}
   - component: {fileID: 2810037153128560310}
   - component: {fileID: 2360382681326591608}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire_SPARK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9739,7 +9739,7 @@ GameObject:
   - component: {fileID: 933957656755031346}
   - component: {fileID: 3807827121996018840}
   - component: {fileID: 21881115694836644}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire_GLOW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14568,7 +14568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8998052563273864646}
   - component: {fileID: 8970492656493330623}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire_LIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14663,7 +14663,7 @@ GameObject:
   - component: {fileID: 883854764066468584}
   - component: {fileID: 6790018950082554558}
   - component: {fileID: 4437814060495691144}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fire_ALPHA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19494,7 +19494,7 @@ GameObject:
   - component: {fileID: 6362096660876212071}
   - component: {fileID: 3250654001900995366}
   - component: {fileID: 9146516284925084803}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Stone Fire Chalice Variation 002
   m_TagString: Untagged
   m_Icon: {fileID: 0}

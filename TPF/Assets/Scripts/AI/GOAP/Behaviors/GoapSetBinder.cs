@@ -6,12 +6,13 @@ namespace AI.GOAP.Behaviors
     [RequireComponent(typeof(AgentBehaviour))]
     public class GoapSetBinder : MonoBehaviour
     {
-        [SerializeField] private GoapRunnerBehaviour GoapRunner;
+        private GoapRunnerBehaviour goapRunner;
 
         private void Awake()
         {
+            goapRunner = FindObjectOfType<GoapRunnerBehaviour>();
             AgentBehaviour agent = GetComponent<AgentBehaviour>();
-            agent.GoapSet = GoapRunner.GetGoapSet("OpponentNPCSet");
+            agent.GoapSet = goapRunner.GetGoapSet("OpponentNPCSet");
         }
     }
 }

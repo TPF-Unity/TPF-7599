@@ -8,6 +8,8 @@ TagManager:
   - Key
   - Door
   - PatrolPoint
+  - DoorSpawn
+  - KeySpawn
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - EnemySensor
   - Keys
   - EnemyPlayers
-  - 
+  - Decoration
   - 
   - 
   - 

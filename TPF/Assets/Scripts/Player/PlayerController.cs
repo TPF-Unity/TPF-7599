@@ -463,29 +463,37 @@ namespace StarterAssets
             }
         }
 
-
-        private int lv = 1;
-        private float xp = 0f;
         public UnityEvent<float> onXPChanged;
-        
+        private int lvl = 1;
+        private float xp = 0f;
 
         public void GainXP(float amt) {
             xp += amt;
-            if (xp >= levelUpInfo.GetXPNeededForLevel(lv + 1) && lv < levelUpInfo.maxLevel) {
+            if (xp >= levelUpInfo.GetXPNeededForLevel(lvl + 1) && lvl < levelUpInfo.maxLevel) {
                 LevelUp();
             }
-            onXPChanged?.Invoke(xp / levelUpInfo.GetXPNeededForLevel(lv + 1) * 100);
+            onXPChanged?.Invoke(xp / levelUpInfo.GetXPNeededForLevel(lvl + 1) * 100);
+        }
+
+        private void addLevelStats(int level)
+        {
+            if (level < 2)
+            {
+                return;
+            }
+
+            stats.MaxHealth += levelUpInfo.GetStatIncreaseForLevel(level).maxHealth;
+            stats.Damage += levelUpInfo.GetStatIncreaseForLevel(level).damage;
+            stats.AttackSpeed += levelUpInfo.GetStatIncreaseForLevel(level).attSpeed;
+            stats.MovementSpeed += levelUpInfo.GetStatIncreaseForLevel(level).MovSpeed;
+            stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(level).MovSpeed;
         }
 
         private void LevelUp() {
-            xp -= levelUpInfo.GetXPNeededForLevel(lv + 1);
-            lv += 1;
+            xp -= levelUpInfo.GetXPNeededForLevel(lvl + 1);
+            lvl += 1;
 
-            stats.MaxHealth += levelUpInfo.GetStatIncreaseForLevel(lv).maxHealth;
-            stats.Damage += levelUpInfo.GetStatIncreaseForLevel(lv).damage;
-            stats.AttackSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).attSpeed;
-            stats.MovementSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).MovSpeed;
-            stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(lv).MovSpeed;
+            addLevelStats(lvl);
 
             stats.Health = stats.MaxHealth;
             playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
@@ -496,7 +504,7 @@ namespace StarterAssets
         }
 
         public int GetLV() {
-            return lv;
+            return lvl;
         }
     }
 }

@@ -18,19 +18,19 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy() {
 
-        List<GameObject> eligiblePatrolPoints = new List<GameObject>();
+        List<GameObject> eligibleSpawnPoints = new List<GameObject>();
         foreach (GameObject point in spawnPoints)
         {
             if (CanSpawn(point.transform.position))
             {
-                eligiblePatrolPoints.Add(point);
+                eligibleSpawnPoints.Add(point);
             }
         }
 
-        if (eligiblePatrolPoints.Count > 0)
+        if (eligibleSpawnPoints.Count > 0)
         {
-            int randomIndex = Random.Range(0, eligiblePatrolPoints.Count);
-            GameObject chosenPoint = eligiblePatrolPoints[randomIndex];
+            int randomIndex = Random.Range(0, eligibleSpawnPoints.Count);
+            GameObject chosenPoint = eligibleSpawnPoints[randomIndex];
 
             GameObject enemy = Instantiate(enemyPrefab, chosenPoint.transform.position, Quaternion.identity);
             enemy.transform.parent = enemySpawner;
