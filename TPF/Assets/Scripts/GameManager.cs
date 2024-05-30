@@ -1,24 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Misc;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    [SerializeField]
-    private int _recolectedKeys = 0;
-    [SerializeField]
-    private DoorController[] _doors;
+    [SerializeField] private int _recolectedKeys = 0;
+    [SerializeField] private DoorController[] _doors;
     public GameObject keyPrefab;
     public GameObject doorPrefab;
 
     private int _totalKeys;
     private int _totalDoors;
 
+    public GameObject[] keySpawnPositions;
+    public GameObject[] doorSpawnPositions;
+
     public event System.Action<bool> OnStrategyChange;
-    [SerializeField]
-    private bool useGOAP;
+    [SerializeField] private bool useGOAP;
+
     public bool UseGOAP
     {
         get { return useGOAP; }
@@ -50,7 +52,7 @@ public class GameManager : MonoBehaviour
     public void Initialize()
     {
         difficultyManager = GetComponent<DifficultyManager>();
-        sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+        sceneLoader = GameObject.Find(GameObjects.SceneLoader.ToString()).GetComponent<SceneLoader>();
         SpawnKeys();
         SpawnDoors();
     }
@@ -72,10 +74,10 @@ public class GameManager : MonoBehaviour
         GameObject[] spawnPositions = GameObject.FindGameObjectsWithTag("KeySpawn");
         _recolectedKeys = 0;
         _totalKeys = spawnPositions.Length;
-
+        keySpawnPositions = new GameObject[_totalKeys];
         for (int i = 0; i < _totalKeys; i++)
         {
-            Instantiate(keyPrefab, spawnPositions[i].transform.position, Quaternion.identity);
+            keySpawnPositions[i] = Instantiate(keyPrefab, spawnPositions[i].transform.position, Quaternion.identity);
         }
     }
 
@@ -84,10 +86,12 @@ public class GameManager : MonoBehaviour
         GameObject[] spawnPositions = GameObject.FindGameObjectsWithTag("DoorSpawn");
         _totalDoors = spawnPositions.Length;
         _doors = new DoorController[_totalDoors];
-
+        doorSpawnPositions = new GameObject[_totalDoors];
+        
         for (int i = 0; i < _totalDoors; i++)
         {
             GameObject door = Instantiate(doorPrefab, spawnPositions[i].transform.position, Quaternion.identity);
+            doorSpawnPositions[i] = door;
             _doors[i] = door.GetComponent<DoorController>();
         }
     }

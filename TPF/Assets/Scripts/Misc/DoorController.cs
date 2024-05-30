@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Misc;
 using StarterAssets;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class DoorController : MonoBehaviour
     {
         KeyProgressionManager keyManager = other.GetComponent<KeyProgressionManager>();
         if (keyManager != null && keyManager.HasAllKeys()) {
-            if (other.CompareTag("Player")) {
+            if (other.CompareTag(Tags.Player.ToString())) {
                 gameManager.Win();
             } else {
                 gameManager.Lose();

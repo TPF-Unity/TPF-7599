@@ -54,4 +54,5 @@ crashlytics-build.properties
 
 venv/
 results/
+Assets/ML-Agents
 .fake

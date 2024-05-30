@@ -46,4 +46,11 @@ public class EnemySpawnManager : MonoBehaviour
             }
         }
     }
+
+    public void DeSpawnAllEnemies()
+    {
+        enemyAmount = 0;
+        enemyTimer = 0;
+        enemySpawnerList.ForEach(spawner => spawner.DeSpawnAllEnemies());
+    }
 }

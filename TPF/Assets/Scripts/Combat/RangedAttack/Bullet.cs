@@ -13,6 +13,8 @@ public class Bullet : MonoBehaviour
     private float damage;
     public PlayerController source;
 
+    private float BULLET_SPEED = 30f;
+
     void Start()
     {
         startPosition = transform.position;
@@ -32,7 +34,12 @@ public class Bullet : MonoBehaviour
         direction.y = 0;
         direction.Normalize();
         rigidBody = GetComponent<Rigidbody>();
-        rigidBody.velocity = direction * 30.0f;
+        rigidBody.velocity = direction * BULLET_SPEED;
+    }
+
+    public void ShootAtDirection(Vector3 direction)
+    {
+        rigidBody.velocity = direction * BULLET_SPEED;
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -44,8 +51,6 @@ public class Bullet : MonoBehaviour
         {
             if (collider.gameObject.TryGetComponent(out Unit target))
             {
-                // Debug.Log("damage");
-                // Debug.Log(damage);
                 target.TakeDamageFrom(damage, source);
                 Destroy(gameObject);
             }

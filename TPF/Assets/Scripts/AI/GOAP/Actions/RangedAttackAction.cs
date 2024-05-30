@@ -40,7 +40,7 @@ namespace AI.GOAP.Actions
             GameObject bullet = pool.Get();
             Bullet instance = bullet.GetComponent<Bullet>();
             instance.Damage = stats.Damage;
-            instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
+            instance.gameObject.layer = LayerMask.NameToLayer(Layer.PlayerProjectiles.ToString());
             var bulletTransform = instance.transform;
             bulletTransform.position = spawnLocation;
             instance.Shoot(currentTargetData.Target.Position);
