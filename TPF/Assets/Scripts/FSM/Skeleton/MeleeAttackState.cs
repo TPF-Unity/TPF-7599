@@ -38,11 +38,22 @@ public class AttackState : State
         timeSinceLastAttack = 0f;
     }
 
+    private void lookAtHorizontal(Transform targetTransform) {
+        Vector3 lookDirection = targetTransform.position - transform.position;
+        lookDirection.y = 0;
+
+        if (lookDirection != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 300);
+        }
+    }
+
     protected override void ExecuteState(FSM fsm)
     {
         agent.SetDestination(fsm.transform.position);
 
-        fsm.transform.LookAt(player);
+        lookAtHorizontal(player);
 
         if (!alreadyAttacked || timeSinceLastAttack >= 1f / attackSpeed)
         {

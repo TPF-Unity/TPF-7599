@@ -1048,7 +1048,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1103379639}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1340065286}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d23c87fe60b377d4ab351fc561029f7c, type: 3}
@@ -3078,6 +3078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keysText: {fileID: 397101113}
   levelText: {fileID: 1288098498}
+  gameManager: {fileID: 0}
 --- !u!114 &921616048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3514,8 +3515,8 @@ MonoBehaviour:
   - {fileID: 1424087384}
   - {fileID: 241367839}
   - {fileID: 1622358039}
-  totalKeys: 3
-  totalDoors: 3
+  totalKeys: 1
+  totalDoors: 1
 --- !u!1001 &1103379639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3806,6 +3807,7 @@ PrefabInstance:
     - {fileID: 5824331493618537949, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
     - {fileID: 4989068081010961308, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
     - {fileID: 8343291803211925270, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
+    - {fileID: 1423547372355796547, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1747025845303049798, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
     - {fileID: 4969021361675763479, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
@@ -3815,7 +3817,15 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1409865924}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3718122435226808101, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1340065296}
+    - targetCorrespondingSourceObject: {fileID: 3718122435226808101, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1340065297}
   m_SourcePrefab: {fileID: 100100000, guid: 3e9071da7660ded4b81fc8f4e6387e29, type: 3}
 --- !u!1 &1117427127
 GameObject:
@@ -4054,6 +4064,9 @@ MonoBehaviour:
     type: 3}
   doorPrefab: {fileID: 4194831201209891919, guid: 3ea5c23656bb4514cbe2458c36592443,
     type: 3}
+  keySpawnPositions: []
+  doorSpawnPositions: []
+  useGOAP: 1
   difficultyManager: {fileID: 1159561409}
 --- !u!4 &1159561408
 Transform:
@@ -4082,8 +4095,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef14bc1276e076440959ccdd65b349d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  consecutiveWins: 0
-  consecutiveLosses: 0
 --- !u!4 &1236712252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3388697663229489236, guid: cef356584b1249949985a809fedbbd25,
@@ -4455,6 +4466,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cef356584b1249949985a809fedbbd25, type: 3}
+--- !u!1 &1340065286 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3718122435226808101, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+    type: 3}
+  m_PrefabInstance: {fileID: 1103379639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1340065296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340065286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98db130ae87548eeb553a51444b8084c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1340065297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340065286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41181b2ac8767cd4d987a1b828303380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1159561407}
 --- !u!1 &1372274636
 GameObject:
   m_ObjectHideFlags: 0
@@ -5973,6 +6015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keysText: {fileID: 397101113}
   levelText: {fileID: 1288098498}
+  gameManager: {fileID: 0}
 --- !u!114 &1822610144
 MonoBehaviour:
   m_ObjectHideFlags: 0

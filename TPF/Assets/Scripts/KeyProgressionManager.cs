@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KeyProgressionManager : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
+    GameManager gameManager;
 
     public event Action OnKeyCollected;
     
@@ -11,6 +11,7 @@ public class KeyProgressionManager : MonoBehaviour
     private int collectedKeys;
 
     void Start() {
+        gameManager = GameManager.instance;
         requiredKeys = gameManager.getTotalKeys();
     }
 

@@ -100,9 +100,9 @@ public class DungeonGenerator : MonoBehaviour
         } while (rooms.Count < 5);
         PlacePrefabs();
         PlacePatrolPoints();
-        PlaceSpawnPositions();
+        
         BakeNavmesh();
-
+        PlaceSpawnPositions();
         // Initialize GameManager after all spawns are set
         GameManager.instance.Initialize();
     }
@@ -431,7 +431,7 @@ public class DungeonGenerator : MonoBehaviour
         List<Vector2Int> availableCells = GetAvailableCells();
 
         Vector3 randomPosition = GetRandomPosition(availableCells);
-        Player.Instance.transform.position = randomPosition;
+        MainPlayer.Instance.transform.position = randomPosition;
         randomPosition = GetRandomPosition(availableCells);
         Instantiate(opponentPrefab, randomPosition, Quaternion.identity);
 
