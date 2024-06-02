@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Misc;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -10,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
 
     private float minSpawnDistance = 15f;
     private GameObject[] spawnPoints;
+    private List<GameObject> enemies = new();
 
     private void Start()
     {
@@ -18,28 +21,38 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy() {
 
-        List<GameObject> eligiblePatrolPoints = new List<GameObject>();
+        List<GameObject> eligibleSpawnPoints = new List<GameObject>();
         foreach (GameObject point in spawnPoints)
         {
             if (CanSpawn(point.transform.position))
             {
-                eligiblePatrolPoints.Add(point);
+                eligibleSpawnPoints.Add(point);
             }
         }
 
-        if (eligiblePatrolPoints.Count > 0)
+        if (eligibleSpawnPoints.Count > 0)
         {
-            int randomIndex = Random.Range(0, eligiblePatrolPoints.Count);
-            GameObject chosenPoint = eligiblePatrolPoints[randomIndex];
+            int randomIndex = Random.Range(0, eligibleSpawnPoints.Count);
+            GameObject chosenPoint = eligibleSpawnPoints[randomIndex];
 
             GameObject enemy = Instantiate(enemyPrefab, chosenPoint.transform.position, Quaternion.identity);
             enemy.transform.parent = enemySpawner;
             enemy.transform.localPosition = Vector3.zero;
+            enemies.Add(enemy);
         }
     }
 
-    public bool CanSpawn(Vector3 position) {
-        float distanceToPlayer = Vector3.Distance(position, Player.Instance.transform.position);
-        return minSpawnDistance < distanceToPlayer;
+    public bool CanSpawn(Vector3 position)
+    {
+        var colliders = Physics.OverlapSphere(position, minSpawnDistance,
+            LayerMask.NameToLayer(Layer.Player.ToString()) | LayerMask.NameToLayer(Layer.EnemyPlayers.ToString()));
+        var playerNearby = colliders.Any();
+        return !playerNearby;
+    }
+
+    public void DeSpawnAllEnemies()
+    {
+        enemies.ForEach(Destroy);
+        enemies = new List<GameObject>();
     }
 }

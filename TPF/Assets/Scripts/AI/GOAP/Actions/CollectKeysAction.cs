@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AI.GOAP.Behaviors;
 using AI.GOAP.Config;
 using CrashKonijn.Goap.Behaviours;
@@ -27,15 +28,22 @@ namespace AI.GOAP.Actions
 
         public override ActionRunState Perform(IMonoAgent agent, Data data, ActionContext context)
         {
-            data.KeysCollector.KeyNotFound = false;
             data.Timer -= context.DeltaTime;
-            Array.Clear(Colliders, 0, KeyColliders);
-            if (data.Target != null && !(data.KeysCollector.KeysRemaining <= 0) && Physics.OverlapSphereNonAlloc(
-                    agent.transform.position, KeysConfig.KeySearchRadius,
-                    Colliders,
-                    KeysConfig.KeyLayer) > 0)
-            {
-                return data.Timer < 0 ? ActionRunState.Stop : ActionRunState.Continue;
+            Array.Clear(Colliders, 0, Colliders.Length);
+
+            if (data.Target != null && !(data.KeysCollector.KeysRemaining <= 0)) {
+                int results = Physics.OverlapSphereNonAlloc(agent.transform.position, KeysConfig.KeySearchRadius, Colliders, KeysConfig.KeyLayer);
+
+                var filteredColliders = Colliders.Take(results).Where(c => c && c.gameObject.GetComponent<KeyController>().CanPickUpKey(agent.gameObject)).ToArray();
+                results = filteredColliders.Length;
+                Colliders = filteredColliders;
+
+                if (results > 0) {
+                    data.KeysCollector.KeyNotFound = false;
+                    data.Target = new TargetWrapper(Colliders[0].transform);
+                    
+                    return data.Timer < 0 ? ActionRunState.Stop : ActionRunState.Continue;
+                }
             }
 
             data.KeysCollector.KeyNotFound = true;
@@ -55,6 +63,18 @@ namespace AI.GOAP.Actions
         public class Data : CommonData
         {
             [GetComponent] public KeyCollectorBehavior KeysCollector { get; set; }
+        }
+
+        private class TargetWrapper : ITarget
+        {
+            private Transform _transform;
+
+            public TargetWrapper(Transform transform)
+            {
+                _transform = transform;
+            }
+
+            public Vector3 Position => _transform.position;
         }
     }
 }

@@ -18,9 +18,9 @@ public class StatsUIManager : MonoBehaviour
 
     void Update()
     {
-        healthText.text = player.stats.Health.ToString();
-        attackText.text = player.stats.Damage.ToString();
-        attackSpeedText.text = player.stats.AttackSpeed.ToString();
-        moveSpeedText.text = player.stats.MovementSpeed.ToString();
+        healthText.text = Mathf.Round(player.stats.Health).ToString();
+        attackText.text = Mathf.Round(player.stats.Damage).ToString();
+        attackSpeedText.text = Mathf.Round(player.stats.AttackSpeed).ToString();
+        moveSpeedText.text = Mathf.Round(player.stats.MovementSpeed).ToString();
     }
 }

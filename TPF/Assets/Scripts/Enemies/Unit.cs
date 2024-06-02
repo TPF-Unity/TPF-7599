@@ -20,6 +20,10 @@ public class Unit : MonoBehaviour
     {
         stats = Instantiate(baseStats);
         _animator = GetComponent<Animator>();
+        if (unitDifficultyManager == null)
+        {
+            unitDifficultyManager = GetComponent<UnitDifficultyManager>();
+        }
     }
 
     public void Update()
@@ -60,6 +64,7 @@ public class Unit : MonoBehaviour
             {
                 player.GainXP(stats.XPDropped);
             }
+
             Destroy(gameObject);
         }
     }

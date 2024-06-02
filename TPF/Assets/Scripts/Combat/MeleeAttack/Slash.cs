@@ -29,6 +29,8 @@ public class Slash : MonoBehaviour
                 }
             }
         }
+
+        Destroy(gameObject);
     }
     private bool IsInRadius(Transform target)
     {

@@ -1,25 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Misc;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    [SerializeField]
-    private int _recolectedKeys = 0;
-    [SerializeField]
-    private int _totalKeys = 3;
-    [SerializeField]
-    private int _totalDoors = 2;
-    [SerializeField]
-    private DoorController[] _doors;
+    [SerializeField] private int _recolectedKeys = 0;
+    [SerializeField] private DoorController[] _doors;
     public GameObject keyPrefab;
     public GameObject doorPrefab;
-    [SerializeField]
+
+    private int _totalKeys;
+    private int _totalDoors;
+
     public GameObject[] keySpawnPositions;
-    [SerializeField]
     public GameObject[] doorSpawnPositions;
+
+    public event System.Action<bool> OnStrategyChange;
+    [SerializeField] private bool useGOAP;
+
+    public bool UseGOAP
+    {
+        get { return useGOAP; }
+        set
+        {
+            if (useGOAP != value)
+            {
+                useGOAP = value;
+                OnStrategyChange?.Invoke(useGOAP);
+            }
+        }
+    }
 
     public DifficultyManager difficultyManager;
     private SceneLoader sceneLoader;
@@ -29,7 +42,6 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {
@@ -37,10 +49,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Initialize()
     {
         difficultyManager = GetComponent<DifficultyManager>();
-        sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+        sceneLoader = GameObject.Find(GameObjects.SceneLoader.ToString()).GetComponent<SceneLoader>();
         SpawnKeys();
         SpawnDoors();
     }
@@ -59,36 +71,41 @@ public class GameManager : MonoBehaviour
 
     private void SpawnKeys()
     {
+        GameObject[] spawnPositions = GameObject.FindGameObjectsWithTag("KeySpawn");
         _recolectedKeys = 0;
-        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-        int[] randomIndex = Enumerable.Range(0, keySpawnPositions.Length).OrderBy(x => Random.Range(0, keySpawnPositions.Length)).Take(_totalKeys).ToArray();
+        _totalKeys = spawnPositions.Length;
+        keySpawnPositions = new GameObject[_totalKeys];
         for (int i = 0; i < _totalKeys; i++)
         {
-            int index = randomIndex[i];
-            Instantiate(keyPrefab, keySpawnPositions[index].transform.position, Quaternion.identity);
+            keySpawnPositions[i] = Instantiate(keyPrefab, spawnPositions[i].transform.position, Quaternion.identity);
         }
     }
 
     private void SpawnDoors()
     {
-        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-        int[] randomIndex = Enumerable.Range(0, doorSpawnPositions.Length).OrderBy(x => Random.Range(0, doorSpawnPositions.Length)).Take(_totalDoors).ToArray();
+        GameObject[] spawnPositions = GameObject.FindGameObjectsWithTag("DoorSpawn");
+        _totalDoors = spawnPositions.Length;
+        _doors = new DoorController[_totalDoors];
+        doorSpawnPositions = new GameObject[_totalDoors];
+        
         for (int i = 0; i < _totalDoors; i++)
         {
-            int index = randomIndex[i];
-            GameObject door = Instantiate(doorPrefab, doorSpawnPositions[index].transform.position, Quaternion.identity);
-            _doors = _doors.Concat(new DoorController[] { door.GetComponent<DoorController>() }).ToArray();
+            GameObject door = Instantiate(doorPrefab, spawnPositions[i].transform.position, Quaternion.identity);
+            doorSpawnPositions[i] = door;
+            _doors[i] = door.GetComponent<DoorController>();
         }
     }
 
     public void Win()
     {
-        sceneLoader.LoadGameWinScene();
         difficultyManager.MatchResult(true);
+        GameData.NextLevel();
+        sceneLoader.LoadMainScene();
     }
 
     public void Lose()
     {
+        sceneLoader.LoadGameLoseScene();
         difficultyManager.MatchResult(false);
     }
 
@@ -106,5 +123,4 @@ public class GameManager : MonoBehaviour
     {
         return difficultyManager.GetDifficulty();
     }
-
 }
