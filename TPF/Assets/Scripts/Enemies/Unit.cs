@@ -13,9 +13,23 @@ public class Unit : MonoBehaviour
     public static EventHandler OnDestroyed;
     public UnitDifficultyManager unitDifficultyManager;
 
+    private Animator _animator;
+
+    private int _animAttackSpeed = Animator.StringToHash("AttackSpeed");
     public void Awake()
     {
         stats = Instantiate(baseStats);
+        _animator = GetComponent<Animator>();
+    }
+
+    public void Update()
+    {
+        UpdateAttackSpeed();
+    }
+
+    private void UpdateAttackSpeed()
+    {
+        _animator.SetFloat(_animAttackSpeed, stats.AttackSpeed);
     }
 
     public void Start()
@@ -36,8 +50,6 @@ public class Unit : MonoBehaviour
 
     public void TakeDamageFrom(float damage, PlayerController player)
     {
-        // Debug.Log("maxHealth");
-        // Debug.Log(stats.MaxHealth);
         stats.TakeDamage(damage);
         onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         if (stats.Health <= 0)

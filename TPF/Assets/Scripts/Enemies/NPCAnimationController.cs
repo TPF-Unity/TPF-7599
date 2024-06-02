@@ -33,4 +33,14 @@ public abstract class NPCAnimationController : MonoBehaviour
             clip.Invoke();
         }
     }
+
+    public bool CanAttack()
+    {
+        return animator.GetBool("Shoot");
+    }
+
+    public void SetAttack(bool value)
+    {
+        animator.SetBool("Shoot", value);
+    }
 }

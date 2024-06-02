@@ -11,21 +11,18 @@ public class WizardSkeletonAnimationController : NPCAnimationController
     {
         Action playWalkAnimation = () =>
         {
-            animator.SetBool("move_forward", true);
-            animator.SetBool("move_forward_fast", false);
+            animator.SetBool("isMoving", true);
         };
 
         Action playAttackAnimation = () =>
         {
-            animator.SetBool("move_forward", false);
-            animator.SetBool("move_forward_fast", false);
-            animator.SetBool("idle_combat", true);
-            animator.SetTrigger("attack_short_001");
+            animator.SetBool("isMoving", false);
+            animator.SetTrigger("Attack");
         };
 
         Action playIdleAnimation = () =>
         {
-            animator.SetBool("idle_combat", false);
+            animator.SetBool("isMoving", false);
         };
 
         animationClips = new Dictionary<AnimationType, Action>

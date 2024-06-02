@@ -12,13 +12,23 @@ public class DoorController : MonoBehaviour
 
     private GameManager gameManager;
 
+    public GameObject portalActive;
+    public GameObject portalInactive;
+
+
+    private void Update() {
+        if (open) {
+            portalActive.SetActive(true);
+            portalInactive.SetActive(false);
+        } else {
+            portalActive.SetActive(false);
+            portalInactive.SetActive(true);
+        }
+    }
 
     private void Start()
     {
-        doorRenderer = GetComponent<Renderer>();
-        doorRenderer.material.color = Color.red;
         gameManager = GameManager.instance;
-        OpenDoor();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +42,5 @@ public class DoorController : MonoBehaviour
     public void OpenDoor()
     {
         open = true;
-        doorRenderer.material.color = Color.green;
     }
 }

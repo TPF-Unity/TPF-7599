@@ -171,15 +171,14 @@ namespace StarterAssets
             Move();
             CheckPowerUps();
             Shoot();
-            UpdateAttackSpeed();
         }
 
         private void AssignAnimationIDs()
         {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
+            _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
+            _animIDSpeed = Animator.StringToHash("Speed");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
             _animAttack = Animator.StringToHash("Attack");
             _animShoot = Animator.StringToHash("Shoot");
@@ -195,20 +194,13 @@ namespace StarterAssets
             return ray.GetPoint(position);
         }
 
-        private void UpdateAttackSpeed()
-        {
-            _animator.SetFloat(_animAttackSpeed, stats.AttackSpeed);
-        }
-
         private void StartAttack()
         {
             if (_input.shoot)
             {
                 if (!Grounded) return;
-                // trigger attack animation
                 if (_hasAnimator)
                 {
-                    // if we are attacking, return
                     if (_animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart") || _animator.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd")) return;
                     _animator.SetTrigger(_animAttack);
                     _animator.SetBool(_animIsAttacking, true);
@@ -218,7 +210,6 @@ namespace StarterAssets
 
         public void Shoot()
         {
-            // if animator trigger "shoot" is true, shoot
             if (_animator.GetBool(_animShoot))
             {
                 _animator.SetBool(_animShoot, false);

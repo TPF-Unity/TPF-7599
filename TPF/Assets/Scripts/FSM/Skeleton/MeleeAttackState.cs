@@ -7,8 +7,7 @@ using Misc;
 
 public class AttackState : State
 {
-    protected Vector3 attackSpawnPoint;
-    protected bool alreadyAttacked;
+    protected Transform attackSpawnPoint;
     protected float attackSpeed;
     protected float damage;
     protected GameObject projectile;
@@ -19,12 +18,15 @@ public class AttackState : State
     protected Transform transform;
     protected float timeSinceLastAttack;
 
-    public static AttackState Create(GameObject projectile, float attackSpeed, float damage)
+    protected bool isAttacking;
+
+    public static AttackState Create(GameObject projectile, float attackSpeed, float damage, Transform attackSpawnPoint)
     {
         AttackState state = CreateInstance<AttackState>();
         state.projectile = projectile;
         state.attackSpeed = attackSpeed;
         state.damage = damage;
+        state.attackSpawnPoint = attackSpawnPoint;
         return state;
     }
 
@@ -34,8 +36,8 @@ public class AttackState : State
         animationController = fsm.GetComponent<NPCAnimationController>();
         player = GameObject.Find("Player").transform;
         transform = fsm.transform;
-        alreadyAttacked = false;
         timeSinceLastAttack = 0f;
+        isAttacking = false;
     }
 
     protected override void ExecuteState(FSM fsm)
@@ -44,11 +46,11 @@ public class AttackState : State
 
         fsm.transform.LookAt(player);
 
-        if (!alreadyAttacked || timeSinceLastAttack >= 1f / attackSpeed)
+        if (!isAttacking)
         {
+            isAttacking = true;
             animationController.PlayAnimation(AnimationType.Attack);
-            ExecuteAttack();
-            ResetAttack();
+            GameManager.instance.StartCoroutine(WaitForAttack());
             timeSinceLastAttack = 0f;
         }
 
@@ -57,16 +59,21 @@ public class AttackState : State
 
     protected virtual void ExecuteAttack()
     {
-        attackSpawnPoint = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z + 0.5f);
-        GameObject slash = Instantiate(projectile, attackSpawnPoint, transform.rotation);
+        GameObject slash = Instantiate(projectile, attackSpawnPoint.position, transform.rotation);
         slash.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
         slash.GetComponent<Slash>().Damage = damage;
         Slash slashAsset = slash.GetComponent<Slash>();
         slashAsset.Execute();
+        isAttacking = false;
     }
 
-    private void ResetAttack()
+    private IEnumerator WaitForAttack()
     {
-        alreadyAttacked = true;
+        while (animationController.CanAttack() == false)
+        {
+            yield return null;
+        }
+        animationController.SetAttack(false);
+        ExecuteAttack();
     }
 }
