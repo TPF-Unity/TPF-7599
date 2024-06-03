@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         _totalDoors = spawnPositions.Length;
         _doors = new DoorController[_totalDoors];
         doorSpawnPositions = new GameObject[_totalDoors];
-        
+
         for (int i = 0; i < _totalDoors; i++)
         {
             GameObject door = Instantiate(doorPrefab, spawnPositions[i].transform.position, Quaternion.identity);
@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour
 
     public void Lose()
     {
-        sceneLoader.LoadGameLoseScene();
         difficultyManager.MatchResult(false);
     }
 
