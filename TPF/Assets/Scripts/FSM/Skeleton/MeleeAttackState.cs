@@ -41,6 +41,11 @@ public class AttackState : State
     }
 
     private void lookAtHorizontal(Transform targetTransform) {
+        if (transform == null)
+        {
+            return;
+        }
+
         Vector3 lookDirection = targetTransform.position - transform.position;
         lookDirection.y = 0;
 

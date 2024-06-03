@@ -37,7 +37,12 @@ public abstract class NPCAnimationController : MonoBehaviour
 
     public bool CanAttack()
     {
-        return animator.GetBool("Shoot");
+        if (animator != null)
+        {
+            return animator.GetBool("Shoot");
+        }
+
+        return false;
     }
 
     public void SetAttack(bool value)
