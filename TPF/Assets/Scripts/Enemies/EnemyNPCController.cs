@@ -5,8 +5,6 @@ using UnityEngine.UIElements;
 
 public abstract class EnemyNPCController : MonoBehaviour
 {
-    private Transform player;
-
     // Attacking
     public GameObject projectile;
     public LayerMask whatIsGround, whatIsPlayer;
@@ -22,7 +20,6 @@ public abstract class EnemyNPCController : MonoBehaviour
     private void Awake()
     {
         animationController = GetComponent<NPCAnimationController>();
-        player = GameObject.Find("Player").transform;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         animator = GetComponent<Animator>();
     }

@@ -6,7 +6,10 @@ using UnityEngine;
 public class KeyController : MonoBehaviour
 {
     private List<int> collectors = new();
+    
+    public delegate void KeyCollectedEvent(GameObject key);
 
+    public event KeyCollectedEvent OnKeyCollected;
 
     private readonly List<string> layersThatCanPickKeys = new List<string>()
         { Layer.Player.ToString(), Layer.EnemyPlayers.ToString() };
@@ -25,18 +28,27 @@ public class KeyController : MonoBehaviour
             }
 
             collectors.Add(other.gameObject.GetInstanceID());
+            OnKeyCollected?.Invoke(gameObject);
+
 
             // Only if it was the player who picked up the key
             if (Layer.Player.ToString() == LayerMask.LayerToName(other.gameObject.layer)) {
                 GameManager.instance.PickKey();
-                if (TryGetComponent<MeshRenderer>(out var meshRenderer)) {
+                if (TryGetComponent<MeshRenderer>(out var meshRenderer) && !GameManager.instance.isTraining) {
                     meshRenderer.enabled = false;
                 }
             }
         }
     }
+    
 
     public bool CanPickUpKey(GameObject obj) {
         return !collectors.Contains(obj.GetInstanceID());
+    }
+
+    public void Reset()
+    {
+        collectors = new List<int>();
+        GetComponent<MeshRenderer>().enabled = true;
     }
 }

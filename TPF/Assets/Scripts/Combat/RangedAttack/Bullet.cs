@@ -15,9 +15,10 @@ public class Bullet : MonoBehaviour
 
     private float BULLET_SPEED = 30f;
 
-    void Start()
+    void Awake()
     {
         startPosition = transform.position;
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -33,7 +34,6 @@ public class Bullet : MonoBehaviour
         Vector3 direction = targetPoint - transform.position;
         direction.y = 0;
         direction.Normalize();
-        rigidBody = GetComponent<Rigidbody>();
         rigidBody.velocity = direction * BULLET_SPEED;
     }
 

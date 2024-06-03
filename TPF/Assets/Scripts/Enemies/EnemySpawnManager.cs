@@ -18,11 +18,8 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField]
     private List<EnemySpawner> enemySpawnerList;
 
-    private void Awake() {
-        Instance = this;
-    }
-
     private void Start() {
+        Instance = this;
         Unit.OnDestroyed += HandleDeath;
     }
 

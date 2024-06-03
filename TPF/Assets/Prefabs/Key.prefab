@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1370535231260921466}
   m_Layer: 13
   m_Name: Key
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.15263, y: 6.302828, z: 2.4023612}
-  m_Center: {x: 0.31444496, y: 3.1387777, z: -0.16012548}
+  m_Size: {x: 4.15263, y: 15, z: 2.4023612}
+  m_Center: {x: 0.31444496, y: 3, z: -0.16012548}
 --- !u!114 &7054586964825918597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7806999661182038093}
   m_Layer: 13
   m_Name: Key
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

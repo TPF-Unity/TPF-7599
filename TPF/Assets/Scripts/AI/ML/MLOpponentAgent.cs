@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AI.GOAP.Scripts;
@@ -19,34 +20,34 @@ namespace AI.ML
         private Unit _unit;
         private SceneInitializer _sceneInitializer;
         public bool isTraining = true;
-        private Player _player;
+        private KeyProgressionManager _keyProgressionManager;
+        private GameObject[] _patrolPoints;
+        private GameObject[] _keys;
 
 
         // Game system
         [SerializeField] public MLTrainingScene trainingScene;
-        private int _keysFound;
         public GameObject[] startPositions;
         private Vector3[] _startPositionsVector;
         private Vector3 _previousPosition;
         private bool _alreadyShot;
-        private GameObject[] _nonVisitedKeySpawnPoints;
-        private GameObject[] _nonVisitedDoorSpawnPoints;
         private RayPerceptionSensorComponent3D _sensor;
 
         // Reward system
-        private const float ConstantRewardDrain = -0.001f;
-        private const float ReachedWaypointReward = 4.0f;
+        private const float ConstantRewardDrain = -0.0001f;
+        private const float ReachedPatrolPointReward = 2.0f;
+        private const float CollectedKeyReward = 4.0f;
         private const float BeingHitRewardDrain = -0.01f;
         private const float BeingKilledRewardDrain = -2f;
-        private const float TurningRewardDrain = -0.003f;
-        private const float WalkingStraightReward = 0.001f;
+        private const float TurningRewardDrain = -0.0005f;
+        private const float WalkingStraightReward = 0.0002f;
         private const float ShootingEnemyReward = 0.002f;
-        private const float ShootingThinAirRewardDrain = -0.001f;
+        private const float ShootingThinAirRewardDrain = -0.0001f;
         private const float CollectedAllKeysReward = 10f;
 
         // Position
         private Vector3 _startPosition;
-        private new Rigidbody _rigidBody;
+        private Rigidbody _rigidBody;
         private Vector3 latestNearestSpawnPoint;
 
         // Combat
@@ -56,6 +57,23 @@ namespace AI.ML
         {
             var currentReward = mlAgent.GetCumulativeReward();
             Debug.Log($"Current Reward: {currentReward}");
+        }
+
+        public void Update()
+        {
+            if (_keys != null || gameManager.keys == null)
+            {
+                return;
+            }
+
+            _keys = gameManager.keys.Clone() as GameObject[];
+            foreach (var key in _keys)
+            {
+                var keyController = key.GetComponentInChildren<KeyController>();
+                keyController.OnKeyCollected += OnKeyCollected;
+            }
+            
+            _sceneInitializer.Restart(trainingScene);
         }
 
         private void Restart()
@@ -77,7 +95,7 @@ namespace AI.ML
 
         public override void Initialize()
         {
-            _player = GetComponent<Player>();
+            _keyProgressionManager = GetComponent<KeyProgressionManager>();
             _sensor = GetComponent<RayPerceptionSensorComponent3D>();
             _unit = GetComponent<Unit>();
             _unit.onHealthChanged.AddListener(OnHealthChanged);
@@ -85,6 +103,9 @@ namespace AI.ML
             _rigidBody = GetComponent<Rigidbody>();
             mlAgent = GetComponent<Agent>();
             AnimationController = GetComponent<NPCAnimationController>();
+
+            _patrolPoints = GameObject.FindGameObjectsWithTag(Tags.PatrolPoint.ToString());
+
             if (startPositions == null || startPositions.Length == 0)
             {
                 startPositions = new[] { gameObject };
@@ -101,14 +122,15 @@ namespace AI.ML
             if (isTraining)
             {
                 _sceneInitializer = new SceneInitializer();
-                _sceneInitializer.Initialize(gameManager, _startPositionsVector, gameObject);
+                _sceneInitializer.Initialize(gameManager, _startPositionsVector, gameObject, trainingScene);
             }
+            gameManager.Initialize();
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
             var nearestSpawnPoint = FindNearestSpawnPoint(transform.position, sensor) ??
-                                    gameManager.keySpawnPositions[0].gameObject;
+                                    _patrolPoints[0];
 
             var waypointPositionInLocalCoords =
                 transform.InverseTransformPoint(nearestSpawnPoint.transform.position);
@@ -122,14 +144,14 @@ namespace AI.ML
 
         private GameObject FindNearestSpawnPoint(Vector3 currentPosition, VectorSensor sensor)
         {
-            if (gameManager.keySpawnPositions == null || gameManager.keySpawnPositions.Length == 0)
+            if (_patrolPoints == null || _patrolPoints.Length == 0)
             {
                 Debug.LogError("Spawn positions array is empty or not set!");
                 return null;
             }
 
-            var spawnPositions = gameManager.keySpawnPositions;
-            if (_player.KeysCollected >= 1)
+            var spawnPositions = _patrolPoints;
+            if (_keyProgressionManager.HasAllKeys())
             {
                 spawnPositions = gameManager.doorSpawnPositions;
             }
@@ -159,17 +181,17 @@ namespace AI.ML
 
         public override void OnEpisodeBegin()
         {
+            Debug.Log("Episode Beggining");
             transform.position = _startPositionsVector[0];
             transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
             _rigidBody.velocity = Vector3.zero;
             if (isTraining)
             {
-                _player.KeysCollected = 0;
+                _keyProgressionManager.Reset();
                 _unit.stats.Health = _unit.stats.MaxHealth;
-                _keysFound = 0;
                 _sensor.RayLayerMask &= ~(1 << LayerMask.NameToLayer(Layer.Doors.ToString()));
                 _sceneInitializer.Restart(trainingScene);
-                gameManager.Initialize();
+                //gameManager.Initialize();
             }
         }
 
@@ -184,44 +206,46 @@ namespace AI.ML
             actions[0] = vertical >= 0 ? vertical : 2;
             actions[1] = horizontal >= 0 ? horizontal : 2;
             actions[2] = shoot;
-            actions[3] = shootAngle;
+            //actions[3] = shootAngle;
         }
 
-        public bool isDoor(GameObject other, GameManager gameManager)
+        private void OnKeyCollected(GameObject key)
         {
-            return gameManager.doorSpawnPositions.Contains(other);
+            AddReward(CollectedKeyReward);
+            _keys = _keys.Where(obj => obj != key).ToArray();
+            if (_keyProgressionManager.HasAllKeys())
+            {
+                Debug.Log("Setting Ray Layer Mask to show Doors");
+                _sensor.RayLayerMask |= 1 << LayerMask.NameToLayer(Layer.Doors.ToString());
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.CompareTag(Tags.Waypoint.ToString()))
+            if (other.CompareTag(Tags.PatrolPoint.ToString()) && _patrolPoints.Contains(other.gameObject))
+            {
+                AddReward(ReachedPatrolPointReward);
+                _patrolPoints = _patrolPoints.Where(obj => obj != other.gameObject).ToArray();
+            }
+
+            // if (other.CompareTag(Tags.KeySpawn.ToString()) && _keys.Contains(other.gameObject))
+            // {
+            //     AddReward(CollectedKeyReward);
+            //     _keys = _keys.Where(obj => obj != other.gameObject).ToArray();
+            //     if (_keyProgressionManager.HasAllKeys())
+            //     {
+            //         Debug.Log("Setting Ray Layer Mask to show Doors");
+            //         _sensor.RayLayerMask |= 1 << LayerMask.NameToLayer(Layer.Doors.ToString());
+            //     }
+            // }
+
+            if (!_keyProgressionManager.HasAllKeys() || !other.CompareTag(Tags.Door.ToString()))
             {
                 return;
             }
 
-            if (other.gameObject.layer == LayerMask.NameToLayer(Layer.Doors.ToString()))
-            {
-                if (gameObject.GetComponent<Player>().KeysCollected >= 1 && isDoor(other.gameObject, gameManager) ||
-                    _keysFound == gameManager.keySpawnPositions.Length)
-                {
-                    AddReward(CollectedAllKeysReward);
-                    Restart();
-                }
-            }
-            else
-            {
-                _keysFound++;
-
-                AddReward(ReachedWaypointReward);
-                other.gameObject.SetActive(false);
-
-                if (gameObject.GetComponent<Player>().KeysCollected >= 1)
-                {
-                    Debug.Log("Setting Ray Layer Mask");
-                    _sensor.RayLayerMask |= 1 << LayerMask.NameToLayer(Layer.Doors.ToString());
-                    Debug.Log(_sensor.RayLayerMask.ToString());
-                }
-            }
+            AddReward(CollectedAllKeysReward);
+            Restart();
         }
 
         private void OnDrawGizmosSelected()
@@ -276,15 +300,21 @@ namespace AI.ML
 
         private void PenalizeTurning(int horizontal)
         {
-            if (horizontal is 0 or -1)
+            if (horizontal is 1 or -1)
             {
                 AddReward(TurningRewardDrain);
             }
         }
 
+        private bool movedForward()
+        {
+            Vector3 movementDirection = transform.position - _previousPosition;
+            return Vector3.Dot(movementDirection, transform.forward) > 0;
+        }
+
         private void RewardWalkingStraight(int vertical)
         {
-            if (vertical > 0)
+            if (vertical > 0 && movedForward())
             {
                 AddReward(WalkingStraightReward);
             }
@@ -310,6 +340,7 @@ namespace AI.ML
 
         public override void OnActionReceived(ActionBuffers actions)
         {
+            logReward();
             var vertical = actions.DiscreteActions[0] <= 1 ? actions.DiscreteActions[0] : -1;
             var horizontal = actions.DiscreteActions[1] <= 1 ? actions.DiscreteActions[1] : -1;
             var shoot = actions.DiscreteActions[2];
@@ -330,6 +361,8 @@ namespace AI.ML
             {
                 Restart();
             }
+
+            _previousPosition = transform.position;
         }
     }
 }

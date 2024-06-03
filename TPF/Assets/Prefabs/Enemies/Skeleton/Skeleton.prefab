@@ -932,7 +932,7 @@ MonoBehaviour:
     m_Bits: 64
   animator: {fileID: 2342651178732552467}
   agent: {fileID: 5578695435009857133}
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: 13ac51799a422844f830f9e8eaa14aa5, type: 2}
   AnimatorController: 1
 --- !u!114 &2481726941179029630
 MonoBehaviour:

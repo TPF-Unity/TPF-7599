@@ -5,6 +5,9 @@ namespace Misc
     public enum Tags
     {
         Player,
-        Waypoint
+        Door,
+        PatrolPoint,
+        Key,
+        KeySpawn
     }
 }
