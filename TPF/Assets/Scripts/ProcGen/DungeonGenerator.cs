@@ -100,7 +100,7 @@ public class DungeonGenerator : MonoBehaviour
         } while (rooms.Count < 5);
         PlacePrefabs();
         PlacePatrolPoints();
-        
+
         BakeNavmesh();
         PlaceSpawnPositions();
         // Initialize GameManager after all spawns are set
@@ -213,7 +213,8 @@ public class DungeonGenerator : MonoBehaviour
             var startPos = new Vector2Int((int)startPosf.x, (int)startPosf.y);
             var endPos = new Vector2Int((int)endPosf.x, (int)endPosf.y);
 
-            var path = aStar.FindPath(startPos, endPos, (DungeonPathfinder2D.Node a, DungeonPathfinder2D.Node b) => {
+            var path = aStar.FindPath(startPos, endPos, (DungeonPathfinder2D.Node a, DungeonPathfinder2D.Node b) =>
+            {
                 var pathCost = new DungeonPathfinder2D.PathCost();
 
                 pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
@@ -429,51 +430,77 @@ public class DungeonGenerator : MonoBehaviour
     void PlaceSpawnPositions()
     {
         List<Vector2Int> availableCells = GetAvailableCells();
+        HashSet<Room> playerUsedRooms = new HashSet<Room>();
 
-        Vector3 randomPosition = GetRandomPosition(availableCells);
-        MainPlayer.Instance.transform.position = randomPosition;
-        randomPosition = GetRandomPosition(availableCells);
-        Instantiate(opponentPrefab, randomPosition, Quaternion.identity);
+        Vector3 playerPosition = GetRandomPosition(availableCells, playerUsedRooms);
+        MainPlayer.Instance.transform.position = playerPosition;
 
+        Vector3 opponentPosition = GetRandomPosition(availableCells, playerUsedRooms);
+        Instantiate(opponentPrefab, opponentPosition, Quaternion.identity);
+
+        HashSet<Room> keyUsedRooms = new HashSet<Room>();
         for (int i = 0; i < totalKeys; i++)
         {
-            randomPosition = GetRandomPosition(availableCells);
+            Vector3 keyPosition = GetRandomPosition(availableCells, keyUsedRooms);
 
             GameObject keySpawn = new GameObject("KeySpawn");
-            keySpawn.transform.position = randomPosition;
+            keySpawn.transform.position = keyPosition;
             keySpawn.tag = "KeySpawn";
             keySpawn.transform.parent = keySpawnHolder.transform;
         }
 
+        HashSet<Room> doorUsedRooms = new HashSet<Room>();
         for (int i = 0; i < totalDoors; i++)
         {
-            randomPosition = GetRandomPosition(availableCells);
+            Vector3 doorPosition = GetRandomPosition(availableCells, doorUsedRooms);
 
             GameObject doorSpawn = new GameObject("DoorSpawn");
-            doorSpawn.transform.position = randomPosition;
+            doorSpawn.transform.position = doorPosition;
             doorSpawn.tag = "DoorSpawn";
             doorSpawn.transform.parent = doorSpawnHolder.transform;
         }
 
+        HashSet<Room> powerupUsedRooms = new HashSet<Room>();
         for (int i = 0; i < powerupSpawners.Length; i++)
         {
-            randomPosition = GetRandomPosition(availableCells);
-            powerupSpawners[i].transform.position = randomPosition;
+            Vector3 powerupPosition = GetRandomPosition(availableCells, powerupUsedRooms);
+            powerupSpawners[i].transform.position = powerupPosition;
         }
 
         PlaceDecorations(availableCells);
     }
 
-    Vector3 GetRandomPosition(List<Vector2Int> availableCells)
+    Vector3 GetRandomPosition(List<Vector2Int> availableCells, HashSet<Room> usedRooms)
     {
-        int randomIndex = Random.Range(0, availableCells.Count);
-        Vector2Int randomPosition = availableCells[randomIndex];
-        availableCells.RemoveAt(randomIndex);
+        Vector2Int randomPosition;
+        Room selectedRoom;
+
+        do
+        {
+            int randomIndex = Random.Range(0, availableCells.Count);
+            randomPosition = availableCells[randomIndex];
+            selectedRoom = GetRoomForPosition(randomPosition);
+        } while (usedRooms.Contains(selectedRoom));
+
+        usedRooms.Add(selectedRoom);
+        availableCells.Remove(randomPosition);
 
         return new Vector3(
             randomPosition.x * positionMultiplier,
             0f,
             randomPosition.y * positionMultiplier);
+    }
+
+    Room GetRoomForPosition(Vector2Int position)
+    {
+        foreach (Room room in rooms)
+        {
+            if (room.bounds.Contains(position))
+            {
+                return room;
+            }
+        }
+        return null;
     }
 
     void PlaceDecorations(List<Vector2Int> availableCells)
@@ -487,7 +514,8 @@ public class DungeonGenerator : MonoBehaviour
                     0f,
                     cell.y * positionMultiplier);
                 GameObject randomObject = decorationPrefabs[Random.Range(0, decorationPrefabs.Length)];
-                Instantiate(randomObject, position, Quaternion.identity);
+                GameObject decoration = Instantiate(randomObject, position, Quaternion.identity);
+                decoration.transform.parent = environmentHolder.transform;
             }
         }
     }

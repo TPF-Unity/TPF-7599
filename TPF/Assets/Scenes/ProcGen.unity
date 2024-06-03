@@ -3515,8 +3515,8 @@ MonoBehaviour:
   - {fileID: 1424087384}
   - {fileID: 241367839}
   - {fileID: 1622358039}
-  totalKeys: 1
-  totalDoors: 1
+  totalKeys: 3
+  totalDoors: 2
 --- !u!1001 &1103379639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4496,7 +4496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41181b2ac8767cd4d987a1b828303380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1159561407}
 --- !u!1 &1372274636
 GameObject:
   m_ObjectHideFlags: 0
