@@ -8,18 +8,14 @@ public class OpponentAnimationController : NPCAnimationController
 {
 
     private int animationIsMoving;
-    private int animationIsMovingFast;
-    private int animationIdleCombat;
-    private int animationAttack;
-
-    private string ATTACK_SPEED_PARAMETER = "attackSpeed";
+    private int animationMeleeAttack;
+    private int animationRangedAttack;
 
     private void AssignAnimationIDs()
     {
-        animationIsMoving = Animator.StringToHash("op_move_forward");
-        animationIsMovingFast = Animator.StringToHash("op_move_forward_fast");
-        animationIdleCombat = Animator.StringToHash("op_idle_combat");
-        animationAttack = Animator.StringToHash("op_attack_short_001");
+        animationIsMoving = Animator.StringToHash("isMoving");
+        animationMeleeAttack = Animator.StringToHash("MeleeAttack");
+        animationRangedAttack = Animator.StringToHash("RangedAttack");
     }
 
     private void Awake()
@@ -32,27 +28,30 @@ public class OpponentAnimationController : NPCAnimationController
         Action playWalkAnimation = () =>
         {
             animator.SetBool(animationIsMoving, true);
-            animator.SetBool(animationIsMovingFast, false);
         };
 
-        Action playAttackAnimation = () =>
+        Action playMeleeAttackAnimation = () =>
         {
-            animator.SetFloat(ATTACK_SPEED_PARAMETER, unit.stats.AttackSpeed);
             animator.SetBool(animationIsMoving, false);
-            animator.SetBool(animationIsMovingFast, false);
-            animator.SetBool(animationIdleCombat, true);
-            animator.SetBool(animationAttack, true);
+            animator.SetTrigger(animationMeleeAttack);
         };
 
         Action playIdleAnimation = () =>
         {
-            animator.SetBool(animationIdleCombat, false);
+            animator.SetBool(animationIsMoving, false);
+        };
+
+        Action playRangedAttackAnimation = () =>
+        {
+            animator.SetBool(animationIsMoving, false);
+            animator.SetTrigger(animationRangedAttack);
         };
 
         animationClips = new Dictionary<AnimationType, Action>
         {
             { AnimationType.Walk, playWalkAnimation },
-            { AnimationType.Attack, playAttackAnimation },
+            { AnimationType.Attack, playMeleeAttackAnimation },
+            { AnimationType.RangedAttack, playRangedAttackAnimation },
             { AnimationType.Idle, playIdleAnimation }
         };
 

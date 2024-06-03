@@ -2415,7 +2415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4957605393579145646}
   m_Layer: 0
-  m_Name: HumanMale_Character_Free
+  m_Name: Oponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

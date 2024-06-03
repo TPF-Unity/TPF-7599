@@ -7,7 +7,8 @@ public enum AnimationType
 {
     Walk,
     Attack,
-    Idle
+    Idle,
+    RangedAttack
 }
 
 public abstract class NPCAnimationController : MonoBehaviour
