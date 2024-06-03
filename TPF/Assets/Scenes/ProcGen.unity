@@ -3506,6 +3506,8 @@ MonoBehaviour:
   - {fileID: 1705236671311558949, guid: 5f1cf3fcc1acb1b4eb479d3826dfde11, type: 3}
   opponentPrefab: {fileID: 5921871130157532986, guid: 351737aa1343c434099044e9738c8f60,
     type: 3}
+  patrolPointPrefab: {fileID: 2580687030372982347, guid: 171c2185a207f274794982a62d48ca81,
+    type: 3}
   environmentHolder: {fileID: 1089654527}
   patrolPointHolder: {fileID: 2008302606}
   keySpawnHolder: {fileID: 179717848}
