@@ -45,7 +45,9 @@ public class Arrow : MonoBehaviour
                 target.TakeDamage(damage);
                 Destroy(gameObject);
             }
-        } else {
+        }
+        else
+        {
             if (notShootableLayer == (notShootableLayer | (1 << collider.gameObject.layer)))
             {
                 Destroy(gameObject);

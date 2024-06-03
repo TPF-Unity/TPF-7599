@@ -17,6 +17,8 @@ public abstract class EnemyNPCController : MonoBehaviour
 
     // AI
     public UnityEngine.AI.NavMeshAgent agent;
+
+    public Transform attackSpawnPoint;
     [SerializeField] protected NPCStats stats;
 
     private void Awake()

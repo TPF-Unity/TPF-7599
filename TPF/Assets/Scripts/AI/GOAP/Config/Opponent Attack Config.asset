@@ -20,7 +20,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   RangedAttackRadius: 10
-  Bullet: {fileID: 804997577081715565, guid: eda4efe5489a57a46bd624c28f06b243, type: 3}
+  Bullet: {fileID: 3094550492846350000, guid: c772f14553102974784ddf7440f5f760, type: 3}
   RangedAttackCost: 1
   BulletSpeed: 30
   damageLayerMapping: {fileID: 11400000, guid: 63332883be3958c4fb8ec9ac2b28d72f, type: 2}

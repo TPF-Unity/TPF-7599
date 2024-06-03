@@ -10104,7 +10104,7 @@ PrefabInstance:
     - target: {fileID: 7103346794177847134, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44272,7 +44272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1175054791
 Transform:
   m_ObjectHideFlags: 0
@@ -44707,7 +44707,7 @@ PrefabInstance:
     - target: {fileID: 7103346794177847134, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7373886827937321218, guid: cef356584b1249949985a809fedbbd25, type: 3}
@@ -60249,6 +60249,51 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1766537695}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[0].value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[1].value
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[0].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[1].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[2].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[0].outSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[1].outSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117401175031463135, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: attackSpeedMultiplier.m_Curve.Array.data[2].outSlope
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: unitDifficultyManager
@@ -74082,7 +74127,7 @@ PrefabInstance:
     - target: {fileID: 7103346794177847134, guid: cef356584b1249949985a809fedbbd25,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7373886827937321218, guid: cef356584b1249949985a809fedbbd25, type: 3}

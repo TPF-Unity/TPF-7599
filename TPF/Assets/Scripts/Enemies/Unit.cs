@@ -13,13 +13,27 @@ public class Unit : MonoBehaviour
     public static EventHandler OnDestroyed;
     public UnitDifficultyManager unitDifficultyManager;
 
+    private Animator _animator;
+
+    private int _animAttackSpeed = Animator.StringToHash("AttackSpeed");
     public void Awake()
     {
         stats = Instantiate(baseStats);
+        _animator = GetComponent<Animator>();
         if (unitDifficultyManager == null)
         {
             unitDifficultyManager = GetComponent<UnitDifficultyManager>();
         }
+    }
+
+    public void Update()
+    {
+        UpdateAttackSpeed();
+    }
+
+    private void UpdateAttackSpeed()
+    {
+        _animator.SetFloat(_animAttackSpeed, stats.AttackSpeed);
     }
 
     public void Start()

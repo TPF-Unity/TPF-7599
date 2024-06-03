@@ -16,7 +16,7 @@ public class Slash : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
         foreach (var hitCollider in hitColliders)
         {
-            if (IsWithinAttackAngle(hitCollider.transform))
+            if (IsInRadius(hitCollider.transform))
             {
                 string attackerLayer = LayerMask.LayerToName(gameObject.layer);
                 string targetLayer = LayerMask.LayerToName(hitCollider.gameObject.layer);
@@ -32,12 +32,10 @@ public class Slash : MonoBehaviour
 
         Destroy(gameObject);
     }
-
-    private bool IsWithinAttackAngle(Transform target)
+    private bool IsInRadius(Transform target)
     {
-        Vector3 directionToTarget = target.position - transform.position;
-        float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-        return angleToTarget < angle;
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        return distanceToTarget < range;
     }
 
     private void ShowAttackRange()
