@@ -3517,8 +3517,8 @@ MonoBehaviour:
   - {fileID: 1424087384}
   - {fileID: 241367839}
   - {fileID: 1622358039}
-  totalKeys: 1
-  totalDoors: 1
+  totalKeys: 3
+  totalDoors: 2
 --- !u!1001 &1103379639
 PrefabInstance:
   m_ObjectHideFlags: 0

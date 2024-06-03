@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 {
     public DamageLayerMapping damageLayerMapping;
     public LayerMask notShootableLayer;
-    public float maxTravelDistance = 10f;
+    public float maxTravelDistance = 1000f;
     private Vector3 startPosition;
     private Rigidbody rigidBody;
     private float damage;
@@ -54,7 +54,9 @@ public class Bullet : MonoBehaviour
                 target.TakeDamageFrom(damage, source);
                 Destroy(gameObject);
             }
-        } else {
+        }
+        else
+        {
             if (notShootableLayer == (notShootableLayer | (1 << collider.gameObject.layer)))
             {
                 Destroy(gameObject);

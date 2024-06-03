@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6622263213734064115
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2091883511077644323, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_Name
+      value: PortalDisabled Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2091883511077644323, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984626719437303261, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.049172312
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.35662684
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.6132076
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.b
+      value: 0.01690993
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.g
+      value: 0.5577493
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878142562055906258, guid: e03b4164f6f310949aaa5b97aafad7aa,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.r
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e03b4164f6f310949aaa5b97aafad7aa, type: 3}

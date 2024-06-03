@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -21,7 +22,8 @@ namespace StarterAssets
         [SerializeField] private NPCStats stats;
         [SerializeField] private LevelUpInfoSO levelUpInfo;
 
-        [Tooltip("How fast the character turns to face movement direction")] [Range(0.0f, 0.3f)]
+        [Tooltip("How fast the character turns to face movement direction")]
+        [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.10f;
 
         [Tooltip("Acceleration and deceleration")]
@@ -31,7 +33,8 @@ namespace StarterAssets
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        [Space(10)] [Tooltip("The height the player can jump")]
+        [Space(10)]
+        [Tooltip("The height the player can jump")]
         public float JumpHeight = 1.2f;
 
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
@@ -104,10 +107,15 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animAttack;
+        private int _animShoot;
+        private int _animIsAttacking;
+        private int _animAttackSpeed;
         private PlayerInput _playerInput;
         private Animator _animator;
         private CharacterController _controller;
         private PlayerInputs _input;
+
         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
@@ -159,42 +167,23 @@ namespace StarterAssets
 
             JumpAndGravity();
             GroundedCheck();
-            Attack();
-            TurnAround();
+            StartAttack();
             Move();
             CheckPowerUps();
+            Shoot();
         }
 
         private void AssignAnimationIDs()
         {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
+            _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
+            _animIDSpeed = Animator.StringToHash("Speed");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-        }
-
-        private void TurnAround()
-        {
-            Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            //Plane groundPlane = new Plane(Vector3.up, new Vector3(0, attackSpawnPoint.position.y, 0));
-
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
-            {
-                Vector3 targetPoint = hitInfo.point;
-                targetPoint.y =
-                    transform.position.y; // Keep the target point at player's height to calculate direction in XZ plane
-
-                // Calculate direction from player to targetPoint
-                Vector3 direction = (targetPoint - transform.position).normalized;
-
-                Vector3 heightOffset = new Vector3(0f, 1f, 0f);
-
-                // Set the attackSpawnPoint in a circle around the player
-                attackSpawnPoint.position = transform.position + heightOffset + direction * spawnPointRadius;
-
-                attackSpawnPoint.rotation = Quaternion.LookRotation(direction);
-            }
+            _animAttack = Animator.StringToHash("Attack");
+            _animShoot = Animator.StringToHash("Shoot");
+            _animIsAttacking = Animator.StringToHash("isAttacking");
+            _animAttackSpeed = Animator.StringToHash("AttackSpeed");
         }
 
         private Vector3 CalculateTargetPositionFromCursor()
@@ -205,13 +194,30 @@ namespace StarterAssets
             return ray.GetPoint(position);
         }
 
-        private void Attack()
+        private void StartAttack()
         {
             if (_input.shoot)
             {
-                basicAttack.Execute(Layer.PlayerProjectiles.ToString(), attackSpawnPoint.position,
-                    CalculateTargetPositionFromCursor(), stats.AttackSpeed, this);
+                if (!Grounded) return;
+                if (_hasAnimator)
+                {
+                    if (_animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart") || _animator.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd")) return;
+                    _animator.SetTrigger(_animAttack);
+                    _animator.SetBool(_animIsAttacking, true);
+                }
             }
+        }
+
+        public void Shoot()
+        {
+            if (_animator.GetBool(_animShoot))
+            {
+                _animator.SetBool(_animShoot, false);
+                basicAttack.Execute(Layer.PlayerProjectiles.ToString(), attackSpawnPoint.position,
+                CalculateTargetPositionFromCursor(), stats.AttackSpeed, this);
+                _animator.ResetTrigger("Shoot");
+            }
+
         }
 
         private void GroundedCheck()
@@ -238,7 +244,7 @@ namespace StarterAssets
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero)
+            if (_input.move == Vector2.zero || _animator.GetBool(_animIsAttacking))
             {
                 targetSpeed = 0.0f;
             }
@@ -394,20 +400,24 @@ namespace StarterAssets
 
         [SerializeField]
         public List<PowerUp> powerUpList;
-        public List<PowerUp> GetPowerUpList() {
+        public List<PowerUp> GetPowerUpList()
+        {
             return powerUpList;
         }
 
-        public bool PickUpPowerUp(PowerUp powerUp) {
+        public bool PickUpPowerUp(PowerUp powerUp)
+        {
             PowerUp existingPowerUp = powerUpList.Find(pUp => pUp.powerUpSO.type == powerUp.powerUpSO.type);
-            if (existingPowerUp != null) {
+            if (existingPowerUp != null)
+            {
                 existingPowerUp.durationLeft = 0f; // remove power up of same type in the next frame
             }
 
             powerUpList.Add(powerUp);
             OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
 
-            switch (powerUp.powerUpSO.type) {
+            switch (powerUp.powerUpSO.type)
+            {
                 case PowerUpType.Health:
                     stats.Health = Math.Min(stats.MaxHealth, stats.Health + powerUp.floatVal);
                     playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
@@ -429,16 +439,20 @@ namespace StarterAssets
             return true;
         }
 
-        private void CheckPowerUps() {
+        private void CheckPowerUps()
+        {
             bool powerUpsChanged = false;
 
-            powerUpList.ForEach(powerUp => {
+            powerUpList.ForEach(powerUp =>
+            {
                 powerUp.durationLeft -= Time.deltaTime;
 
-                if (powerUp.durationLeft < 0f) {
+                if (powerUp.durationLeft < 0f)
+                {
                     powerUpsChanged = true;
                     // remove effect
-                    switch (powerUp.powerUpSO.type) {
+                    switch (powerUp.powerUpSO.type)
+                    {
                         case PowerUpType.Health:
                             break;
                         case PowerUpType.MovSpeed:
@@ -454,10 +468,11 @@ namespace StarterAssets
                         default:
                             break;
                     }
-                } 
+                }
             });
 
-            if (powerUpsChanged) {
+            if (powerUpsChanged)
+            {
                 powerUpList.RemoveAll(powerUp => powerUp.durationLeft < 0f);
                 OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -467,9 +482,11 @@ namespace StarterAssets
         private int lvl = 1;
         private float xp = 0f;
 
-        public void GainXP(float amt) {
+        public void GainXP(float amt)
+        {
             xp += amt;
-            if (xp >= levelUpInfo.GetXPNeededForLevel(lvl + 1) && lvl < levelUpInfo.maxLevel) {
+            if (xp >= levelUpInfo.GetXPNeededForLevel(lvl + 1) && lvl < levelUpInfo.maxLevel)
+            {
                 LevelUp();
             }
             onXPChanged?.Invoke(xp / levelUpInfo.GetXPNeededForLevel(lvl + 1) * 100);
@@ -489,7 +506,8 @@ namespace StarterAssets
             stats.SprintSpeed += levelUpInfo.GetStatIncreaseForLevel(level).MovSpeed;
         }
 
-        private void LevelUp() {
+        private void LevelUp()
+        {
             xp -= levelUpInfo.GetXPNeededForLevel(lvl + 1);
             lvl += 1;
 
@@ -499,11 +517,13 @@ namespace StarterAssets
             playerUnit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         }
 
-        public float GetXP() {
+        public float GetXP()
+        {
             return xp;
         }
 
-        public int GetLV() {
+        public int GetLV()
+        {
             return lvl;
         }
     }
