@@ -12,7 +12,6 @@ public class KeyProgressionManager : MonoBehaviour
 
     void Start() {
         gameManager = GameManager.instance;
-        requiredKeys = gameManager.getTotalKeys();
     }
 
     public int GetKeysCollected() {
@@ -20,12 +19,19 @@ public class KeyProgressionManager : MonoBehaviour
     }
 
     public bool HasAllKeys() {
+        requiredKeys = gameManager.getTotalKeys();
         return collectedKeys == requiredKeys;
     }
 
     public void CollectKey() {
+        requiredKeys = gameManager.getTotalKeys();
         collectedKeys ++;
         Debug.Log("Collected keys:" + collectedKeys + "/" + requiredKeys);
         OnKeyCollected?.Invoke();
+    }
+
+    public void Reset()
+    {
+        collectedKeys = 0;
     }
 }

@@ -70,6 +70,8 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField]
     GameObject opponentPrefab;
     [SerializeField]
+    GameObject patrolPointPrefab;
+    [SerializeField]
     GameObject environmentHolder;
     [SerializeField]
     GameObject patrolPointHolder;
@@ -384,7 +386,7 @@ public class DungeonGenerator : MonoBehaviour
                 0f,
                 room.bounds.center.y * positionMultiplier - (positionMultiplier / 2));
 
-            GameObject patrolPoint = new GameObject("PatrolPoint");
+            GameObject patrolPoint = Instantiate(patrolPointPrefab, roomCenter, Quaternion.identity);
             patrolPoint.transform.position = roomCenter;
             patrolPoint.tag = "PatrolPoint";
             patrolPoint.transform.parent = patrolPointHolder.transform;

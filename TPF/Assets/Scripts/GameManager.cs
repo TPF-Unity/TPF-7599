@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField] private int _recolectedKeys = 0;
-    [SerializeField] private DoorController[] _doors;
+    [SerializeField] public DoorController[] _doors;
     public GameObject keyPrefab;
     public GameObject doorPrefab;
 
@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour
     public GameObject[] keySpawnPositions;
     public GameObject[] doorSpawnPositions;
 
+    public GameObject[] keys;
+    
     public event System.Action<bool> OnStrategyChange;
+    public bool isTraining = false;
     [SerializeField] private bool useGOAP;
 
     public bool UseGOAP
@@ -75,9 +78,12 @@ public class GameManager : MonoBehaviour
         _recolectedKeys = 0;
         _totalKeys = spawnPositions.Length;
         keySpawnPositions = new GameObject[_totalKeys];
+        keys = new GameObject[_totalKeys];
         for (int i = 0; i < _totalKeys; i++)
         {
-            keySpawnPositions[i] = Instantiate(keyPrefab, spawnPositions[i].transform.position, Quaternion.identity);
+            var key = Instantiate(keyPrefab, spawnPositions[i].transform.position, Quaternion.identity);
+            keySpawnPositions[i] = key;
+            keys[i] = key;
         }
     }
 
@@ -98,6 +104,11 @@ public class GameManager : MonoBehaviour
 
     public void Win()
     {
+        if (isTraining)
+        {
+            return;
+        }
+
         difficultyManager.MatchResult(true);
         GameData.NextLevel();
         sceneLoader.LoadMainScene();
