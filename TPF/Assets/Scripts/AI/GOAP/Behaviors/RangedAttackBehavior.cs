@@ -6,7 +6,7 @@ namespace AI.GOAP.Behaviors
     {
         //[field: SerializeField] private Transform SpawnLocation;
 
-        public delegate void SpawnBulletEvent(Transform attackSpawnPoint);
+        public delegate void SpawnBulletEvent(Vector3 attackSpawnPoint, GameObject origin);
 
         public event SpawnBulletEvent OnSpawnBullet;
 
@@ -16,7 +16,7 @@ namespace AI.GOAP.Behaviors
 
         public void BeginAttack(int _)
         {
-            OnSpawnBullet?.Invoke(attackSpawnPoint);
+            OnSpawnBullet?.Invoke(attackSpawnPoint.transform.position, gameObject);
         }
     }
 }
