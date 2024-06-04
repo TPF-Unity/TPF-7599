@@ -40,8 +40,9 @@ public class AttackState : State
         isAttacking = false;
     }
 
-    private void lookAtHorizontal(Transform targetTransform) {
-        if (transform == null)
+    private void lookAtHorizontal(Transform targetTransform)
+    {
+        if (transform == null || targetTransform == null)
         {
             return;
         }
@@ -89,6 +90,7 @@ public class AttackState : State
         {
             yield return null;
         }
+
         animationController.SetAttack(false);
         ExecuteAttack();
     }

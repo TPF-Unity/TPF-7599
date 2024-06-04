@@ -8,9 +8,10 @@ public class Bullet : MonoBehaviour
     public DamageLayerMapping damageLayerMapping;
     public LayerMask notShootableLayer;
     public float maxTravelDistance = 1000f;
-    private Vector3 startPosition;
+    public Vector3 startPosition;
     private Rigidbody rigidBody;
     private float damage;
+    public GameObject origin;
     public PlayerController source;
 
     private float BULLET_SPEED = 30f;
@@ -19,6 +20,11 @@ public class Bullet : MonoBehaviour
     {
         startPosition = transform.position;
         rigidBody = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        startPosition = transform.position;
     }
 
     void Update()
@@ -47,7 +53,7 @@ public class Bullet : MonoBehaviour
 
         string attackerLayer = LayerMask.LayerToName(gameObject.layer);
         string targetLayer = LayerMask.LayerToName(collider.gameObject.layer);
-        if (damageLayerMapping.CanDamage(attackerLayer, targetLayer))
+        if (damageLayerMapping.CanDamage(attackerLayer, targetLayer) && origin != collider.gameObject)
         {
             if (collider.gameObject.TryGetComponent(out Unit target))
             {

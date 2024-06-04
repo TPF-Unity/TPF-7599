@@ -16,8 +16,7 @@ namespace AI.GOAP.Behaviors
         private Animator Animator;
         private AgentBehaviour AgentBehavior;
         private ITarget CurrentTarget;
-
-        [SerializeField] private float MinMoveDistance = 0.25f;
+        
         private Vector3 LastPosition;
         public List<Waypoint> keyWaypoints;
         public List<Waypoint> doorWaypoints;
