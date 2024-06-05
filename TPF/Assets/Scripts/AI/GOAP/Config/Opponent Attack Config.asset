@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Opponent Attack Config
   m_EditorClassIdentifier: 
   SensorRadius: 15
-  MeleeAttackRadius: 2
+  MeleeAttackRadius: 0
   MeleeAttackCost: 50
-  AttackDelay: 0.5
+  AttackDelay: 0.3
   AttackableLayerMask:
     serializedVersion: 2
     m_Bits: 320

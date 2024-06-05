@@ -930,7 +930,7 @@ MonoBehaviour:
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 16448
   animator: {fileID: 2342651178732552467}
   agent: {fileID: 5578695435009857133}
   attackSpawnPoint: {fileID: 4477543415033745570}
