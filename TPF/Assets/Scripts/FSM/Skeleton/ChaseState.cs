@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CrashKonijn.Goap.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,7 +19,9 @@ public class ChaseState : State
 
     public override void EnterState(FSM fsm)
     {
-        player = GameObject.Find("Player").transform;
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        player = players.OrderBy(targetPlayer => Vector3.Distance(targetPlayer.transform.position, fsm.transform.position))
+            .First()?.transform;
         agent = fsm.GetComponent<NavMeshAgent>();
         animationController = fsm.GetComponent<NPCAnimationController>();
     }
