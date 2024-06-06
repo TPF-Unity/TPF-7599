@@ -18,18 +18,20 @@ public class Bullet : MonoBehaviour
 
     void Awake()
     {
-        startPosition = transform.position;
         rigidBody = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
-        startPosition = transform.position;
+        if (startPosition == Vector3.zero)
+        {
+            startPosition = transform.position;
+        }
     }
 
     void Update()
     {
-        if (Vector3.Distance(startPosition, transform.position) > maxTravelDistance)
+        if (startPosition != Vector3.zero && Vector3.Distance(startPosition, transform.position) > maxTravelDistance)
         {
             Destroy(gameObject);
         }
@@ -50,7 +52,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-
         string attackerLayer = LayerMask.LayerToName(gameObject.layer);
         string targetLayer = LayerMask.LayerToName(collider.gameObject.layer);
         if (damageLayerMapping.CanDamage(attackerLayer, targetLayer) && origin != collider.gameObject)
@@ -70,5 +71,8 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public float Damage { set => damage = value; }
+    public float Damage
+    {
+        set => damage = value;
+    }
 }
