@@ -43,6 +43,7 @@ namespace AI.GOAP.Actions
             instance.gameObject.layer = LayerMask.NameToLayer(Layer.PlayerProjectiles.ToString());
             instance.transform.position = attackSpawnPosition;
             instance.origin = origin;
+            instance.startPosition = attackSpawnPosition;
             instance.Shoot(currentTargetData.Target.Position);
         }
 
