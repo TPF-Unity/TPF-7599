@@ -10,14 +10,14 @@ using UnityEngine.UI;
 public class XPUI : MonoBehaviour
 {
 
-    private PlayerController player;
+    private Player player;
     [SerializeField] private Slider slider;
     [SerializeField] private TextMeshProUGUI levelText;
 
 
     private void Start()
     {
-        player = MainPlayer.Instance.GetComponent<PlayerController>();
+        player = MainPlayer.Instance.GetComponent<Player>();
         player.onXPChanged.AddListener(Player_OnXPGained);
         UpdateVisual(0);
     }

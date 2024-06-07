@@ -7,7 +7,8 @@ using Misc;
 
 public class RangedAttackState : AttackState
 {
-    public static new RangedAttackState Create(GameObject projectile, float attackSpeed, float damage, Transform attackSpawnPoint)
+    public static new RangedAttackState Create(GameObject projectile, float attackSpeed, float damage,
+        Transform attackSpawnPoint)
     {
         RangedAttackState state = CreateInstance<RangedAttackState>();
         state.projectile = projectile;
@@ -23,7 +24,11 @@ public class RangedAttackState : AttackState
         arrow.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
         arrow.GetComponent<Arrow>().Damage = damage;
         Arrow arrowAsset = arrow.GetComponent<Arrow>();
-        arrowAsset.Shoot(player.transform.position);
+        if (player != null)
+        {
+            arrowAsset.Shoot(player.transform.position);
+        }
+
         isAttacking = false;
     }
 }

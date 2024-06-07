@@ -13,6 +13,8 @@ TagManager:
   - Enemy
   - Wall
   - Waypoint
+  - Stairs
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -32,7 +34,7 @@ TagManager:
   - Decoration
   - Doors
   - PatrolPoint
-  - 
+  - PowerUp
   - 
   - 
   - 

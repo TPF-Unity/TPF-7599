@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     private Rigidbody rigidBody;
     private float damage;
     public GameObject origin;
-    public PlayerController source;
+    public Player source;
 
     private float BULLET_SPEED = 30f;
 

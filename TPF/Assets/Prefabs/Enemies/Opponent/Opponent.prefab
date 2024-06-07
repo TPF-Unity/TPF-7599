@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 6821675996649398375}
   - component: {fileID: -7736398311292484342}
   - component: {fileID: 7293783284151311767}
+  - component: {fileID: -8449512257506846054}
   m_Layer: 14
   m_Name: Opponent
   m_TagString: Player
@@ -506,6 +507,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41181b2ac8767cd4d987a1b828303380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8449512257506846054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921871130157532986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 750556f3149340e41a2b081d6f1e0746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onXPChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  levelUpInfo: {fileID: 11400000, guid: 4ed6b0bd324ac31419be84f05e523392, type: 2}
+  stats: {fileID: 0}
 --- !u!1 &6360257788522619184
 GameObject:
   m_ObjectHideFlags: 0
