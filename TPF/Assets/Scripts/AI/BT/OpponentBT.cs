@@ -46,7 +46,6 @@ public class PatrolWaypoint
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class OpponentBT : BehaviourTree.Tree {
-    [SerializeField] PlayerSensor playerSensor;
     [SerializeField] private ItemInfo[] itemsInfo;
     [SerializeField] private AttackInfo attackInfo;
 
@@ -71,7 +70,7 @@ public class OpponentBT : BehaviourTree.Tree {
                 new TaskGoToKey()
             }),
             new Sequence(new List<Node>{
-                new TaskPlayerInRange(GetItemInfoForType(ItemType.Player), playerSensor),
+                new TaskPlayerInRange(GetItemInfoForType(ItemType.Player)),
                 new TaskAttackPlayer(attackInfo)
             }),
             new Selector(new List<Node>{
