@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 {
     public DamageLayerMapping damageLayerMapping;
     public LayerMask notShootableLayer;
-    public float maxTravelDistance = 10f;
+    public float maxTravelDistance = 1000f;
     private Vector3 startPosition;
     private Rigidbody rigidBody;
     private float damage;
@@ -15,9 +15,10 @@ public class Bullet : MonoBehaviour
 
     private float BULLET_SPEED = 30f;
 
-    void Start()
+    void Awake()
     {
         startPosition = transform.position;
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -33,7 +34,6 @@ public class Bullet : MonoBehaviour
         Vector3 direction = targetPoint - transform.position;
         direction.y = 0;
         direction.Normalize();
-        rigidBody = GetComponent<Rigidbody>();
         rigidBody.velocity = direction * BULLET_SPEED;
     }
 
@@ -54,7 +54,9 @@ public class Bullet : MonoBehaviour
                 target.TakeDamageFrom(damage, source);
                 Destroy(gameObject);
             }
-        } else {
+        }
+        else
+        {
             if (notShootableLayer == (notShootableLayer | (1 << collider.gameObject.layer)))
             {
                 Destroy(gameObject);

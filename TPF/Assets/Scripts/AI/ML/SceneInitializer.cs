@@ -28,16 +28,18 @@ namespace AI.ML
         private Vector3[] _keySpawnPositions;
         private GameObject _agent;
         private EnemySpawnManager _spawnManager;
-        
-        public void Initialize(GameManager gameManager, Vector3[] startPositions, GameObject agent)
+        private GameObject[] _patrolPoints;
+
+        public void Initialize(GameManager gameManager, Vector3[] startPositions, GameObject agent,
+            MLTrainingScene trainingScene)
         {
-            var sibling = agent.transform.parent.Find(GameObjects.Enemies.ToString())?.gameObject;
-            var childOfSibling = sibling.transform.Find(GameObjects.SpawnManager.ToString())?.gameObject;
-            _spawnManager = childOfSibling?.GetComponent<EnemySpawnManager>();
+            var parent = agent.transform.parent.gameObject;
+            _spawnManager = parent?.GetComponentInChildren<EnemySpawnManager>();
             _agent = agent;
             _gameManager = gameManager;
             _keySpawnPositions = new Vector3[_gameManager.keySpawnPositions.Length];
-            
+            _patrolPoints = GameObject.FindGameObjectsWithTag(Tags.PatrolPoint.ToString());
+
             for (int i = 0; i < _gameManager.keySpawnPositions.Length; i++)
             {
                 _keySpawnPositions[i] = _gameManager.keySpawnPositions[i].transform.position;
@@ -54,6 +56,7 @@ namespace AI.ML
             actionsMap.Add(MLTrainingScene.Dungeon8, InitializeDungeon8);
             actionsMap.Add(MLTrainingScene.Dungeon9, InitializeDungeon9);
             actionsMap.Add(MLTrainingScene.Dungeon10, InitializeDungeon10);
+
             startPositionsMap.Add(MLTrainingScene.Dungeon2, new[] { startPositions[0] });
             startPositionsMap.Add(MLTrainingScene.Dungeon3, new[] { startPositions[0] });
             startPositionsMap.Add(MLTrainingScene.Dungeon4, new[] { startPositions[0] });
@@ -71,15 +74,15 @@ namespace AI.ML
             restart?.Invoke();
         }
 
-        private void ResetWaypoints(float distanceFromInitialPosition)
+        private void ResetKeys(float distanceFromInitialPosition)
         {
             for (var i = 0; i < _gameManager.keySpawnPositions.Length; i++)
             {
                 var key = _gameManager.keySpawnPositions[i];
+                key.gameObject.SetActive(true);
                 key.transform.position = _keySpawnPositions[i] +
                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
                                          Vector3.forward * 1f;
-                key.gameObject.SetActive(true);
             }
         }
 
@@ -88,19 +91,45 @@ namespace AI.ML
         {
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon2, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
-            foreach (var key in _gameManager.keySpawnPositions)
+            foreach (var key in _gameManager.keys)
             {
                 key.gameObject.SetActive(true);
-
                 key.transform.position = startPositions[0] +
                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
                                          Vector3.forward * 8f;
+                _patrolPoints[0].transform.position = key.transform.position +
+                                                      Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                                      Vector3.forward * 2f;
+                _gameManager._doors[0].transform.position = startPositions[0] +
+                                                            Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                                            Vector3.forward * 2f;
+                foreach (var gameManagerKey in _gameManager.keys)
+                {
+                    var keyController = gameManagerKey.GetComponentInChildren<KeyController>();
+                    keyController.Reset();
+                }
             }
         }
 
         private void InitializeDungeon3()
         {
-            ResetWaypoints(8f);
+            startPositionsMap.TryGetValue(MLTrainingScene.Dungeon3, out var startPositions);
+            _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
+            foreach (var key in _gameManager.keys)
+            {
+                key.gameObject.SetActive(true);
+                key.transform.position = _patrolPoints[0].transform.position +
+                                         Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                         Vector3.forward * 5f;
+                _gameManager._doors[0].transform.position = _patrolPoints[0].transform.position +
+                                                            Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                                            Vector3.forward * 2f;
+                foreach (var gameManagerKey in _gameManager.keys)
+                {
+                    var keyController = gameManagerKey.GetComponentInChildren<KeyController>();
+                    keyController.Reset();
+                }
+            }
         }
 
         private void InitializeDungeon4()
@@ -116,7 +145,7 @@ namespace AI.ML
 
         private void InitializeDungeon5()
         {
-            ResetWaypoints(2f);
+            ResetKeys(2f);
         }
 
         private void InitializeDungeon6()
@@ -124,21 +153,21 @@ namespace AI.ML
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon6, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
 
-            ResetWaypoints(2f);
+            ResetKeys(2f);
         }
 
         private void InitializeDungeon7()
         {
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon7, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
-            ResetWaypoints(1f);
+            ResetKeys(1f);
         }
 
         private void InitializeDungeon8()
         {
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon8, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
-            ResetWaypoints(1f);
+            ResetKeys(1f);
             _spawnManager.DeSpawnAllEnemies();
         }
 
@@ -146,14 +175,14 @@ namespace AI.ML
         {
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon9, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length)];
-            ResetWaypoints(1f);
+            ResetKeys(1f);
         }
 
         private void InitializeDungeon10()
         {
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon10, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length)];
-            ResetWaypoints(1f);
+            ResetKeys(1f);
 
             EnemySpawnManager.Instance.DeSpawnAllEnemies();
             _spawnManager.DeSpawnAllEnemies();

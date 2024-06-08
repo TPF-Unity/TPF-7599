@@ -7,7 +7,8 @@ public enum AnimationType
 {
     Walk,
     Attack,
-    Idle
+    Idle,
+    RangedAttack
 }
 
 public abstract class NPCAnimationController : MonoBehaviour
@@ -32,5 +33,20 @@ public abstract class NPCAnimationController : MonoBehaviour
         {
             clip.Invoke();
         }
+    }
+
+    public bool CanAttack()
+    {
+        if (animator != null)
+        {
+            return animator.GetBool("Shoot");
+        }
+
+        return false;
+    }
+
+    public void SetAttack(bool value)
+    {
+        animator.SetBool("Shoot", value);
     }
 }

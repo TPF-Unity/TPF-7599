@@ -12,7 +12,7 @@ public class RangedSkeletonController : SkeletonController
         PlayerInRangeCondition playerUnreachable = PlayerInRangeCondition.Create(stats.AttackRange, whatIsPlayer, false);
         PatrolState patrolState = PatrolState.Create();
         ChaseState chaseState = ChaseState.Create();
-        RangedAttackState attackState = RangedAttackState.Create(projectile, stats.AttackSpeed, stats.Damage);
+        RangedAttackState attackState = RangedAttackState.Create(projectile, stats.AttackSpeed, stats.Damage, attackSpawnPoint);
         Transition patrolToChaseTransition = Transition.Create(chaseState, playerInSight);
         Transition chaseToPatrolTransition = Transition.Create(patrolState, lostPlayer);
         Transition chaseToAttackTransition = Transition.Create(attackState, playerInAttackRange);
