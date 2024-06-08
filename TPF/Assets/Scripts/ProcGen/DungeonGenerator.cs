@@ -103,8 +103,8 @@ public class DungeonGenerator : MonoBehaviour
         PlacePrefabs();
         PlacePatrolPoints();
 
-        BakeNavmesh();
         PlaceSpawnPositions();
+        BakeNavmesh();
         // Initialize GameManager after all spawns are set
         GameManager.instance.Initialize();
     }
