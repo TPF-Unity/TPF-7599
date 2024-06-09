@@ -543,8 +543,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
   attackInfo:
-    attackRange: 30
-    bulletSpeed: 7
+    attackRange: 7
+    bulletSpeed: 30
     bullet: {fileID: 804997577081715565, guid: eda4efe5489a57a46bd624c28f06b243, type: 3}
     attackableLayerMask:
       serializedVersion: 2
