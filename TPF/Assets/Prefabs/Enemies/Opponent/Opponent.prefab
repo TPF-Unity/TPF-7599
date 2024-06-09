@@ -54,8 +54,8 @@ GameObject:
   - component: {fileID: 6821675996649398375}
   - component: {fileID: -7736398311292484342}
   - component: {fileID: 7293783284151311767}
-  - component: {fileID: -6863958438388451703}
-  - component: {fileID: 4797125792899554040}
+  - component: {fileID: 2964788262018649804}
+  - component: {fileID: 4277563179461827703}
   m_Layer: 14
   m_Name: Opponent
   m_TagString: Enemy
@@ -507,6 +507,60 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41181b2ac8767cd4d987a1b828303380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2964788262018649804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921871130157532986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d31b82d00f124429eee013a2c66d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsInfo:
+  - itemType: 0
+    detectionRange: 10
+    layer:
+      serializedVersion: 2
+      m_Bits: 8192
+  - itemType: 1
+    detectionRange: 10
+    layer:
+      serializedVersion: 2
+      m_Bits: 65536
+  - itemType: 2
+    detectionRange: 10
+    layer:
+      serializedVersion: 2
+      m_Bits: 64
+  - itemType: 4
+    detectionRange: 10
+    layer:
+      serializedVersion: 2
+      m_Bits: 256
+  attackInfo:
+    attackRange: 30
+    bulletSpeed: 7
+    bullet: {fileID: 804997577081715565, guid: eda4efe5489a57a46bd624c28f06b243, type: 3}
+    attackableLayerMask:
+      serializedVersion: 2
+      m_Bits: 320
+    damageLayerMapping: {fileID: 11400000, guid: 63332883be3958c4fb8ec9ac2b28d72f,
+      type: 2}
+--- !u!114 &4277563179461827703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921871130157532986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71ba9b0feadb464da1ac47a1d4681c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6360257788522619184
