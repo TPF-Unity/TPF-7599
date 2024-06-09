@@ -32,7 +32,6 @@ public class OpponentAnimationController : NPCAnimationController
 
         Action playMeleeAttackAnimation = () =>
         {
-            animator.SetBool(animationIsMoving, false);
             animator.SetTrigger(animationMeleeAttack);
         };
 
@@ -43,7 +42,6 @@ public class OpponentAnimationController : NPCAnimationController
 
         Action playRangedAttackAnimation = () =>
         {
-            animator.SetBool(animationIsMoving, false);
             animator.SetTrigger(animationRangedAttack);
         };
 
