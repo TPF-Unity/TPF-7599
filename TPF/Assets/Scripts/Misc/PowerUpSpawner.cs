@@ -56,11 +56,11 @@ public class PowerUpSpawner : MonoBehaviour
         }
     }
 
-    bool ApplyPowerUp(GameObject player) {
-        PlayerController playerController = player.GetComponent<PlayerController>();
-        if (playerController) {
+    bool ApplyPowerUp(GameObject playerObject) {
+        Player player = playerObject.GetComponent<Player>();
+        if (player) {
             PowerUp powerUp = new(powerUpSO, powerUpDuration, powerUpFloatVal);
-            return playerController.PickUpPowerUp(powerUp);
+            return player.PickUpPowerUp(powerUp);
         }
         return false;
     }

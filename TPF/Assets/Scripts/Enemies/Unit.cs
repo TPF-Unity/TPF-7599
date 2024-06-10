@@ -52,7 +52,7 @@ public class Unit : MonoBehaviour
         TakeDamageFrom(damage, null);
     }
 
-    public void TakeDamageFrom(float damage, PlayerController player)
+    public void TakeDamageFrom(float damage, Player player)
     {
         stats.TakeDamage(damage);
         onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);

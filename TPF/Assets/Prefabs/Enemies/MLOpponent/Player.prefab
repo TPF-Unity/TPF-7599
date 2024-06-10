@@ -1755,6 +1755,7 @@ MonoBehaviour:
   - Key
   - Player
   - Enemy
+  - PowerUp
   m_RaysPerDirection: 28
   m_MaxRayDegrees: 180
   m_SphereCastRadius: 0.56
@@ -1990,6 +1991,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750556f3149340e41a2b081d6f1e0746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onXPChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  levelUpInfo: {fileID: 11400000, guid: 4ed6b0bd324ac31419be84f05e523392, type: 2}
+  stats: {fileID: 0}
 --- !u!208 &3085480864720835986
 NavMeshObstacle:
   m_ObjectHideFlags: 0
