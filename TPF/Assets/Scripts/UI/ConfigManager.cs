@@ -11,7 +11,8 @@ public class ConfigManager : MonoBehaviour
 
     public void SetAIStrategy(string strat)
     {
-        GameManager.instance.UseGOAP = strat == "GOAP";
+        PlayerPrefs.SetString("OpponentAI", strat);
+        Debug.Log("Opponent AI strategy set to " + PlayerPrefs.GetString("OpponentAI", "MISSING"));
     }
 
 }

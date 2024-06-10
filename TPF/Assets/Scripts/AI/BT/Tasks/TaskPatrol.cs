@@ -15,6 +15,11 @@ public class TaskPatrol : Node {
     }
 
     public override NodeState Evaluate() {
+        if (waypoints.Length == 0) {
+            state = NodeState.FAILURE;
+            return state;
+        }
+
         time += Time.deltaTime;
         if (time > 0.5f) {
             waiting = false;

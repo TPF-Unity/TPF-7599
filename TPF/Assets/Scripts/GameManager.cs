@@ -55,6 +55,15 @@ public class GameManager : MonoBehaviour
     public void Initialize()
     {
         difficultyManager = GetComponent<DifficultyManager>();
+
+        string strat = PlayerPrefs.GetString("OpponentAI", null);
+        useGOAP = strat switch
+        {
+            "GOAP" => true,
+            "BT" => false,
+            _ => true,
+        };
+
         sceneLoader = GameObject.Find(GameObjects.SceneLoader.ToString()).GetComponent<SceneLoader>();
         SpawnKeys();
         SpawnDoors();

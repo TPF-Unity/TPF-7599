@@ -46,14 +46,14 @@ public class PatrolWaypoint
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class OpponentBT : BehaviourTree.Tree {
-    [SerializeField] PlayerSensor playerSensor;
     [SerializeField] private ItemInfo[] itemsInfo;
     [SerializeField] private AttackInfo attackInfo;
 
 
     protected override Node SetupTree() {
-        PatrolWaypoint[] keyWaypoints = GameManager.instance.keySpawnPositions.Select(position => new PatrolWaypoint(position.transform)).ToArray();
-        PatrolWaypoint[] doorWaypoints = GameManager.instance.doorSpawnPositions.Select(position => new PatrolWaypoint(position.transform)).ToArray();
+        PatrolWaypoint[] patrolWaypoints = GameObject.FindGameObjectsWithTag("PatrolPoint").Select(position => new PatrolWaypoint(position.transform)).ToArray();
+        PatrolWaypoint[] keyWaypoints = GameObject.FindGameObjectsWithTag("KeySpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray().Concat(patrolWaypoints).ToArray();
+        PatrolWaypoint[] doorWaypoints = GameObject.FindGameObjectsWithTag("DoorSpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray().Concat(patrolWaypoints).ToArray();
 
         Node root = new Selector(new List<Node>{
             new Sequence(new List<Node>{
@@ -71,7 +71,7 @@ public class OpponentBT : BehaviourTree.Tree {
                 new TaskGoToKey()
             }),
             new Sequence(new List<Node>{
-                new TaskPlayerInRange(GetItemInfoForType(ItemType.Player), playerSensor),
+                new TaskPlayerInRange(GetItemInfoForType(ItemType.Player)),
                 new TaskAttackPlayer(attackInfo)
             }),
             new Selector(new List<Node>{
