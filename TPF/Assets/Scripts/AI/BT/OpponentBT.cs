@@ -51,8 +51,9 @@ public class OpponentBT : BehaviourTree.Tree {
 
 
     protected override Node SetupTree() {
-        PatrolWaypoint[] keyWaypoints = GameObject.FindGameObjectsWithTag("KeySpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray();
-        PatrolWaypoint[] doorWaypoints = GameObject.FindGameObjectsWithTag("DoorSpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray();
+        PatrolWaypoint[] patrolWaypoints = GameObject.FindGameObjectsWithTag("PatrolPoint").Select(position => new PatrolWaypoint(position.transform)).ToArray();
+        PatrolWaypoint[] keyWaypoints = GameObject.FindGameObjectsWithTag("KeySpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray().Concat(patrolWaypoints).ToArray();
+        PatrolWaypoint[] doorWaypoints = GameObject.FindGameObjectsWithTag("DoorSpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray().Concat(patrolWaypoints).ToArray();
 
         Node root = new Selector(new List<Node>{
             new Sequence(new List<Node>{
