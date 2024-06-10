@@ -19,6 +19,10 @@ public class KeyProgressionManager : MonoBehaviour
     }
 
     public bool HasAllKeys() {
+        if (gameManager == null) {
+            return false;
+        }
+        
         requiredKeys = gameManager.getTotalKeys();
         return collectedKeys == requiredKeys;
     }

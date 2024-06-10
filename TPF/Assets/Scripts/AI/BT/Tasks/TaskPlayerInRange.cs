@@ -1,37 +1,29 @@
+using System;
 using AI.Sensors;
 using BehaviourTree;
 using UnityEngine;
 
 public class TaskPlayerInRange : Node {
-    private readonly PlayerSensor sensor;
+    readonly Collider[] Colliders = new Collider[3];
     readonly ItemInfo itemInfo;
 
-
-    public TaskPlayerInRange(ItemInfo itemInfo, PlayerSensor playerSensor) {
-        sensor = playerSensor;
+    public TaskPlayerInRange(ItemInfo itemInfo) {
         this.itemInfo = itemInfo;
-        sensor.SetRadius(itemInfo.detectionRange);
-
-        sensor.OnPlayerEnter += PlayerSensorOnPlayerEnter;
-        sensor.OnPlayerExit += PlayerSensorOnPlayerExit;
     }
 
     public override NodeState Evaluate() {
-        object t = GetData(BTContextKey.Player);
+        Array.Clear(Colliders, 0, 3);
+        Transform transform = (Transform) GetData(BTContextKey.Transform);
+        int results = Physics.OverlapSphereNonAlloc(transform.position, itemInfo.detectionRange, Colliders, itemInfo.layer);
 
-        if (t == null) {
-            state = NodeState.FAILURE;
-            return state;
-        } else {
+        if (results > 0 && Colliders[0]) {
+            parent.SetData(BTContextKey.Player, Colliders[0].transform);
+
             state = NodeState.SUCCESS;
             return state;
+        } else {
+            state = NodeState.FAILURE;
+            return state;
         }
-    }
-
-    private void PlayerSensorOnPlayerEnter(Transform player) {
-        parent.SetData(BTContextKey.Player, player);
-    }
-    private void PlayerSensorOnPlayerExit(Vector3 lastPosition) {
-        ClearData(BTContextKey.Player);
     }
 }
