@@ -1910,6 +1910,11 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1903662058}
+    - target: {fileID: 7626922038991574964, guid: 3e9071da7660ded4b81fc8f4e6387e29,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7639478753175495753, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: animator
@@ -3308,6 +3313,8 @@ MonoBehaviour:
   - {fileID: 1407333187}
   doorSpawnPositions:
   - {fileID: 1436307728}
+  keys: []
+  isTraining: 0
   useGOAP: 0
   difficultyManager: {fileID: 0}
 --- !u!114 &1903662059
