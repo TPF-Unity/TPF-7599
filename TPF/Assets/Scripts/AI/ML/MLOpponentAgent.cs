@@ -200,13 +200,11 @@ namespace AI.ML
             var vertical = Mathf.RoundToInt(Input.GetAxisRaw("Vertical"));
             var horizontal = Mathf.RoundToInt(Input.GetAxisRaw("Horizontal"));
             var shoot = Input.GetMouseButton(0) ? 1 : 0;
-            const int shootAngle = 0;
 
             var actions = actionsOut.DiscreteActions;
             actions[0] = vertical >= 0 ? vertical : 2;
             actions[1] = horizontal >= 0 ? horizontal : 2;
             actions[2] = shoot;
-            //actions[3] = shootAngle;
         }
 
         private void OnKeyCollected(GameObject key)

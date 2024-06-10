@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,16 +33,19 @@ public class AttackState : State
 
     public override void EnterState(FSM fsm)
     {
+        transform = fsm.transform;
         agent = fsm.GetComponent<NavMeshAgent>();
         animationController = fsm.GetComponent<NPCAnimationController>();
-        player = GameObject.Find("Player").transform;
-        transform = fsm.transform;
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        player = players.OrderBy(targetPlayer => Vector3.Distance(targetPlayer.transform.position, transform.position))
+            .First()?.transform;
         timeSinceLastAttack = 0f;
         isAttacking = false;
     }
 
-    private void lookAtHorizontal(Transform targetTransform) {
-        if (transform == null)
+    private void lookAtHorizontal(Transform targetTransform)
+    {
+        if (transform == null || targetTransform == null)
         {
             return;
         }
@@ -89,6 +93,7 @@ public class AttackState : State
         {
             yield return null;
         }
+
         animationController.SetAttack(false);
         ExecuteAttack();
     }

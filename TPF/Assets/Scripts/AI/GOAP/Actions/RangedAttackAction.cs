@@ -30,7 +30,7 @@ namespace AI.GOAP.Actions
             data.RangedAttackBehavior.OnSpawnBullet += RangedAttackBehaviorOnRangedAttack;
         }
 
-        private void RangedAttackBehaviorOnRangedAttack(Transform attackSpawnPoint)
+        private void RangedAttackBehaviorOnRangedAttack(Vector3 attackSpawnPosition, GameObject origin)
         {
             if (currentTargetData == null)
             {
@@ -41,8 +41,9 @@ namespace AI.GOAP.Actions
             Bullet instance = bullet.GetComponent<Bullet>();
             instance.Damage = stats.Damage;
             instance.gameObject.layer = LayerMask.NameToLayer(Layer.PlayerProjectiles.ToString());
-            var bulletTransform = instance.transform;
-            bulletTransform.position = attackSpawnPoint.position;
+            instance.transform.position = attackSpawnPosition;
+            instance.origin = origin;
+            instance.startPosition = attackSpawnPosition;
             instance.Shoot(currentTargetData.Target.Position);
         }
 
