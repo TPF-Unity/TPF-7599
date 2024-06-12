@@ -4068,6 +4068,8 @@ MonoBehaviour:
     type: 3}
   keySpawnPositions: []
   doorSpawnPositions: []
+  keys: []
+  isTraining: 0
   useGOAP: 1
   difficultyManager: {fileID: 1159561409}
 --- !u!4 &1159561408
@@ -4486,6 +4488,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98db130ae87548eeb553a51444b8084c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onXPChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  levelUpInfo: {fileID: 11400000, guid: 4ed6b0bd324ac31419be84f05e523392, type: 2}
+  stats: {fileID: 0}
 --- !u!114 &1340065297
 MonoBehaviour:
   m_ObjectHideFlags: 0

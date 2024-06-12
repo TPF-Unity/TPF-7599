@@ -22,7 +22,7 @@ public class BasicAttack : MonoBehaviour
         return Time.time - _lastShootTime < 1f / AttackSpeed;
     }
 
-    public void Execute(string layerName, Vector3 attackSpawnPosition, Vector3 targetPoint, float attackSpeed, PlayerController source)
+    public void Execute(string layerName, Vector3 attackSpawnPosition, Vector3 targetPoint, float attackSpeed, Player source)
     {
         if (!IsOnCooldown(attackSpeed))
         {

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2350401434797688134}
   - component: {fileID: -6533517775787007944}
   - component: {fileID: 1866861886383113518}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: PowerUpSpawner
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   powerUpSpawner: {fileID: 2350401434797688134}
   powerUpSO: {fileID: 0}
   powerUpDuration: 10
-  powerUpMultiplier: 2
+  powerUpFloatVal: 0
   respawnTimerMax: 5
 --- !u!65 &1866861886383113518
 BoxCollider:
