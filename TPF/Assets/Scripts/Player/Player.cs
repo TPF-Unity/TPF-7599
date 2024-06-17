@@ -14,13 +14,14 @@ public class Player : MonoBehaviour
     private int lvl = 1;
     private float xp = 0f;
     [SerializeField] private LevelUpInfoSO levelUpInfo;
-    [SerializeField] private NPCStats stats;
+    private NPCStats stats;
     public event EventHandler<EventArgs> OnPowerUpChanged;
     
     private void Start()
     {
         _unit = GetComponentInParent<Unit>();
         powerUpList = new List<PowerUp>();
+        stats = _unit.stats;
     }
 
 
@@ -48,8 +49,8 @@ public class Player : MonoBehaviour
         switch (powerUp.powerUpSO.type)
         {
             case PowerUpType.Health:
-                stats.Health = Math.Min(stats.MaxHealth, stats.Health + powerUp.floatVal);
-                _unit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+                stats.Health = stats.MaxHealth;
+                _unit.onHealthChanged?.Invoke(100);
                 break;
             case PowerUpType.MovSpeed:
                 stats.MovementSpeed *= powerUp.floatVal;

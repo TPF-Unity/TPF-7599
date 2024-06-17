@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Misc;
 using StarterAssets;
+using TMPro;
 using UnityEngine;
 
 public class DoorController : MonoBehaviour
@@ -36,9 +37,12 @@ public class DoorController : MonoBehaviour
     {
         KeyProgressionManager keyManager = other.GetComponent<KeyProgressionManager>();
         if (keyManager != null && keyManager.HasAllKeys()) {
-            if (other.CompareTag(Tags.Player.ToString())) {
+            if (other.GetComponent<MainPlayer>() != null) {
                 gameManager.Win();
             } else {
+                Transform detailText = GameObject.Find("Canvas").transform.Find("GameOverPanel").Find("Container").Find("DetailText");
+                TextMeshProUGUI tmpText = detailText.GetComponent<TextMeshProUGUI>();
+                tmpText.text = "An enemy player escaped";
                 gameManager.Lose();
             }
         }
