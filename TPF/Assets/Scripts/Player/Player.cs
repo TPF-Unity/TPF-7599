@@ -14,13 +14,14 @@ public class Player : MonoBehaviour
     private int lvl = 1;
     private float xp = 0f;
     [SerializeField] private LevelUpInfoSO levelUpInfo;
-    [SerializeField] private NPCStats stats;
+    private NPCStats stats;
     public event EventHandler<EventArgs> OnPowerUpChanged;
     
     private void Start()
     {
         _unit = GetComponentInParent<Unit>();
         powerUpList = new List<PowerUp>();
+        stats = _unit.stats;
     }
 
 
