@@ -1,5 +1,6 @@
 using System;
 using StarterAssets;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,9 @@ public class Unit : MonoBehaviour
 
     private Animator _animator;
 
+    private float timeSinceDamaged = 0f;
+    private float timeSinceHealed = 0f;
+
     private int _animAttackSpeed = Animator.StringToHash("AttackSpeed");
     public void Awake()
     {
@@ -28,7 +32,23 @@ public class Unit : MonoBehaviour
 
     public void Update()
     {
+        if (gameObject.CompareTag("Player"))
+        {
+            timeSinceDamaged += Time.deltaTime;
+            timeSinceHealed += Time.deltaTime;
+            RegenHealth();
+        }
         UpdateAttackSpeed();
+    }
+
+    private void RegenHealth()
+    {
+        if (timeSinceDamaged > 3f && timeSinceHealed > 0.25f && stats.Health != stats.MaxHealth)
+        {
+            stats.Health = Math.Min(stats.MaxHealth, stats.Health + stats.Health / 20);
+            onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+            timeSinceHealed = 0f;
+        }
     }
 
     private void UpdateAttackSpeed()
@@ -55,9 +75,14 @@ public class Unit : MonoBehaviour
     public void TakeDamageFrom(float damage, Player player)
     {
         stats.TakeDamage(damage);
+        timeSinceDamaged = 0f;
         onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
         if (stats.Health <= 0)
         {
+            Transform detailText = GameObject.Find("Canvas").transform.Find("GameOverPanel").Find("Container").Find("DetailText");
+            TextMeshProUGUI tmpText = detailText.GetComponent<TextMeshProUGUI>();
+            tmpText.text = "You were killed";
+
             onDied?.Invoke();
             OnDestroyed?.Invoke(this, EventArgs.Empty);
             if (player)
