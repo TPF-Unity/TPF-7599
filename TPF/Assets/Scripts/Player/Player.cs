@@ -48,8 +48,8 @@ public class Player : MonoBehaviour
         switch (powerUp.powerUpSO.type)
         {
             case PowerUpType.Health:
-                stats.Health = Math.Min(stats.MaxHealth, stats.Health + powerUp.floatVal);
-                _unit.onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
+                stats.Health = stats.MaxHealth;
+                _unit.onHealthChanged?.Invoke(100);
                 break;
             case PowerUpType.MovSpeed:
                 stats.MovementSpeed *= powerUp.floatVal;
