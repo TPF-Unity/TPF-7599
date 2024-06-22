@@ -48,39 +48,29 @@ public class DungeonGenerator : MonoBehaviour
 
         public static bool Intersect(Room a, Room b)
         {
-            return !((a.bounds.position.x >= (b.bounds.position.x + b.bounds.size.x)) || ((a.bounds.position.x + a.bounds.size.x) <= b.bounds.position.x)
-                || (a.bounds.position.y >= (b.bounds.position.y + b.bounds.size.y)) || ((a.bounds.position.y + a.bounds.size.y) <= b.bounds.position.y));
+            return !((a.bounds.position.x >= (b.bounds.position.x + b.bounds.size.x)) ||
+                     ((a.bounds.position.x + a.bounds.size.x) <= b.bounds.position.x)
+                     || (a.bounds.position.y >= (b.bounds.position.y + b.bounds.size.y)) ||
+                     ((a.bounds.position.y + a.bounds.size.y) <= b.bounds.position.y));
         }
     }
 
-    [SerializeField]
-    Vector2Int size;
-    [SerializeField]
-    int roomCount;
-    [SerializeField]
-    Vector2Int roomMinSize;
-    [SerializeField]
-    Vector2Int roomMaxSize;
-    [SerializeField]
-    GameObject groundPrefab;
-    [SerializeField]
-    GameObject[] wallPrefabs;
-    [SerializeField]
-    GameObject[] decorationPrefabs;
-    [SerializeField]
-    GameObject opponentPrefab;
-    [SerializeField]
-    GameObject patrolPointPrefab;
-    [SerializeField]
-    GameObject environmentHolder;
-    [SerializeField]
-    GameObject patrolPointHolder;
-    [SerializeField]
-    GameObject keySpawnHolder;
-    [SerializeField]
-    GameObject doorSpawnHolder;
-    [SerializeField]
-    GameObject[] powerupSpawners;
+    [SerializeField] Vector2Int size;
+    [SerializeField] int roomCount;
+    [SerializeField] Vector2Int roomMinSize;
+    [SerializeField] Vector2Int roomMaxSize;
+    [SerializeField] GameObject groundPrefab;
+    [SerializeField] GameObject[] wallPrefabs;
+    [SerializeField] GameObject[] decorationPrefabs;
+    [SerializeField] GameObject opponentPrefab;
+    [SerializeField] GameObject patrolPointPrefab;
+    [SerializeField] GameObject environmentHolder;
+    [SerializeField] GameObject patrolPointHolder;
+    [SerializeField] GameObject keySpawnHolder;
+    [SerializeField] GameObject doorSpawnHolder;
+    [SerializeField] GameObject[] powerupSpawners;
+
+    [SerializeField] private GameObject mlOpponentPrefab;
 
     public int totalKeys;
     public int totalDoors;
@@ -100,6 +90,7 @@ public class DungeonGenerator : MonoBehaviour
         {
             Generate();
         } while (rooms.Count < 5);
+
         PlacePrefabs();
         PlacePatrolPoints();
 
@@ -148,7 +139,7 @@ public class DungeonGenerator : MonoBehaviour
             }
 
             if (newRoom.bounds.xMin < 0 || newRoom.bounds.xMax >= size.x
-                || newRoom.bounds.yMin < 0 || newRoom.bounds.yMax >= size.y)
+                                        || newRoom.bounds.yMin < 0 || newRoom.bounds.yMax >= size.y)
             {
                 add = false;
             }
@@ -219,7 +210,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 var pathCost = new DungeonPathfinder2D.PathCost();
 
-                pathCost.cost = Vector2Int.Distance(b.Position, endPos);    //heuristic
+                pathCost.cost = Vector2Int.Distance(b.Position, endPos); //heuristic
 
                 if (grid[b.Position] == CellType.Room)
                 {
@@ -263,7 +254,8 @@ public class DungeonGenerator : MonoBehaviour
 
     void PlaceGround(Vector2Int location)
     {
-        GameObject ground = Instantiate(groundPrefab, new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier), Quaternion.identity);
+        GameObject ground = Instantiate(groundPrefab,
+            new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier), Quaternion.identity);
         ground.transform.parent = environmentHolder.transform;
     }
 
@@ -286,25 +278,29 @@ public class DungeonGenerator : MonoBehaviour
             case WallRotation.Up:
                 wall = Instantiate(
                     wallPrefab,
-                    new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier + (positionMultiplier / 2)),
+                    new Vector3(location.x * positionMultiplier, 0,
+                        location.y * positionMultiplier + (positionMultiplier / 2)),
                     Quaternion.Euler(0, 90, 0));
                 break;
             case WallRotation.Down:
                 wall = Instantiate(
                     wallPrefab,
-                    new Vector3(location.x * positionMultiplier, 0, location.y * positionMultiplier - (positionMultiplier / 2)),
+                    new Vector3(location.x * positionMultiplier, 0,
+                        location.y * positionMultiplier - (positionMultiplier / 2)),
                     Quaternion.Euler(0, -90, 0));
                 break;
             case WallRotation.Left:
                 wall = Instantiate(
                     wallPrefab,
-                    new Vector3(location.x * positionMultiplier - (positionMultiplier / 2), 0, location.y * positionMultiplier),
+                    new Vector3(location.x * positionMultiplier - (positionMultiplier / 2), 0,
+                        location.y * positionMultiplier),
                     Quaternion.Euler(0, 0, 0));
                 break;
             case WallRotation.Right:
                 wall = Instantiate(
                     wallPrefab,
-                    new Vector3(location.x * positionMultiplier + (positionMultiplier / 2), 0, location.y * positionMultiplier),
+                    new Vector3(location.x * positionMultiplier + (positionMultiplier / 2), 0,
+                        location.y * positionMultiplier),
                     Quaternion.Euler(0, 180, 0));
                 break;
         }
@@ -404,6 +400,7 @@ public class DungeonGenerator : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 
@@ -439,6 +436,12 @@ public class DungeonGenerator : MonoBehaviour
 
         Vector3 opponentPosition = GetRandomPosition(availableCells, playerUsedRooms);
         Instantiate(opponentPrefab, opponentPosition, Quaternion.identity);
+
+        if (mlOpponentPrefab != null)
+        {
+            Vector3 mlOpponentPosition = GetRandomPosition(availableCells, playerUsedRooms);
+            Instantiate(mlOpponentPrefab, mlOpponentPosition + new Vector3(0, 1, 0), Quaternion.identity);
+        }
 
         HashSet<Room> keyUsedRooms = new HashSet<Room>();
         for (int i = 0; i < totalKeys; i++)
@@ -502,6 +505,7 @@ public class DungeonGenerator : MonoBehaviour
                 return room;
             }
         }
+
         return null;
     }
 

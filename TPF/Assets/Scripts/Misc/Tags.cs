@@ -9,6 +9,7 @@ namespace Misc
         Door,
         PatrolPoint,
         Key,
-        KeySpawn
+        KeySpawn,
+        KeyFlagML
     }
 }

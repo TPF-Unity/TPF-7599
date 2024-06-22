@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform enemySpawner;
 
@@ -19,7 +18,12 @@ public class EnemySpawner : MonoBehaviour
         spawnPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
     }
 
-    public void SpawnEnemy() {
+    public void SpawnEnemy()
+    {
+        if (spawnPoints == null)
+        {
+            spawnPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
+        }
 
         List<GameObject> eligibleSpawnPoints = new List<GameObject>();
         foreach (GameObject point in spawnPoints)
