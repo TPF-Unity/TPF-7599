@@ -14,8 +14,14 @@ namespace AI.GOAP.Behaviors
 
         public Transform attackSpawnPoint;
 
+        public AudioClip attackSound;
+
         public void BeginAttack(int _)
         {
+            if (attackSound != null)
+            {
+                AudioSource.PlayClipAtPoint(attackSound, transform.position);
+            }
             OnSpawnBullet?.Invoke(attackSpawnPoint.transform.position, gameObject);
         }
     }
