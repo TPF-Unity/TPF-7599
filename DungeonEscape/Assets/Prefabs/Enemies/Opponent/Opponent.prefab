@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3412003379375889552}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.175, z: 0.423}
+  m_LocalPosition: {x: 0, y: 1.175, z: 0.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -542,6 +542,11 @@ MonoBehaviour:
     layer:
       serializedVersion: 2
       m_Bits: 320
+  - itemType: 3
+    detectionRange: 10
+    layer:
+      serializedVersion: 2
+      m_Bits: 262144
   attackInfo:
     attackRange: 7
     bulletSpeed: 30
