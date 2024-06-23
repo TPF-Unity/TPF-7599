@@ -42,7 +42,7 @@ public class TaskAttackEnemies : Node {
                 GameObject bullet = Object.Instantiate(attackInfo.bullet);
                 Bullet instance = bullet.GetComponent<Bullet>();
                 instance.Damage = stats.Damage;
-                instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
+                instance.gameObject.layer = LayerMask.NameToLayer(Layer.OpponentProjectiles.ToString());
                 var bulletTransform = instance.transform;
                 bulletTransform.position = transform.Find("AttackSpawnPoint").position;
 
