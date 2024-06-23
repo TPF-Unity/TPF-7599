@@ -4,7 +4,7 @@ using BehaviourTree;
 using UnityEngine;
 
 public class TaskIsEscaping : Node {
-    private float cooldown = 5f;
+    private float cooldown = 3f;
 
     public TaskIsEscaping() {}
 
