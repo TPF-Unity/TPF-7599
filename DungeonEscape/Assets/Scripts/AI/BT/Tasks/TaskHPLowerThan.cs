@@ -13,7 +13,7 @@ public class TaskHPLowerThan : Node {
     public override NodeState Evaluate() {
         NPCStats stats = ((Unit) GetData(BTContextKey.Unit)).stats;
 
-        if (stats.Health < comparisonHP) {
+        if (stats.Health / stats.MaxHealth < comparisonHP) {
             state = NodeState.SUCCESS;
             return state;
         } else {

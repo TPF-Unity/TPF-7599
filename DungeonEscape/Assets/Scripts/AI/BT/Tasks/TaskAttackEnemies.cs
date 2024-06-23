@@ -14,10 +14,11 @@ public class TaskAttackEnemies : Node {
 
     public override NodeState Evaluate() {
         List<Transform> enemies = (List<Transform>) GetData(BTContextKey.Enemies);
-        Transform target = null;
+        Transform target = (Transform) GetData(BTContextKey.AttackTarget);
 
-        if (enemies != null && enemies.Count > 0) {
+        if (enemies != null && enemies.Count > 0 && target == null) {
             target = enemies[0];
+            SetData(BTContextKey.AttackTarget, target);
         }
         cooldown -= Time.deltaTime;
 
@@ -43,7 +44,7 @@ public class TaskAttackEnemies : Node {
                 instance.Damage = stats.Damage;
                 instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
                 var bulletTransform = instance.transform;
-                bulletTransform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * 1.0f;
+                bulletTransform.position = transform.Find("AttackSpawnPoint").position;
 
                 instance.Shoot(target.position);
 

@@ -12,7 +12,7 @@ public class Slash : MonoBehaviour
 
     public void Execute()
     {
-        ShowAttackRange();
+        // ShowAttackRange();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
         foreach (var hitCollider in hitColliders)
         {

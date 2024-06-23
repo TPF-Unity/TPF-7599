@@ -42,6 +42,9 @@ public class TaskEscape : Node {
                         continue;
                     }
                 }
+                if (Vector3.Distance(transform.position, waypoint.transform.position) < 2f) {
+                    continue;
+                }
 
                 if (alignment > bestAlignment)
                 {
@@ -54,6 +57,7 @@ public class TaskEscape : Node {
                 navMeshAgent.SetDestination(bestWaypoint.transform.position);
                 Node root = (Node) GetData(BTContextKey.Root);
                 root.SetData(BTContextKey.Escaping, true);
+                root.SetData(BTContextKey.EscapeRoute, bestWaypoint.transform.position);
             }
 
             state = NodeState.RUNNING;

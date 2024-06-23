@@ -37,7 +37,7 @@ public class TaskAttackPlayer : Node {
                 instance.Damage = stats.Damage;
                 instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
                 var bulletTransform = instance.transform;
-                bulletTransform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * 1.0f;
+                bulletTransform.position = transform.Find("AttackSpawnPoint").position;
 
                 instance.Shoot(target.position);
 

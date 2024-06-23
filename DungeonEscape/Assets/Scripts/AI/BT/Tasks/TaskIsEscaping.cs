@@ -11,10 +11,14 @@ public class TaskIsEscaping : Node {
     public override NodeState Evaluate() {
         if (GetData(BTContextKey.Escaping) != null && (bool) GetData(BTContextKey.Escaping)) {
             cooldown -= Time.deltaTime;
-            if (cooldown <= 0f) {
-                Node root = (Node) GetData(BTContextKey.Root);
+
+            Node root = (Node) GetData(BTContextKey.Root);
+            Vector3 escapeRoute = (Vector3) GetData(BTContextKey.EscapeRoute);
+            Transform transform = (Transform) GetData(BTContextKey.Transform);
+
+            if (cooldown <= 0f || Vector3.Distance(escapeRoute, transform.position) < 1f) {
                 root.SetData(BTContextKey.Escaping, false);
-                cooldown = 5f;
+                cooldown = 3f;
 
                 state = NodeState.FAILURE;
                 return state;
