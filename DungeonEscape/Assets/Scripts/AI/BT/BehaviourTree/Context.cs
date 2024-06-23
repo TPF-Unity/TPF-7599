@@ -9,6 +9,7 @@ namespace BehaviourTree {
         Transform,
         Root,
         Unit,
-        Enemies
+        Enemies,
+        Escaping,
     }
 }
