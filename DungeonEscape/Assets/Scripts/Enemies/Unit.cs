@@ -45,7 +45,7 @@ public class Unit : MonoBehaviour
     {
         if (timeSinceDamaged > 7f && timeSinceHealed > 0.1f && stats.Health != stats.MaxHealth)
         {
-            stats.Health = Math.Min(stats.MaxHealth, stats.Health + stats.Health / 100);
+            stats.Health = Math.Min(stats.MaxHealth, stats.Health + stats.MaxHealth / 100);
             onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
             timeSinceHealed = 0f;
         }

@@ -59,19 +59,9 @@ public class OpponentBT : BehaviourTree.Tree {
                 new TaskIsEscaping(),
                 new Sequence(new List<Node>{
                     new TaskEnemiesInRange(GetItemInfoForType(ItemType.Enemy)),
-                    new Selector(new List<Node>{
-                        new Sequence(new List<Node>{
-                            new TaskHPLowerThan(0.30f),
-                            new TaskEscape(patrolWaypoints, GetItemInfoForType(ItemType.Enemy))
-                        }),
-                        new TaskAttackEnemies(attackInfo)
-                    })
+                    new TaskHPLowerThan(0.30f),
+                    new TaskEscape(patrolWaypoints, GetItemInfoForType(ItemType.Enemy))
                 })
-            }),
-            new Sequence(new List<Node>{
-                new TaskHPLowerThan(0.80f),
-                new TaskCheckPowerUpInRange(GetItemInfoForType(ItemType.PowerUp)),
-                new TaskGoToPowerUp()
             }),
             new Sequence(new List<Node>{
                 new TaskDoorInRange(GetItemInfoForType(ItemType.Door)),
@@ -81,6 +71,15 @@ public class OpponentBT : BehaviourTree.Tree {
             new Sequence(new List<Node>{
                 new TaskKeyInRange(GetItemInfoForType(ItemType.Key)),
                 new TaskGoToKey()
+            }),
+            new Sequence(new List<Node>{
+                new TaskHPLowerThan(0.80f),
+                new TaskCheckPowerUpInRange(GetItemInfoForType(ItemType.PowerUp)),
+                new TaskGoToPowerUp()
+            }),
+            new Sequence(new List<Node>{
+                new TaskEnemiesInRange(GetItemInfoForType(ItemType.Enemy)),
+                new TaskAttackEnemies(attackInfo)
             }),
             new Selector(new List<Node>{
                 new Sequence(new List<Node>{
