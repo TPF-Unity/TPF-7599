@@ -7,6 +7,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AI.ML
 {
@@ -20,9 +21,11 @@ namespace AI.ML
         private Unit _unit;
         private SceneInitializer _sceneInitializer;
         public bool isTraining = true;
+        public bool isProcGen = false;
         private KeyProgressionManager _keyProgressionManager;
         private GameObject[] _patrolPoints;
         private GameObject[] _keys;
+        private Player _player;
 
 
         // Game system
@@ -35,15 +38,17 @@ namespace AI.ML
 
         // Reward system
         private const float ConstantRewardDrain = -0.0001f;
-        private const float ReachedPatrolPointReward = 2.0f;
-        private const float CollectedKeyReward = 4.0f;
+        private const float ReachedPatrolPointReward = 0.5f;
+        private const float CollectedKeyReward = 2.0f;
         private const float BeingHitRewardDrain = -0.01f;
         private const float BeingKilledRewardDrain = -2f;
         private const float TurningRewardDrain = -0.0005f;
         private const float WalkingStraightReward = 0.0002f;
         private const float ShootingEnemyReward = 0.002f;
         private const float ShootingThinAirRewardDrain = -0.0001f;
-        private const float CollectedAllKeysReward = 10f;
+        private const float CollectedAllKeysReward = 5f;
+        private const float GettingExperienceReward = 0.1f;
+        private const float WalkingBackwardsPenalty = -0.001f;
 
         // Position
         private Vector3 _startPosition;
@@ -59,6 +64,14 @@ namespace AI.ML
             Debug.Log($"Current Reward: {currentReward}");
         }
 
+        private void Awake()
+        {
+            if (gameManager == null)
+            {
+                gameManager = GameObject.Find("GameManager")?.GetComponent<GameManager>();
+            }
+        }
+
         public void Update()
         {
             if (_keys != null || gameManager.keys == null)
@@ -72,8 +85,8 @@ namespace AI.ML
                 var keyController = key.GetComponentInChildren<KeyController>();
                 keyController.OnKeyCollected += OnKeyCollected;
             }
-            
-            _sceneInitializer.Restart(trainingScene);
+
+            _sceneInitializer?.Restart(trainingScene);
         }
 
         private void Restart()
@@ -93,8 +106,14 @@ namespace AI.ML
             Restart();
         }
 
+        private void RewardGettingExperience(float exp)
+        {
+            AddReward(GettingExperienceReward);
+        }
+
         public override void Initialize()
         {
+            _player = GetComponent<Player>();
             _keyProgressionManager = GetComponent<KeyProgressionManager>();
             _sensor = GetComponent<RayPerceptionSensorComponent3D>();
             _unit = GetComponent<Unit>();
@@ -108,38 +127,81 @@ namespace AI.ML
 
             if (startPositions == null || startPositions.Length == 0)
             {
-                startPositions = new[] { gameObject };
+                // startPositions = new[] { gameObject };
+                var patrolPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
+                _startPositionsVector = patrolPoints.Select(pp => pp.transform.position).ToArray();
             }
-
-            _startPositionsVector = new Vector3[startPositions.Length];
-
-            for (var i = 0; i < startPositions.Length; i++)
+            else
             {
-                if (startPositions[i] != null)
-                    _startPositionsVector[i] = startPositions[i].transform.position;
+                _startPositionsVector = GameObject.FindGameObjectsWithTag("Start Position")
+                    .Select(go => go.transform.position).ToArray();
             }
 
+
+            if (_startPositionsVector.Length == 0)
+            {
+                _startPositionsVector = new Vector3[1];
+                _startPositionsVector[0] = mlAgent.transform.position;
+            }
+
+            // _startPositionsVector = new Vector3[startPositions.Length];
+            //
+            // for (var i = 0; i < startPositions.Length; i++)
+            // {
+            //     if (startPositions[i] != null)
+            //         _startPositionsVector[i] = startPositions[i].transform.position;
+            // }
+            _player.onXPChanged.AddListener(RewardGettingExperience);
             if (isTraining)
             {
                 _sceneInitializer = new SceneInitializer();
                 _sceneInitializer.Initialize(gameManager, _startPositionsVector, gameObject, trainingScene);
+                if (isProcGen)
+                {
+                }
+                else
+                {
+                    gameManager.Initialize();
+                }
             }
-            gameManager.Initialize();
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            var nearestSpawnPoint = FindNearestSpawnPoint(transform.position, sensor) ??
-                                    _patrolPoints[0];
+            Vector3 nearestPatrolPointPosition = Vector3.zero;
+            if (_patrolPoints.Length > 0)
+            {
+                var nearestPatrolPoint = FindNearestSpawnPoint(transform.position, sensor) ??
+                                         _patrolPoints[0];
+                nearestPatrolPointPosition = nearestPatrolPoint.transform.position;
+            }
 
             var waypointPositionInLocalCoords =
-                transform.InverseTransformPoint(nearestSpawnPoint.transform.position);
+                transform.InverseTransformPoint(nearestPatrolPointPosition);
             sensor.AddObservation(waypointPositionInLocalCoords);
             sensor.AddObservation(waypointPositionInLocalCoords.magnitude);
             sensor.AddObservation(_rigidBody.velocity);
             sensor.AddObservation(transform.forward);
             sensor.AddObservation(characterController.alreadyAttacked);
             sensor.AddObservation(_angleToClosestEnemy != 0);
+            sensor.AddObservation(_unit.stats.Health);
+            sensor.AddObservation(_player.GetXP());
+        }
+
+        private float CalculatePathDistance(NavMeshPath path)
+        {
+            float distance = 0.0f;
+            if (path.corners.Length < 2)
+            {
+                return distance;
+            }
+
+            for (int i = 1; i < path.corners.Length; i++)
+            {
+                distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+            }
+
+            return distance;
         }
 
         private GameObject FindNearestSpawnPoint(Vector3 currentPosition, VectorSensor sensor)
@@ -161,14 +223,37 @@ namespace AI.ML
 
             foreach (var spawnPoint in spawnPositions)
             {
-                var distance = Vector3.Distance(currentPosition, spawnPoint.transform.position);
-                if (!spawnPoint.activeInHierarchy || !(distance < nearestDistance))
+                // var distance = Vector3.Distance(currentPosition, spawnPoint.transform.position);
+                // if (!spawnPoint.activeInHierarchy || !(distance < nearestDistance))
+                // {
+                //     continue;
+                // }
+                //
+                // nearestDistance = distance;
+                // nearestGameObject = spawnPoint;
+                if (!spawnPoint.activeInHierarchy)
                 {
                     continue;
                 }
 
-                nearestDistance = distance;
-                nearestGameObject = spawnPoint;
+                // Sample the position on the NavMesh
+                NavMeshHit hit;
+                if (!NavMesh.SamplePosition(spawnPoint.transform.position, out hit, 1.0f, NavMesh.AllAreas))
+                {
+                    continue;
+                }
+
+                // Calculate the path distance using NavMeshPath
+                NavMeshPath path = new NavMeshPath();
+                if (NavMesh.CalculatePath(currentPosition, hit.position, NavMesh.AllAreas, path))
+                {
+                    float pathDistance = CalculatePathDistance(path);
+                    if (pathDistance < nearestDistance)
+                    {
+                        nearestDistance = pathDistance;
+                        nearestGameObject = spawnPoint;
+                    }
+                }
             }
 
             if (nearestGameObject != null)
@@ -181,7 +266,7 @@ namespace AI.ML
 
         public override void OnEpisodeBegin()
         {
-            Debug.Log("Episode Beggining");
+            _patrolPoints = GameObject.FindGameObjectsWithTag(Tags.PatrolPoint.ToString());
             transform.position = _startPositionsVector[0];
             transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
             _rigidBody.velocity = Vector3.zero;
@@ -223,7 +308,15 @@ namespace AI.ML
             if (other.CompareTag(Tags.PatrolPoint.ToString()) && _patrolPoints.Contains(other.gameObject))
             {
                 AddReward(ReachedPatrolPointReward);
-                _patrolPoints = _patrolPoints.Where(obj => obj != other.gameObject).ToArray();
+                if (_patrolPoints.Length > 1)
+                {
+                    _patrolPoints = _patrolPoints.Where(obj => obj != other.gameObject).ToArray();
+                }
+            }
+
+            if (other.CompareTag(Tags.KeyFlagML.ToString()))
+            {
+                other.enabled = false;
             }
 
             // if (other.CompareTag(Tags.KeySpawn.ToString()) && _keys.Contains(other.gameObject))
@@ -310,6 +403,14 @@ namespace AI.ML
             return Vector3.Dot(movementDirection, transform.forward) > 0;
         }
 
+        private void PenalizeWalkingBackwards(int vertical)
+        {
+            if (vertical < 0)
+            {
+                AddReward(WalkingBackwardsPenalty);
+            }
+        }
+        
         private void RewardWalkingStraight(int vertical)
         {
             if (vertical > 0 && movedForward())
@@ -338,7 +439,7 @@ namespace AI.ML
 
         public override void OnActionReceived(ActionBuffers actions)
         {
-            logReward();
+            //logReward();
             var vertical = actions.DiscreteActions[0] <= 1 ? actions.DiscreteActions[0] : -1;
             var horizontal = actions.DiscreteActions[1] <= 1 ? actions.DiscreteActions[1] : -1;
             var shoot = actions.DiscreteActions[2];
@@ -357,7 +458,8 @@ namespace AI.ML
 
             if (transform.position.y < -3f)
             {
-                Restart();
+                var patrolPointPosition = _patrolPoints[0].transform.position;
+                transform.position = new Vector3(patrolPointPosition.x, 1, patrolPointPosition.z);
             }
 
             _previousPosition = transform.position;

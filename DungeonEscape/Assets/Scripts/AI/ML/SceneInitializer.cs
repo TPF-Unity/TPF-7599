@@ -16,7 +16,8 @@ namespace AI.ML
         Dungeon7,
         Dungeon8,
         Dungeon9,
-        Dungeon10
+        Dungeon10,
+        DungeonProcGen
     }
 
     public class SceneInitializer
@@ -33,8 +34,9 @@ namespace AI.ML
         public void Initialize(GameManager gameManager, Vector3[] startPositions, GameObject agent,
             MLTrainingScene trainingScene)
         {
-            var parent = agent.transform.parent.gameObject;
-            _spawnManager = parent?.GetComponentInChildren<EnemySpawnManager>();
+            var parent = agent.transform.parent?.gameObject;
+            _spawnManager = parent?.GetComponentInChildren<EnemySpawnManager>() ??
+                            GameObject.Find("SpawnManager").GetComponent<EnemySpawnManager>();
             _agent = agent;
             _gameManager = gameManager;
             _keySpawnPositions = new Vector3[_gameManager.keySpawnPositions.Length];
@@ -56,6 +58,7 @@ namespace AI.ML
             actionsMap.Add(MLTrainingScene.Dungeon8, InitializeDungeon8);
             actionsMap.Add(MLTrainingScene.Dungeon9, InitializeDungeon9);
             actionsMap.Add(MLTrainingScene.Dungeon10, InitializeDungeon10);
+            actionsMap.Add(MLTrainingScene.DungeonProcGen, InitializeDungeonProcGen);
 
             startPositionsMap.Add(MLTrainingScene.Dungeon2, new[] { startPositions[0] });
             startPositionsMap.Add(MLTrainingScene.Dungeon3, new[] { startPositions[0] });
@@ -66,10 +69,12 @@ namespace AI.ML
             startPositionsMap.Add(MLTrainingScene.Dungeon8, startPositions);
             startPositionsMap.Add(MLTrainingScene.Dungeon9, startPositions);
             startPositionsMap.Add(MLTrainingScene.Dungeon10, startPositions);
+            startPositionsMap.Add(MLTrainingScene.DungeonProcGen, startPositions);
         }
 
         public void Restart(MLTrainingScene scene)
         {
+            Debug.Log("Calling Restart");
             actionsMap.TryGetValue(scene, out var restart);
             restart?.Invoke();
         }
@@ -83,6 +88,12 @@ namespace AI.ML
                 key.transform.position = _keySpawnPositions[i] +
                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
                                          Vector3.forward * 1f;
+            }
+
+            var mlKeyFlags = GameObject.FindGameObjectsWithTag("KeyFlagML");
+            foreach (var mlKeyFlag in mlKeyFlags)
+            {
+                mlKeyFlag.GetComponent<Collider>().enabled = true;
             }
         }
 
@@ -109,26 +120,48 @@ namespace AI.ML
                     keyController.Reset();
                 }
             }
+
+            var mlKeyFlags = GameObject.FindGameObjectsWithTag("KeyFlagML");
+            Debug.Log(mlKeyFlags.Length);
+            foreach (var mlKeyFlag in mlKeyFlags)
+            {
+                mlKeyFlag.GetComponent<Collider>().enabled = true;
+            }
         }
 
         private void InitializeDungeon3()
         {
-            startPositionsMap.TryGetValue(MLTrainingScene.Dungeon3, out var startPositions);
+            startPositionsMap.TryGetValue(MLTrainingScene.Dungeon2, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
-            foreach (var key in _gameManager.keys)
+
+            for (var i = 0; i < _gameManager.keys.Length; i++)
             {
+                var key = _gameManager.keys[i];
                 key.gameObject.SetActive(true);
-                key.transform.position = _patrolPoints[0].transform.position +
+                key.transform.position = _patrolPoints[i].transform.position +
                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
-                                         Vector3.forward * 5f;
-                _gameManager._doors[0].transform.position = _patrolPoints[0].transform.position +
-                                                            Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
-                                                            Vector3.forward * 2f;
-                foreach (var gameManagerKey in _gameManager.keys)
-                {
-                    var keyController = gameManagerKey.GetComponentInChildren<KeyController>();
-                    keyController.Reset();
-                }
+                                         Vector3.forward * 1f;
+            }
+
+            for (var i = 0; i < _gameManager._doors.Length; i++)
+            {
+                var door = _gameManager._doors[i];
+                door.transform.position = _patrolPoints[i].transform.position +
+                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                          Vector3.forward * 1f;
+            }
+
+            foreach (var gameManagerKey in _gameManager.keys)
+            {
+                var keyController = gameManagerKey.GetComponentInChildren<KeyController>();
+                keyController.Reset();
+            }
+
+            var mlKeyFlags = GameObject.FindGameObjectsWithTag("KeyFlagML");
+            Debug.Log(mlKeyFlags.Length);
+            foreach (var mlKeyFlag in mlKeyFlags)
+            {
+                mlKeyFlag.GetComponent<Collider>().enabled = true;
             }
         }
 
@@ -167,7 +200,82 @@ namespace AI.ML
         {
             startPositionsMap.TryGetValue(MLTrainingScene.Dungeon8, out var startPositions);
             _agent.transform.position = startPositions[Random.Range(0, startPositions.Length - 1)];
-            ResetKeys(1f);
+
+            var shuffledPatrolPoints = _patrolPoints.ShuffledCopy();
+            for (var i = 0; i < _gameManager.keys.Length; i++)
+            {
+                var key = _gameManager.keys[i];
+                key.gameObject.SetActive(true);
+                key.transform.position = shuffledPatrolPoints[i].transform.position +
+                                         Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                         Vector3.forward * 1f;
+            }
+
+            shuffledPatrolPoints = _patrolPoints.ShuffledCopy();
+            for (var i = 0; i < _gameManager._doors.Length; i++)
+            {
+                var door = _gameManager._doors[i];
+                door.transform.position = shuffledPatrolPoints[i].transform.position +
+                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                          Vector3.forward * 1f;
+            }
+
+            foreach (var gameManagerKey in _gameManager.keys)
+            {
+                var keyController = gameManagerKey.GetComponentInChildren<KeyController>();
+                keyController.Reset();
+            }
+
+            var mlKeyFlags = GameObject.FindGameObjectsWithTag("KeyFlagML");
+            Debug.Log(mlKeyFlags.Length);
+            foreach (var mlKeyFlag in mlKeyFlags)
+            {
+                mlKeyFlag.GetComponent<Collider>().enabled = true;
+            }
+        }
+
+        private void InitializeDungeonProcGen()
+        {
+            Debug.Log("Running initialize");
+            startPositionsMap.TryGetValue(MLTrainingScene.Dungeon8, out var startPositions);
+            _patrolPoints = _patrolPoints.Length > 0
+                ? _patrolPoints
+                : GameObject.FindGameObjectsWithTag(Tags.PatrolPoint.ToString());
+            var shuffledPatrolPoints = _patrolPoints.ShuffledCopy();
+            var randomPos = shuffledPatrolPoints[Random.Range(0, startPositions.Length - 1)].transform.position;
+            _agent.transform.position =
+                new Vector3(randomPos.x, 1, randomPos.y);
+            for (var i = 0; i < _gameManager.keys.Length; i++)
+            {
+                var key = _gameManager.keys[i];
+                key.gameObject.SetActive(true);
+                key.transform.position = shuffledPatrolPoints[i].transform.position +
+                                         Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                         Vector3.forward * 1f;
+            }
+
+            shuffledPatrolPoints = _patrolPoints.ShuffledCopy();
+            for (var i = 0; i < _gameManager._doors.Length; i++)
+            {
+                var door = _gameManager._doors[i];
+                door.transform.position = shuffledPatrolPoints[i].transform.position +
+                                          Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)) *
+                                          Vector3.forward * 1f;
+            }
+
+            foreach (var gameManagerKey in _gameManager.keys)
+            {
+                var keyController = gameManagerKey.GetComponentInChildren<KeyController>();
+                keyController.Reset();
+            }
+
+            var mlKeyFlags = GameObject.FindGameObjectsWithTag("KeyFlagML");
+
+            foreach (var mlKeyFlag in mlKeyFlags)
+            {
+                mlKeyFlag.GetComponent<Collider>().enabled = true;
+            }
+
             _spawnManager.DeSpawnAllEnemies();
         }
 

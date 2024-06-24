@@ -1688,6 +1688,7 @@ MonoBehaviour:
   mlAgent: {fileID: 5619970384092612758}
   characterController: {fileID: 3778441391515180807}
   isTraining: 1
+  isProcGen: 0
   trainingScene: 0
   startPositions: []
 --- !u!114 &4353321740218754761
@@ -1752,7 +1753,7 @@ MonoBehaviour:
   m_DetectableTags:
   - Untagged
   - Door
-  - Key
+  - KeyFlagML
   - Player
   - Enemy
   - PowerUp
@@ -1762,7 +1763,7 @@ MonoBehaviour:
   m_RayLength: 51
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 4294928712
+    m_Bits: 4294822216
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1995,7 +1996,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   levelUpInfo: {fileID: 11400000, guid: 4ed6b0bd324ac31419be84f05e523392, type: 2}
-  stats: {fileID: 0}
 --- !u!208 &3085480864720835986
 NavMeshObstacle:
   m_ObjectHideFlags: 0
