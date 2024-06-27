@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
+using Misc;
 using UnityEngine;
 
 public class PowerUp {
@@ -29,6 +30,9 @@ public class PowerUpSpawner : MonoBehaviour
     private float respawnTimer;
     private bool isActive = true;
 
+    private readonly List<string> layersThatDoSoundWhenPickingKeys = new List<string>()
+    { Layer.Player.ToString() };
+
     private void Start() {
         powerUpPrefab = Instantiate(powerUpSO.prefab);
         powerUpPrefab.transform.parent = powerUpSpawner;
@@ -52,6 +56,9 @@ public class PowerUpSpawner : MonoBehaviour
                 isActive = false;
                 powerUpPrefab.gameObject.SetActive(false);
                 respawnTimer = 0f;
+            }
+            if (layersThatDoSoundWhenPickingKeys.Contains(LayerMask.LayerToName(other.gameObject.layer))) {
+                AudioSource.PlayClipAtPoint(GameManager.instance.powerUpSound, transform.position);
             }
         }
     }

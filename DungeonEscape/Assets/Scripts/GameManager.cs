@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public event System.Action<bool> OnStrategyChange;
     public bool isTraining = false;
     [SerializeField] private bool useGOAP;
+    public AudioClip loseSound;
+    public AudioClip keySound;
+    public AudioClip powerUpSound;
 
     public bool UseGOAP
     {
@@ -125,6 +128,7 @@ public class GameManager : MonoBehaviour
 
     public void Lose()
     {
+        AudioSource.PlayClipAtPoint(loseSound, Camera.main.transform.position);
         difficultyManager.MatchResult(false);
     }
 

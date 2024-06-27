@@ -4210,6 +4210,9 @@ MonoBehaviour:
   keys: []
   isTraining: 0
   useGOAP: 1
+  loseSound: {fileID: 8300000, guid: 23bdba0a25c448640b85353932de6e0f, type: 3}
+  keySound: {fileID: 8300000, guid: bc6ba8ace6ddbc3468bf4056fa971604, type: 3}
+  powerUpSound: {fileID: 8300000, guid: 00229442e36145442924be491b001a1c, type: 3}
   difficultyManager: {fileID: 1159561409}
 --- !u!4 &1159561408
 Transform:
