@@ -31,6 +31,8 @@ namespace StarterAssets
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+        public AudioClip AttackAudioClip;
+        [Range(0, 1)] public float AttackAudioVolume = 0.5f;
 
         [Space(10)]
         [Tooltip("The height the player can jump")]
@@ -204,7 +206,6 @@ namespace StarterAssets
                 {
                     if (_animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart") || _animator.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd")) return;
                     _animator.SetTrigger(_animAttack);
-                    _animator.SetBool(_animIsAttacking, true);
                 }
             }
         }
@@ -219,6 +220,10 @@ namespace StarterAssets
                 _animator.ResetTrigger("Shoot");
             }
 
+        }
+
+        public void BeginAttack() {
+            AudioSource.PlayClipAtPoint(AttackAudioClip, transform.TransformPoint(_controller.center), AttackAudioVolume);
         }
 
         private void GroundedCheck()

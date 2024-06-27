@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     private float damage;
     public GameObject origin;
     public Player source;
+    public AudioClip hitSound;
 
     private float BULLET_SPEED = 30f;
 
@@ -59,6 +60,9 @@ public class Bullet : MonoBehaviour
             if (collider.gameObject.TryGetComponent(out Unit target))
             {
                 target.TakeDamageFrom(damage, source);
+                if (hitSound != null) {
+                    AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                }
                 Destroy(gameObject);
             }
         }

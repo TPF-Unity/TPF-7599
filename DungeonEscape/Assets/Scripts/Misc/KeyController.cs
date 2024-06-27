@@ -14,6 +14,9 @@ public class KeyController : MonoBehaviour
     private readonly List<string> layersThatCanPickKeys = new List<string>()
         { Layer.Player.ToString(), Layer.EnemyPlayers.ToString() };
 
+    private readonly List<string> layersThatDoSoundWhenPickingKeys = new List<string>()
+        { Layer.Player.ToString() };
+
     private void OnTriggerEnter(Collider other)
     {
         if (layersThatCanPickKeys.Contains(LayerMask.LayerToName(other.gameObject.layer)) && CanPickUpKey(other.gameObject)) {
@@ -25,6 +28,10 @@ public class KeyController : MonoBehaviour
             KeyProgressionManager keyManager = other.GetComponent<KeyProgressionManager>();
             if (keyManager != null) {
                 keyManager.CollectKey();
+            }
+
+            if (layersThatDoSoundWhenPickingKeys.Contains(LayerMask.LayerToName(other.gameObject.layer))) {
+                AudioSource.PlayClipAtPoint(GameManager.instance.keySound, transform.position);
             }
 
             collectors.Add(other.gameObject.GetInstanceID());
