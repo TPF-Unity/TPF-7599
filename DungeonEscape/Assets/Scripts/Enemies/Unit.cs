@@ -43,9 +43,9 @@ public class Unit : MonoBehaviour
 
     private void RegenHealth()
     {
-        if (timeSinceDamaged > 3f && timeSinceHealed > 0.25f && stats.Health != stats.MaxHealth)
+        if (timeSinceDamaged > 7f && timeSinceHealed > 0.1f && stats.Health != stats.MaxHealth)
         {
-            stats.Health = Math.Min(stats.MaxHealth, stats.Health + stats.Health / 20);
+            stats.Health = Math.Min(stats.MaxHealth, stats.Health + stats.MaxHealth / 100);
             onHealthChanged?.Invoke(stats.Health / stats.MaxHealth * 100);
             timeSinceHealed = 0f;
         }

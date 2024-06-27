@@ -4,11 +4,15 @@ namespace BehaviourTree {
         Player,
         Key,
         Door,
+        PowerUp,
         KnownDoors,
         NavMeshAgent,
         Transform,
         Root,
         Unit,
-        Enemies
+        Enemies,
+        AttackTarget,
+        Escaping,
+        EscapeRoute,
     }
 }

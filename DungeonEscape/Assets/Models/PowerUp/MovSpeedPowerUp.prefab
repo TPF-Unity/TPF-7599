@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3108452951050175960}
   - component: {fileID: 225376674975320059}
   - component: {fileID: 8937463338607363921}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 6264364909791261784}
   - component: {fileID: 629518410910972732}
   - component: {fileID: 8268000018500998667}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: MovSpeedPowerUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

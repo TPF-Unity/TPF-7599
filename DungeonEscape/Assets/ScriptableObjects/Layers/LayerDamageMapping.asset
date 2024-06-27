@@ -32,3 +32,7 @@ MonoBehaviour:
     - Player
     - Enemies
     - EnemyPlayers
+  - layerName: OpponentProjectiles
+    canDamageLayerNames:
+    - Player
+    - Enemies

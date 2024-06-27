@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3412003379375889552}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.175, z: 0.423}
+  m_LocalPosition: {x: 0, y: 1.175, z: 0.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -530,7 +530,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5921871130157532986}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1d31b82d00f124429eee013a2c66d77, type: 3}
   m_Name: 
@@ -556,6 +556,11 @@ MonoBehaviour:
     layer:
       serializedVersion: 2
       m_Bits: 320
+  - itemType: 3
+    detectionRange: 10
+    layer:
+      serializedVersion: 2
+      m_Bits: 262144
   attackInfo:
     attackRange: 7
     bulletSpeed: 30
@@ -763,7 +768,7 @@ PrefabInstance:
     - target: {fileID: 4757796151762377646, guid: c7ae6dd80162fca46ac2fc8a36225e07,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5.83
+      value: 2.17
       objectReference: {fileID: 0}
     - target: {fileID: 4757796151762377646, guid: c7ae6dd80162fca46ac2fc8a36225e07,
         type: 3}
@@ -788,6 +793,16 @@ PrefabInstance:
     - target: {fileID: 5775601345193243997, guid: c7ae6dd80162fca46ac2fc8a36225e07,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5775601345193243997, guid: c7ae6dd80162fca46ac2fc8a36225e07,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5775601345193243997, guid: c7ae6dd80162fca46ac2fc8a36225e07,
+        type: 3}
+      propertyPath: m_LocalScale.y
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7613044464685840773, guid: c7ae6dd80162fca46ac2fc8a36225e07,

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2350401434797688134}
   - component: {fileID: -6533517775787007944}
   - component: {fileID: 1866861886383113518}
-  m_Layer: 18
+  m_Layer: 0
   m_Name: PowerUpSpawner
   m_TagString: PowerUp
   m_Icon: {fileID: 0}

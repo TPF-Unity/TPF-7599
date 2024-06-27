@@ -9,6 +9,7 @@ namespace Misc
         Enemies,
         PlayerProjectiles,
         EnemyProjectiles,
+        OpponentProjectiles,
         Wall,
         EnemySensor,
         Keys,

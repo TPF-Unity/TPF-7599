@@ -1,21 +1,21 @@
-using System.Collections.Generic;
 using BehaviourTree;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TaskKeepDistance : Node {
+public class TaskGoToPowerUp : Node {
 
-    public TaskKeepDistance() { }
+    public TaskGoToPowerUp() { }
 
     public override NodeState Evaluate() {
-        List<Transform> enemies = (List<Transform>) GetData(BTContextKey.Enemies);
+        Transform target = (Transform) GetData(BTContextKey.PowerUp);
 
-        if (enemies != null && enemies.Count > 0) {
+        if (target != null) {
             Transform transform = (Transform) GetData(BTContextKey.Transform);
             NavMeshAgent navMeshAgent = (NavMeshAgent) GetData(BTContextKey.NavMeshAgent);
 
-            //! calculate best escape direction
-            navMeshAgent.SetDestination(new(0, 0, 0));
+            if (Vector3.Distance(transform.position, target.position) > 0.1f) {
+                navMeshAgent.SetDestination(target.position);
+            }
 
             state = NodeState.RUNNING;
             return state;

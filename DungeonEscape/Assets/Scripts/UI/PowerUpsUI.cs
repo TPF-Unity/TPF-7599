@@ -34,23 +34,25 @@ public class PowerUpsUI : MonoBehaviour
 
     private void UpdateVisual()
     {
-        foreach (Transform child in transform)
-        {
-            if (child == iconTemplate)
+        if (transform != null) {
+            foreach (Transform child in transform)
             {
-                continue;
+                if (child == iconTemplate)
+                {
+                    continue;
+                }
+
+                Destroy(child.gameObject);
             }
 
-            Destroy(child.gameObject);
-        }
-
-        foreach (var player in _players)
-        {
-            foreach (PowerUp powerUp in player.GetPowerUpList())
+            foreach (var player in _players)
             {
-                Transform iconTransform = Instantiate(iconTemplate, transform);
-                iconTransform.gameObject.SetActive(true);
-                iconTransform.Find("Icon").GetComponent<Image>().sprite = powerUp.powerUpSO.sprite;
+                foreach (PowerUp powerUp in player.GetPowerUpList())
+                {
+                    Transform iconTransform = Instantiate(iconTemplate, transform);
+                    iconTransform.gameObject.SetActive(true);
+                    iconTransform.Find("Icon").GetComponent<Image>().sprite = powerUp.powerUpSO.sprite;
+                }
             }
         }
     }

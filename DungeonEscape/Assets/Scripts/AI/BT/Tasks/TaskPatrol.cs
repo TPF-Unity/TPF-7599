@@ -21,7 +21,7 @@ public class TaskPatrol : Node {
         }
 
         time += Time.deltaTime;
-        if (time > 0.5f) {
+        if (time > 0.25f) {
             waiting = false;
         }
 

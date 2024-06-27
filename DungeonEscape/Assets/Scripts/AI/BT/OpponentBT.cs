@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using AI.Sensors;
 using BehaviourTree;
 using UnityEngine;
 using UnityEngine.AI;
@@ -56,10 +55,13 @@ public class OpponentBT : BehaviourTree.Tree {
         PatrolWaypoint[] doorWaypoints = GameObject.FindGameObjectsWithTag("DoorSpawn").Select(position => new PatrolWaypoint(position.transform)).ToArray().Concat(patrolWaypoints).ToArray();
 
         Node root = new Selector(new List<Node>{
-            new Sequence(new List<Node>{
-                new TaskHPLowerThan(50f),
-                new TaskEnemiesInRange(GetItemInfoForType(ItemType.Enemy)),
-                new TaskKeepDistance()
+            new Selector(new List<Node>{
+                new TaskIsEscaping(),
+                new Sequence(new List<Node>{
+                    new TaskEnemiesInRange(GetItemInfoForType(ItemType.Enemy)),
+                    new TaskHPLowerThan(0.30f),
+                    new TaskEscape(patrolWaypoints, GetItemInfoForType(ItemType.Enemy))
+                })
             }),
             new Sequence(new List<Node>{
                 new TaskDoorInRange(GetItemInfoForType(ItemType.Door)),
@@ -71,8 +73,13 @@ public class OpponentBT : BehaviourTree.Tree {
                 new TaskGoToKey()
             }),
             new Sequence(new List<Node>{
-                new TaskPlayerInRange(GetItemInfoForType(ItemType.Player)),
-                new TaskAttackPlayer(attackInfo)
+                new TaskHPLowerThan(0.80f),
+                new TaskCheckPowerUpInRange(GetItemInfoForType(ItemType.PowerUp)),
+                new TaskGoToPowerUp()
+            }),
+            new Sequence(new List<Node>{
+                new TaskEnemiesInRange(GetItemInfoForType(ItemType.Enemy)),
+                new TaskAttackEnemies(attackInfo)
             }),
             new Selector(new List<Node>{
                 new Sequence(new List<Node>{

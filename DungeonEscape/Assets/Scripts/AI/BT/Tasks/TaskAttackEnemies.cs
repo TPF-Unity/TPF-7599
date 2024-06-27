@@ -1,18 +1,25 @@
+using System.Collections.Generic;
 using BehaviourTree;
 using Misc;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TaskAttackPlayer : Node {
+public class TaskAttackEnemies : Node {
     private readonly AttackInfo attackInfo;
     private float cooldown = 0f;
 
-    public TaskAttackPlayer(AttackInfo attackInfo) {
+    public TaskAttackEnemies(AttackInfo attackInfo) {
         this.attackInfo = attackInfo;
     }
 
     public override NodeState Evaluate() {
-        Transform target = (Transform) GetData(BTContextKey.Player);
+        List<Transform> enemies = (List<Transform>) GetData(BTContextKey.Enemies);
+        Transform target = (Transform) GetData(BTContextKey.AttackTarget);
+
+        if (enemies != null && enemies.Count > 0 && target == null) {
+            target = enemies[0];
+            SetData(BTContextKey.AttackTarget, target);
+        }
         cooldown -= Time.deltaTime;
 
         if (target != null) {
@@ -35,7 +42,7 @@ public class TaskAttackPlayer : Node {
                 GameObject bullet = Object.Instantiate(attackInfo.bullet);
                 Bullet instance = bullet.GetComponent<Bullet>();
                 instance.Damage = stats.Damage;
-                instance.gameObject.layer = LayerMask.NameToLayer(Layer.EnemyProjectiles.ToString());
+                instance.gameObject.layer = LayerMask.NameToLayer(Layer.OpponentProjectiles.ToString());
                 var bulletTransform = instance.transform;
                 bulletTransform.position = transform.Find("AttackSpawnPoint").position;
 
