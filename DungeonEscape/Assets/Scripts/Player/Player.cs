@@ -44,7 +44,9 @@ public class Player : MonoBehaviour
         }
 
         powerUpList.Add(powerUp);
-        OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+        if (gameObject.GetComponent<MainPlayer>() != null) {
+            OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         switch (powerUp.powerUpSO.type)
         {
@@ -105,7 +107,9 @@ public class Player : MonoBehaviour
         if (powerUpsChanged)
         {
             powerUpList.RemoveAll(powerUp => powerUp.durationLeft < 0f);
-            OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+            if (gameObject.GetComponent<MainPlayer>() != null) {
+                OnPowerUpChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
