@@ -9741,7 +9741,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   maxTravelDistance: 20
+  startPosition: {x: 0, y: 0, z: 0}
+  origin: {fileID: 0}
   source: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 74780ed41091a384c8b29ea60520e69e, type: 3}
 --- !u!1 &3380885985192950696
 GameObject:
   m_ObjectHideFlags: 0
