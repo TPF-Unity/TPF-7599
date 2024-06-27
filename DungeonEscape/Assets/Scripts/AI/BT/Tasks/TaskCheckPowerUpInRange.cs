@@ -17,7 +17,6 @@ public class TaskCheckPowerUpInRange : Node {
         int results = Physics.OverlapSphereNonAlloc(transform.position, itemInfo.detectionRange, Colliders, itemInfo.layer);
 
         if (results > 0) {
-            Debug.Log("SEEN POWER UP");
             parent.SetData(BTContextKey.PowerUp, Colliders[0].transform);
 
             state = NodeState.SUCCESS;
