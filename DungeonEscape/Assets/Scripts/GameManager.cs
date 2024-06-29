@@ -4,6 +4,13 @@ using System.Linq;
 using Misc;
 using UnityEngine;
 
+public enum OpponentStrategy
+{
+    GOAP,
+    BT,
+    ML
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -19,26 +26,15 @@ public class GameManager : MonoBehaviour
     public GameObject[] doorSpawnPositions;
 
     public GameObject[] keys;
-    
-    public event System.Action<bool> OnStrategyChange;
+
+    public event System.Action<OpponentStrategy> OnStrategyChange;
+
     public bool isTraining = false;
-    [SerializeField] private bool useGOAP;
+
+    [SerializeField] private OpponentStrategy _strategy;
     public AudioClip loseSound;
     public AudioClip keySound;
     public AudioClip powerUpSound;
-
-    public bool UseGOAP
-    {
-        get { return useGOAP; }
-        set
-        {
-            if (useGOAP != value)
-            {
-                useGOAP = value;
-                OnStrategyChange?.Invoke(useGOAP);
-            }
-        }
-    }
 
     public DifficultyManager difficultyManager;
     private SceneLoader sceneLoader;
@@ -55,17 +51,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public OpponentStrategy Strategy
+    {
+        get => _strategy;
+        private set
+        {
+            if (_strategy != value)
+            {
+                _strategy = value;
+                OnStrategyChange?.Invoke(_strategy);
+            }
+        }
+    }
+
     public void Initialize()
     {
         difficultyManager = GetComponent<DifficultyManager>();
 
         string strat = PlayerPrefs.GetString("OpponentAI", null);
-        useGOAP = strat switch
+        var newStrategy = strat switch
         {
-            "GOAP" => true,
-            "BT" => false,
-            _ => true,
+            "GOAP" => OpponentStrategy.GOAP,
+            "BT" => OpponentStrategy.BT,
+            "ML" => OpponentStrategy.ML,
+            _ => OpponentStrategy.BT
         };
+
+        Strategy = newStrategy;
 
         sceneLoader = GameObject.Find(GameObjects.SceneLoader.ToString()).GetComponent<SceneLoader>();
         SpawnKeys();

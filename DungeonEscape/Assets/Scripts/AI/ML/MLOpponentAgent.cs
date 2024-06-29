@@ -405,7 +405,7 @@ namespace AI.ML
 
         private void PenalizeWalkingBackwards(int vertical)
         {
-            if (vertical < 0)
+            if (vertical <= 0)
             {
                 AddReward(WalkingBackwardsPenalty);
             }

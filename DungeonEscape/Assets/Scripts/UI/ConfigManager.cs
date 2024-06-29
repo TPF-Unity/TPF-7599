@@ -10,6 +10,7 @@ public class ConfigManager : MonoBehaviour
     [SerializeField] private Button customButton;
     [SerializeField] private Button goapButton;
     [SerializeField] private Button btButton;
+    [SerializeField] private Button mlButton;
 
     private Color defaultColor = Color.white;
     private Color selectedColor = new(0.5f, 0.5f, 0.5f);
@@ -54,6 +55,7 @@ public class ConfigManager : MonoBehaviour
     {
         SetButtonColor(goapButton, defaultColor);
         SetButtonColor(btButton, defaultColor);
+        SetButtonColor(mlButton, defaultColor);
         
         Button btn = null;
         switch (strat) {
@@ -62,6 +64,9 @@ public class ConfigManager : MonoBehaviour
                 break;
             case "BT":
                 btn = btButton;
+                break;
+            case "ML":
+                btn = mlButton;
                 break;
             default:
                 break;
