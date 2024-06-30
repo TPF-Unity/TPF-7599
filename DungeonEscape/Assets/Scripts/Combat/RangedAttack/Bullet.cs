@@ -61,7 +61,7 @@ public class Bullet : MonoBehaviour
             {
                 target.TakeDamageFrom(damage, source);
                 if (hitSound != null) {
-                    AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                    AudioSource.PlayClipAtPoint(hitSound, transform.position, GameManager.instance.effectsVolume);
                 }
                 Destroy(gameObject);
             }

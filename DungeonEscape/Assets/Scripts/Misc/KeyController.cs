@@ -31,7 +31,7 @@ public class KeyController : MonoBehaviour
             }
 
             if (layersThatDoSoundWhenPickingKeys.Contains(LayerMask.LayerToName(other.gameObject.layer))) {
-                AudioSource.PlayClipAtPoint(GameManager.instance.keySound, transform.position);
+                AudioSource.PlayClipAtPoint(GameManager.instance.keySound, transform.position, GameManager.instance.effectsVolume);
             }
 
             collectors.Add(other.gameObject.GetInstanceID());
