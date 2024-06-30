@@ -2,11 +2,11 @@
 
 "Dungeon Escape" es un videojuego desarrollado en el marco de la asignatura Trabajo Profesional de la carrera Ingeniería en Informática de la Facultad de Ingeniería de la Universidad de Buenos Aires.
 
-### Jugar
+## Jugar
 
 Para iniciar el juego, buscar el archivo ejecutable en el último Release del repositorio y ejecutarlo.
 
-### Editar proyecto
+## Editar proyecto
 
 Para abrir el proyecto en el editor de Unity se deben seguir los siguientes pasos:
 1. Clonar o descargar el contenido del repositorio.
@@ -14,7 +14,7 @@ Para abrir el proyecto en el editor de Unity se deben seguir los siguientes paso
 3. Dirigirse a la sección “Projects” en Unity Hub e importar el directorio “DungeonEscape” del repositorio. Referirse a las instrucciones del [manual de Unity](https://docs.unity3d.com/hub/manual/AddProject.html) para más información.
 4. Abrir el proyecto importado para iniciar el editor de Unity. En caso de no poseer la versión correcta de Unity instalada, Unity Hub solicitará instalarla y simplemente se debe aceptar esa opción.
 
-### Instrucciones
+## Instrucciones
 
 #### Objetivo
 
