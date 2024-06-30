@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1249,7 +1249,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 95b4fb3bf5a91be4aa798b8971b758d7, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1ab834f9e8011164480e0b3e1fda0259, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.15
   m_Pitch: 1
@@ -3728,7 +3728,7 @@ PrefabInstance:
         type: 3}
       propertyPath: AttackAudioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 5417c305a161cfa499cdc99c7412032b, type: 3}
+      objectReference: {fileID: 8300000, guid: bbdb524ba6c84fa4c873cf56e415f1fe, type: 3}
     - target: {fileID: 4674185784974568143, guid: 3e9071da7660ded4b81fc8f4e6387e29,
         type: 3}
       propertyPath: AttackAudioVolume
@@ -4211,9 +4211,11 @@ MonoBehaviour:
   keys: []
   isTraining: 0
   useGOAP: 1
+  effectsVolume: 1
+  musicVolume: 0.3
   loseSound: {fileID: 8300000, guid: 23bdba0a25c448640b85353932de6e0f, type: 3}
   keySound: {fileID: 8300000, guid: bc6ba8ace6ddbc3468bf4056fa971604, type: 3}
-  powerUpSound: {fileID: 8300000, guid: 00229442e36145442924be491b001a1c, type: 3}
+  powerUpSound: {fileID: 8300000, guid: 22425f97aa4cb624b9495549cc7699bc, type: 3}
   difficultyManager: {fileID: 1159561409}
 --- !u!4 &1159561408
 Transform:
