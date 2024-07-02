@@ -58,7 +58,7 @@ public class PowerUpSpawner : MonoBehaviour
                 respawnTimer = 0f;
             }
             if (layersThatDoSoundWhenPickingKeys.Contains(LayerMask.LayerToName(other.gameObject.layer))) {
-                AudioSource.PlayClipAtPoint(GameManager.instance.powerUpSound, transform.position);
+                AudioSource.PlayClipAtPoint(GameManager.instance.powerUpSound, transform.position, GameManager.instance.effectsVolume);
             }
         }
     }

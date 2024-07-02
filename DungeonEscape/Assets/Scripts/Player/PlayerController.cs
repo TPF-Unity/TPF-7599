@@ -32,7 +32,6 @@ namespace StarterAssets
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
         public AudioClip AttackAudioClip;
-        [Range(0, 1)] public float AttackAudioVolume = 0.5f;
 
         [Space(10)]
         [Tooltip("The height the player can jump")]
@@ -223,7 +222,7 @@ namespace StarterAssets
         }
 
         public void BeginAttack() {
-            AudioSource.PlayClipAtPoint(AttackAudioClip, transform.TransformPoint(_controller.center), AttackAudioVolume);
+            AudioSource.PlayClipAtPoint(AttackAudioClip, transform.TransformPoint(_controller.center), GameManager.instance.effectsVolume);
         }
 
         private void GroundedCheck()
