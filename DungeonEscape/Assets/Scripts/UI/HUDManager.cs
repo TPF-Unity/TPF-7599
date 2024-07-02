@@ -20,6 +20,9 @@ public class HUDManager : MonoBehaviour
     void Update()
     {
         keysText.text = gameManager.getRecolectedKeys() + "/" + gameManager.getTotalKeys();
-        levelText.text = "Level " + GameData.level.ToString();
+        if (levelText)
+        {
+            levelText.text = "Level " + GameData.level.ToString();
+        }
     }
 }
