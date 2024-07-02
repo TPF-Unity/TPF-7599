@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI.GOAP.Behaviors;
+using AI.ML;
 using CrashKonijn.Goap.Behaviours;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class StrategySelector : MonoBehaviour
     private KeyCollectorBehavior keyCollectorBehavior;
     private OpponentNPCBrain opponentNPCBrain;
     private OpponentBT opponentBT;
+    private MLOpponentAgent opponentML;
+    private SimpleCharacterController opponentMLController;
+    private Rigidbody rigidBody;
 
     void Start()
     {
@@ -21,6 +25,9 @@ public class StrategySelector : MonoBehaviour
         keyCollectorBehavior = GetComponent<KeyCollectorBehavior>();
         opponentNPCBrain = GetComponent<OpponentNPCBrain>();
         opponentBT = GetComponent<OpponentBT>();
+        opponentML = GetComponent<MLOpponentAgent>();
+        opponentMLController = GetComponent<SimpleCharacterController>();
+        rigidBody = GetComponent<Rigidbody>();
         
         strategiesMap = new Dictionary<OpponentStrategy, Action>
         {
@@ -55,11 +62,10 @@ public class StrategySelector : MonoBehaviour
 
     private void useML()
     {
-        agentBehaviour.enabled = true;
-        agentMoveBehavior.enabled = true;
-        keyCollectorBehavior.enabled = true;
-        opponentNPCBrain.enabled = true;
-
+        opponentNPCBrain.enabled = false;
+        agentBehaviour.enabled = false;
+        keyCollectorBehavior.enabled = false;
+        agentMoveBehavior.enabled = false;
         opponentBT.enabled = false;
     }
 

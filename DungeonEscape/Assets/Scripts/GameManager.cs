@@ -56,18 +56,18 @@ public class GameManager : MonoBehaviour
         get => _strategy;
         private set
         {
-            if (_strategy != value)
+            if (_strategy == value)
             {
-                _strategy = value;
-                OnStrategyChange?.Invoke(_strategy);
+                return;
             }
+
+            _strategy = value;
+            OnStrategyChange?.Invoke(_strategy);
         }
     }
 
-    public void Initialize()
+    public void InitializeStrategy()
     {
-        difficultyManager = GetComponent<DifficultyManager>();
-
         string strat = PlayerPrefs.GetString("OpponentAI", null);
         var newStrategy = strat switch
         {
@@ -78,6 +78,11 @@ public class GameManager : MonoBehaviour
         };
 
         Strategy = newStrategy;
+    }
+    
+    public void Initialize()
+    {
+        difficultyManager = GetComponent<DifficultyManager>();
 
         sceneLoader = GameObject.Find(GameObjects.SceneLoader.ToString()).GetComponent<SceneLoader>();
         SpawnKeys();

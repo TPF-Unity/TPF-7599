@@ -28,6 +28,9 @@ public class SimpleCharacterController : MonoBehaviour
     public float attackSpeedFactor = 1f;
 
 
+    public NPCAnimationController AnimationController { get; set; }
+
+
     // Other
     private new Rigidbody rigidbody;
     private CapsuleCollider capsuleCollider;
@@ -39,6 +42,7 @@ public class SimpleCharacterController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         unit = GetComponent<Unit>();
+        AnimationController = GetComponent<NPCAnimationController>();
     }
 
     private void CheckGrounded()
@@ -78,12 +82,13 @@ public class SimpleCharacterController : MonoBehaviour
 
         var rotation = Quaternion.Euler(0, normalizedFireAngle, 0);
         var fireDirection = rotation * Vector3.forward;
-        var attackSpawnPosition = transform.position + fireDirection * 1.0f;
+        var attackSpawnPosition = transform.position + new Vector3(0, 1, 0) + fireDirection * 1.0f;
 
         var bullet = Instantiate(bulletPrefab, attackSpawnPosition, rotation);
-        bullet.layer = LayerMask.NameToLayer(Layer.PlayerProjectiles.ToString());
+        bullet.layer = LayerMask.NameToLayer(Layer.OpponentProjectiles.ToString());
         bullet.GetComponent<Bullet>().Damage = unit.stats.Damage;
         var bulletScript = bullet.GetComponent<Bullet>();
+        AnimationController.PlayAnimation(AnimationType.Attack);
         bulletScript.ShootAtDirection(fireDirection);
     }
 
@@ -109,6 +114,7 @@ public class SimpleCharacterController : MonoBehaviour
 
         if (IsGrounded)
         {
+            AnimationController.PlayAnimation(AnimationType.Walk);
             var horizontalVelocity = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up);
             rigidbody.velocity = horizontalVelocity;
 

@@ -43,9 +43,9 @@ namespace AI.ML
         private const float BeingHitRewardDrain = -0.01f;
         private const float BeingKilledRewardDrain = -2f;
         private const float TurningRewardDrain = -0.0005f;
-        private const float WalkingStraightReward = 0.0002f;
-        private const float ShootingEnemyReward = 0.002f;
-        private const float ShootingThinAirRewardDrain = -0.0001f;
+        private const float WalkingStraightReward = 0.0001f;
+        private const float ShootingEnemyReward = 0.0005f;
+        private const float ShootingThinAirRewardDrain = -0.002f;
         private const float CollectedAllKeysReward = 5f;
         private const float GettingExperienceReward = 0.1f;
         private const float WalkingBackwardsPenalty = -0.001f;
@@ -66,6 +66,8 @@ namespace AI.ML
 
         private void Awake()
         {
+            _patrolPoints = GameObject.FindGameObjectsWithTag(Tags.PatrolPoint.ToString());
+            _keyProgressionManager = GetComponent<KeyProgressionManager>();
             if (gameManager == null)
             {
                 gameManager = GameObject.Find("GameManager")?.GetComponent<GameManager>();
@@ -143,14 +145,7 @@ namespace AI.ML
                 _startPositionsVector = new Vector3[1];
                 _startPositionsVector[0] = mlAgent.transform.position;
             }
-
-            // _startPositionsVector = new Vector3[startPositions.Length];
-            //
-            // for (var i = 0; i < startPositions.Length; i++)
-            // {
-            //     if (startPositions[i] != null)
-            //         _startPositionsVector[i] = startPositions[i].transform.position;
-            // }
+            
             _player.onXPChanged.AddListener(RewardGettingExperience);
             if (isTraining)
             {
@@ -223,14 +218,6 @@ namespace AI.ML
 
             foreach (var spawnPoint in spawnPositions)
             {
-                // var distance = Vector3.Distance(currentPosition, spawnPoint.transform.position);
-                // if (!spawnPoint.activeInHierarchy || !(distance < nearestDistance))
-                // {
-                //     continue;
-                // }
-                //
-                // nearestDistance = distance;
-                // nearestGameObject = spawnPoint;
                 if (!spawnPoint.activeInHierarchy)
                 {
                     continue;
@@ -267,7 +254,7 @@ namespace AI.ML
         public override void OnEpisodeBegin()
         {
             _patrolPoints = GameObject.FindGameObjectsWithTag(Tags.PatrolPoint.ToString());
-            transform.position = _startPositionsVector[0];
+            transform.position = _startPositionsVector[0] + new Vector3(0, 2, 0);
             transform.rotation = Quaternion.Euler(Vector3.up * UnityEngine.Random.Range(0f, 360f));
             _rigidBody.velocity = Vector3.zero;
             if (isTraining)
@@ -318,17 +305,6 @@ namespace AI.ML
             {
                 other.enabled = false;
             }
-
-            // if (other.CompareTag(Tags.KeySpawn.ToString()) && _keys.Contains(other.gameObject))
-            // {
-            //     AddReward(CollectedKeyReward);
-            //     _keys = _keys.Where(obj => obj != other.gameObject).ToArray();
-            //     if (_keyProgressionManager.HasAllKeys())
-            //     {
-            //         Debug.Log("Setting Ray Layer Mask to show Doors");
-            //         _sensor.RayLayerMask |= 1 << LayerMask.NameToLayer(Layer.Doors.ToString());
-            //     }
-            // }
 
             if (!_keyProgressionManager.HasAllKeys() || !other.CompareTag(Tags.Door.ToString()))
             {
@@ -439,7 +415,6 @@ namespace AI.ML
 
         public override void OnActionReceived(ActionBuffers actions)
         {
-            //logReward();
             var vertical = actions.DiscreteActions[0] <= 1 ? actions.DiscreteActions[0] : -1;
             var horizontal = actions.DiscreteActions[1] <= 1 ? actions.DiscreteActions[1] : -1;
             var shoot = actions.DiscreteActions[2];
@@ -459,7 +434,7 @@ namespace AI.ML
             if (transform.position.y < -3f)
             {
                 var patrolPointPosition = _patrolPoints[0].transform.position;
-                transform.position = new Vector3(patrolPointPosition.x, 1, patrolPointPosition.z);
+                transform.position = new Vector3(patrolPointPosition.x, 3, patrolPointPosition.z);
             }
 
             _previousPosition = transform.position;

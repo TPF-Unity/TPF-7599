@@ -19,6 +19,7 @@ public class ConfigManager : MonoBehaviour
     {
         SetButtonColor(normalButton, selectedColor);
         SetButtonColor(goapButton, selectedColor);
+        PlayerPrefs.SetString("OpponentAI", "GOAP");
     }
 
     public void SetDifficulty(string difficulty)
