@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public bool isTraining = false;
 
     [SerializeField] private OpponentStrategy _strategy;
+    public float effectsVolume = 0.5f;
+    public float musicVolume = 0.3f;
     public AudioClip loseSound;
     public AudioClip keySound;
     public AudioClip powerUpSound;
@@ -79,7 +81,7 @@ public class GameManager : MonoBehaviour
 
         Strategy = newStrategy;
     }
-    
+
     public void Initialize()
     {
         difficultyManager = GetComponent<DifficultyManager>();
@@ -145,7 +147,7 @@ public class GameManager : MonoBehaviour
 
     public void Lose()
     {
-        AudioSource.PlayClipAtPoint(loseSound, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(loseSound, Camera.main.transform.position, musicVolume);
         difficultyManager.MatchResult(false);
     }
 
