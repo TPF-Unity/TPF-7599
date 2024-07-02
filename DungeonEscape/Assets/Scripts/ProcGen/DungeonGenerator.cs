@@ -70,8 +70,8 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] GameObject keySpawnHolder;
     [SerializeField] GameObject doorSpawnHolder;
     [SerializeField] GameObject[] powerupSpawners;
-
-    [SerializeField] private GameObject mlOpponentPrefab;
+    
+    [SerializeField] GameObject mlOpponentPrefab;
 
     public int totalKeys;
     public int totalDoors;
@@ -91,7 +91,9 @@ public class DungeonGenerator : MonoBehaviour
         {
             Generate();
         } while (rooms.Count < 5);
-
+        
+        GameManager.instance.InitializeStrategy();
+        
         PlacePrefabs();
         PlacePatrolPoints();
 
@@ -435,13 +437,17 @@ public class DungeonGenerator : MonoBehaviour
         Vector3 playerPosition = GetRandomPosition(availableCells, playerUsedRooms);
         MainPlayer.Instance.transform.position = playerPosition;
 
-        Vector3 opponentPosition = GetRandomPosition(availableCells, playerUsedRooms);
-        Instantiate(opponentPrefab, opponentPosition, Quaternion.identity);
-
-        if (mlOpponentPrefab != null)
+        
+        var strategy = GameManager.instance.Strategy;
+        if (strategy == OpponentStrategy.ML)
         {
             Vector3 mlOpponentPosition = GetRandomPosition(availableCells, playerUsedRooms);
-            Instantiate(mlOpponentPrefab, mlOpponentPosition + new Vector3(0, 1, 0), Quaternion.identity);
+            Instantiate(mlOpponentPrefab, mlOpponentPosition, Quaternion.identity);
+        }
+        else
+        {
+            Vector3 opponentPosition = GetRandomPosition(availableCells, playerUsedRooms);
+            Instantiate(opponentPrefab, opponentPosition, Quaternion.identity);
         }
 
         HashSet<Room> keyUsedRooms = new HashSet<Room>();

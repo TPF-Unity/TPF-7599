@@ -3646,7 +3646,8 @@ MonoBehaviour:
   - {fileID: 1424087384}
   - {fileID: 241367839}
   - {fileID: 1622358039}
-  mlOpponentPrefab: {fileID: 0}
+  mlOpponentPrefab: {fileID: 5921871130157532986, guid: da9900d73f1833c44a43d4cc8167aa6c,
+    type: 3}
   totalKeys: 3
   totalDoors: 2
 --- !u!1001 &1103379639
@@ -4210,7 +4211,7 @@ MonoBehaviour:
   doorSpawnPositions: []
   keys: []
   isTraining: 0
-  useGOAP: 1
+  _strategy: 0
   effectsVolume: 1
   musicVolume: 0.3
   loseSound: {fileID: 8300000, guid: 23bdba0a25c448640b85353932de6e0f, type: 3}

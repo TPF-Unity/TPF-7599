@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5b45fe95a19324e98be05ee041167a, type: 3}
   m_Name: OpponentTrainingStats
   m_EditorClassIdentifier: 
-  health: 3000
-  maxHealth: 3000
+  health: 300000
+  maxHealth: 300000
   damage: 15
   movementSpeed: 2
   sprintSpeed: 5
-  attackSpeed: 1
+  attackSpeed: 2
   attackRange: 0
   sightRange: 0
   xpDropped: 100
