@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c87fe60b377d4ab351fc561029f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: ddb588b00b59282498ac27f4a9c570a8, type: 2}
-  stats: {fileID: 11400000, guid: ddb588b00b59282498ac27f4a9c570a8, type: 2}
+  baseStats: {fileID: 11400000, guid: 1844bc563fa11e040b70916cec3bf469, type: 2}
+  stats: {fileID: 11400000, guid: 1844bc563fa11e040b70916cec3bf469, type: 2}
   onHealthChanged:
     m_PersistentCalls:
       m_Calls: []
