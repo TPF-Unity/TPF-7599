@@ -190,7 +190,7 @@ MonoBehaviour:
   mlAgent: {fileID: -1070799906724137705}
   characterController: {fileID: 726190611290936810, guid: e87e74e400793934fada7812fc54ca96,
     type: 3}
-  isTraining: 1
+  isTraining: 0
   isProcGen: 1
   trainingScene: 9
   startPositions: []
