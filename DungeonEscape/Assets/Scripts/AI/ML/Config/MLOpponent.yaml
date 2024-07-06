@@ -17,12 +17,17 @@ behaviors:
       hidden_units: 128
       num_layers: 2
       use_recurrent: true
-      memory_size: 128 
+      memory_size: 512
       sequence_length: 64
     reward_signals:
       extrinsic:
         gamma: 0.99
         strength: 1.0
+      curiosity:
+        strength: 0.02
+        gamma: 0.99
+        encoding_size: 256
+        learning_rate: 3.0e-4
     max_steps: 2000000
     time_horizon: 256
     summary_freq: 10000
