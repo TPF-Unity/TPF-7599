@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 15
   movementSpeed: 2
   sprintSpeed: 6
-  attackSpeed: 1
+  attackSpeed: 2
   attackRange: 0
   sightRange: 0
   xpDropped: 100
